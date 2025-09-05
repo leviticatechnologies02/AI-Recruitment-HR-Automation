@@ -43,14 +43,14 @@ const ForgotPassword = () => {
                 Continue
               </button>
               <div className='text-center'>
-                <Link to='/sign-in' className='text-primary-600 fw-bold mt-24'>
+                <Link to='/Login' className='text-primary-600 fw-bold mt-24'>
                   Back to Sign In
                 </Link>
               </div>
               <div className='mt-120 text-center text-sm'>
                 <p className='mb-0'>
                   Already have an account?{" "}
-                  <Link to='/sign-in' className='text-primary-600 fw-semibold'>
+                  <Link to='/Login' className='text-primary-600 fw-semibold'>
                     Sign In
                   </Link>
                 </p>

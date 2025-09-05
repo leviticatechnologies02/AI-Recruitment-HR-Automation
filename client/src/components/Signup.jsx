@@ -1,9 +1,15 @@
 import React from 'react'
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate= useNavigate();
+
+  const handleSignup = (e) =>{
+    e.preventDefault();
+    navigate('/Login');
+  };
   return(
     <section className='auth bg-base d-flex'>
       <div className='auth-left d-lg-block d-none'>
@@ -124,6 +130,7 @@ const Signup = () => {
             <button
               type='submit'
               className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-16'
+            onClick={handleSignup}
             >
               {" "}
               Signup
