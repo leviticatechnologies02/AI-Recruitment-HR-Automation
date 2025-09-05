@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
+import SidebarNames from "../SidebarContent/SidebarNames";
 
 
 
@@ -44,6 +45,7 @@ const Sidebars = ({ children }) => {
             <img src="assets/images/logo.png" alt="site logo" />
           </Link>
         </div>
+        <SidebarNames/>
       </aside>
 
       {/* Main Section */}

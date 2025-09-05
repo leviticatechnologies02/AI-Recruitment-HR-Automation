@@ -1,0 +1,46 @@
+{
+  "allUserData": {
+    "Total Users": {
+      "value": 20000,
+      "change": 5000,
+      "period": "last 30 days",
+      "icon": "fa-solid:users",
+      "bg-color": "bg-gradient-start-1",
+      "BgI": "bg-cyan"
+    },
+    "Total Subscription": {
+      "value": 15000,
+      "change": -800,
+      "period": "last 30 days",
+      "icon": "fa-solid:award",
+      "bgr": "bg-gradient-start-2",
+      "BgI": "bg-purple"
+    },
+    "Total FreeUsers": {
+      "value": 5000,
+      "change": 200,
+      "period": "last 30 days",
+      "icon": "fluent:people-20-filled",
+      "bgr": "bg-gradient-start-3",
+      "BgI": "bg-info"
+    },
+    "Total Income": {
+      "value": 42000,
+      "currency": "USD",
+      "change": 20000,
+      "period": "last 30 days",
+      "icon": "solar:wallet-bold",
+      "bgr": "bg-gradient-start-4",
+      "BgI": "bg-success-main"
+    },
+    "Total Expense": {
+      "value": 30000,
+      "currency": "USD",
+      "change": 5000,
+      "period": "last 30 days",
+      "icon": "fa6-solid:file-invoice-dollar",
+      "bgr": "bg-gradient-start-5",
+      "BgI": "bg-red"
+    }
+  }
+}
