@@ -1,23 +1,30 @@
-import React from 'react'
-import {Route, Routes} from "react-router-dom";
+import React from 'react';
+import { Route, Routes } from "react-router-dom";
 
-import Login from './components/Login'
-import Signup from './components/Signup'
-import ForgotPassword from './components/ForgotPassword';
-import Dashboard from './components/dashboard/Dashboard';
+// Authentication Components
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
+import ForgotPassword from './components/auth/ForgotPassword';
+
+// Layout Components
+import Dashboard from './components/layout/dashboard/Dashboard';
+
+// Job Components
+import PostJobPage from './components/jobs/PostJobPage';
 
 const App = () => {
   return (
-    <>
     <Routes>
-      <Route path="/" element={<Signup />} />  
-      <Route path="/login" element={<Login />} />  
-      <Route path="/ForgotPassword" element={<ForgotPassword />} />
-      <Route path="/Dashboard" element={<Dashboard />} />
-
+      {/* Authentication Routes */}
+      <Route path="/" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      
+      {/* Main Application Routes */}
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/post-job" element={<PostJobPage />} />
     </Routes>
-    </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
