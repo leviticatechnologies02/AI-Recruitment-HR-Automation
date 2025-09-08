@@ -94,3 +94,4 @@ src/
 - Consistent naming conventions throughout the project
 - Organized folder structure for easy maintenance
 - Clean separation of concerns between components
+

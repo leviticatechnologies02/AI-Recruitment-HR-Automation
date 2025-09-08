@@ -33,6 +33,24 @@ const SidebarNames = () => {
               <span>Post a Job</span>
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to='/hiring-funnel'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
+              <span>Hiring Funnel</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to='/time-to-hire'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:clock' className='menu-icon' />
+              <span>Time to Hire</span>
+            </NavLink>
+          </li>
         </ul>
       </div>
     </>

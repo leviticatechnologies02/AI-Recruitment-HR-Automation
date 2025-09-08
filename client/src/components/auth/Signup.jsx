@@ -8,7 +8,7 @@ const Signup = () => {
 
   const handleSignup = (e) =>{
     e.preventDefault();
-    navigate('/Login');
+    navigate('/login');
   };
   return(
     <section className='auth bg-base d-flex'>

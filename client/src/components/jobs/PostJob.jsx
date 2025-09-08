@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
+import Sidebars from '../layout/dashboard/Sidebars';
 
 const PostJob = () => {
   const [formData, setFormData] = useState({
@@ -62,27 +63,30 @@ const PostJob = () => {
   };
 
   return (
-    <div className="card">
-      <div className="card-header">
-        <div className="d-flex align-items-center justify-content-between">
-          <h5 className="card-title mb-0">
-            <Icon icon="heroicons:plus" className="me-2" />
-            Post a New Job
-          </h5>
-          <div className="d-flex gap-2">
-            <button
-              type="button"
-              className="btn btn-outline-secondary btn-sm"
-              onClick={handleReset}
-            >
-              <Icon icon="heroicons:arrow-path" className="me-1" />
-              Reset
-            </button>
-          </div>
-        </div>
-      </div>
+    <Sidebars>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-12">
+            {/* Header Section */}
+            <div className="d-flex align-items-center gap-3 mb-4">
+              <div className="d-flex align-items-center justify-content-center" 
+                   style={{ 
+                     width: '48px', 
+                     height: '48px', 
+                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                     borderRadius: '12px'
+                   }}>
+                <Icon icon="heroicons:plus" className="text-white" style={{ fontSize: '24px' }} />
+              </div>
+              <div>
+                <h2 className="mb-0 fw-bold text-dark">Post a New Job</h2>
+                <p className="mb-0 text-muted">Create and publish your job posting</p>
+              </div>
+            </div>
 
-      <div className="card-body">
+            {/* Main Form Card */}
+            <div className="card border-0 shadow-sm">
+              <div className="card-body p-4">
         <form onSubmit={handleSubmit}>
           <div className="row">
             {/* Basic Job Information */}
@@ -447,8 +451,12 @@ const PostJob = () => {
             </div>
           </div>
         </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </Sidebars>
   );
 };
 

@@ -1,5 +1,5 @@
+import React from 'react';
 import { Icon } from "@iconify/react/dist/iconify.js";
-
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -8,7 +8,7 @@ const Login = () => {
   const handleSignIn = (e) => {
     e.preventDefault();
     // Add your authentication logic here if needed
-    navigate('/Dashboard');
+    navigate('/pricing');
   };
   return (
     <section className='auth bg-base d-flex flex-wrap'>
