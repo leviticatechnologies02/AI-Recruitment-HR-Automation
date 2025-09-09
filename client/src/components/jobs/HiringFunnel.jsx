@@ -75,7 +75,7 @@ const HiringFunnel = () => {
               <Icon icon="heroicons:chart-bar-square" className="text-white" style={{ fontSize: '24px' }} />
             </div>
             <div>
-              <h2 className="mb-0 fw-bold text-dark">Hiring Funnel Analytics Dashboard</h2>
+              <h5 className="mb-0 fw-bold text-dark">Hiring Funnel Analytics Dashboard</h5>
               <p className="mb-0 text-muted">Upload and analyze your recruitment data</p>
             </div>
           </div>
@@ -83,9 +83,9 @@ const HiringFunnel = () => {
           {/* Upload Section */}
           <div className="card border-0 shadow-sm mb-4">
             <div className="card-body p-4">
-              <div className="d-flex align-items-center gap-2 mb-3">
+              <div className="d-flex align-items-center gap-2 mb-3 mr-1">
                 <Icon icon="heroicons:folder-arrow-down" className="text-warning" style={{ fontSize: '20px' }} />
-                <h5 className="mb-0 fw-semibold">Upload your CSV file</h5>
+                <p className="mb-0 fw-semibold mt-1">Upload your CSV file</p>
               </div>
 
               {/* File Upload Area */}
@@ -123,8 +123,9 @@ const HiringFunnel = () => {
                       <p className="text-muted mb-3">Limit 200MB per file • CSV</p>
                       <button 
                         type="button" 
-                        className="btn btn-primary px-4"
+                        className="btn btn-primary "
                         onClick={handleBrowseFiles}
+                        style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-around" }}
                       >
                         <Icon icon="heroicons:folder-open" className="me-2" />
                         Browse files
