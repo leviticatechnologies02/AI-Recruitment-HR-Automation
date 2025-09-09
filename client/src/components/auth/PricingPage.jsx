@@ -47,8 +47,8 @@ const PricingPage = () => {
               </div>
             </div>
             <div className='row gy-4'>
-              <div className='col-xxl-4 col-sm-6'>
-                <div className='pricing-plan position-relative radius-24 overflow-hidden border bg-base'>
+              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
+                <div className='pricing-plan position-relative radius-24 overflow-hidden border bg-base h-100 d-flex flex-column'>
                   <div className='d-flex align-items-center gap-16'>
                     <span className='w-72-px h-72-px d-flex justify-content-center align-items-center radius-16 bg-primary-50'>
                       <img
@@ -73,8 +73,8 @@ const PricingPage = () => {
                       /monthly
                     </span>{" "}
                   </h3>
-                  <span className='mb-20 fw-medium'>What’s included</span>
-                  <ul>
+                  <span className='mb-20 fw-medium'>What's included</span>
+                  <ul className='flex-grow-1'>
                     <li className='d-flex align-items-center gap-16 mb-16'>
                       <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
                         <Icon
@@ -120,16 +120,18 @@ const PricingPage = () => {
                       </span>
                     </li>
                   </ul>
-                  <button 
-                    onClick={handleGetStarted}
-                    className='bg-primary-600 bg-hover-primary-700 text-white text-center border border-primary-600 text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
-                  >
-                    Get started
-                  </button>
+                  <div className='mt-auto'>
+                    <button 
+                      onClick={handleGetStarted}
+                      className='bg-primary-600 bg-hover-primary-700 text-white text-center border border-primary-600 text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
+                    >
+                      Get started
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className='col-xxl-4 col-sm-6'>
-                <div className='pricing-plan featured-item position-relative radius-24 overflow-hidden border bg-primary-600 text-white z-1'>
+              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
+                <div className='pricing-plan featured-item position-relative radius-24 overflow-hidden border bg-primary-600 text-white z-1 h-100 d-flex flex-column'>
                   <img
                     src='assets/images/pricing/pricing-shape.png'
                     alt='WowDash React Vite'
@@ -162,8 +164,8 @@ const PricingPage = () => {
                       /monthly
                     </span>{" "}
                   </h3>
-                  <span className='mb-20 fw-medium'>What’s included</span>
-                  <ul>
+                  <span className='mb-20 fw-medium'>What's included</span>
+                  <ul className='flex-grow-1'>
                     <li className='d-flex align-items-center gap-16 mb-16'>
                       <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
                         <Icon
@@ -207,16 +209,18 @@ const PricingPage = () => {
                       </span>
                     </li>
                   </ul>
-                  <button 
-                    onClick={handleGetStarted}
-                    className='bg-white text-primary-600 text-white text-center border border-white text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
-                  >
-                    Get started
-                  </button>
+                  <div className='mt-auto'>
+                    <button 
+                      onClick={handleGetStarted}
+                      className='bg-white text-primary-600 text-center border border-white text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
+                    >
+                      Get started
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className='col-xxl-4 col-sm-6'>
-                <div className='pricing-plan position-relative radius-24 overflow-hidden border bg-base'>
+              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
+                <div className='pricing-plan position-relative radius-24 overflow-hidden border bg-base h-100 d-flex flex-column'>
                   <div className='d-flex align-items-center gap-16'>
                     <span className='w-72-px h-72-px d-flex justify-content-center align-items-center radius-16 bg-primary-50'>
                       <img
@@ -241,8 +245,8 @@ const PricingPage = () => {
                       /monthly
                     </span>{" "}
                   </h3>
-                  <span className='mb-20 fw-medium'>What’s included</span>
-                  <ul>
+                  <span className='mb-20 fw-medium'>What's included</span>
+                  <ul className='flex-grow-1'>
                     <li className='d-flex align-items-center gap-16 mb-16'>
                       <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
                         <Icon
@@ -288,12 +292,14 @@ const PricingPage = () => {
                       </span>
                     </li>
                   </ul>
-                  <button 
-                    onClick={handleGetStarted}
-                    className='bg-primary-600 bg-hover-primary-700 text-white text-center border border-primary-600 text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
-                  >
-                    Get started
-                  </button>
+                  <div className='mt-auto'>
+                    <button 
+                      onClick={handleGetStarted}
+                      className='bg-primary-600 bg-hover-primary-700 text-white text-center border border-primary-600 text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
+                    >
+                      Get started
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

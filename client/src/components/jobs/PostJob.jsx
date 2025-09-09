@@ -79,7 +79,7 @@ const PostJob = () => {
                 <Icon icon="heroicons:plus" className="text-white" style={{ fontSize: '24px' }} />
               </div>
               <div>
-                <h2 className="mb-0 fw-bold text-dark">Post a New Job</h2>
+                <h5 className="mb-0 fw-bold text-dark">Post a New Job</h5>
                 <p className="mb-0 text-muted">Create and publish your job posting</p>
               </div>
             </div>
@@ -90,12 +90,12 @@ const PostJob = () => {
         <form onSubmit={handleSubmit}>
           <div className="row">
             {/* Basic Job Information */}
-            <div className="col-12">
-              <h6 className="text-primary mb-3">
-                <Icon icon="heroicons:information-circle" className="me-2" />
+            <span className="col-12" >
+              <h6 className="text-primary mb-3" style={{ display:"flex", flexDirection:"row",alignItems:"center", justifyContent:"flex-start" }} >
+                <Icon icon="heroicons:information-circle" className="" />
                 Basic Information
               </h6>
-            </div>
+            </span>
 
             <div className="col-md-6 mb-3">
               <label htmlFor="jobTitle" className="form-label">
@@ -223,7 +223,7 @@ const PostJob = () => {
 
             {/* Salary Information */}
             <div className="col-12 mt-3">
-              <h6 className="text-primary mb-3">
+              <h6 className="text-primary mb-3" style={{ display:"flex", flexDirection:"row",alignItems:"center", justifyContent:"flex-start"}} >
                 <Icon icon="heroicons:currency-dollar" className="me-2" />
                 Compensation
               </h6>
@@ -265,7 +265,7 @@ const PostJob = () => {
 
             {/* Job Description */}
             <div className="col-12 mt-3">
-              <h6 className="text-primary mb-3">
+              <h6 className="text-primary mb-3" style={{ display:"flex", flexDirection:"row",alignItems:"center", justifyContent:"flex-start"}} >
                 <Icon icon="heroicons:document-text" className="me-2" />
                 Job Details
               </h6>
@@ -356,13 +356,13 @@ const PostJob = () => {
 
             {/* Application Details */}
             <div className="col-12 mt-3">
-              <h6 className="text-primary mb-3">
+              <h6 className="text-primary mb-3" style={{ display:"flex", flexDirection:"row",alignItems:"center", justifyContent:"flex-start"}} >
                 <Icon icon="heroicons:calendar-days" className="me-2" />
                 Application Details
               </h6>
             </div>
 
-            <div className="col-md-4 mb-3">
+            <div className="col-md-4 mb-3" >
               <label htmlFor="applicationDeadline" className="form-label">
                 Application Deadline
               </label>
@@ -425,7 +425,7 @@ const PostJob = () => {
             {/* Submit Buttons */}
             <div className="col-12">
               <div className="d-flex justify-content-end gap-3">
-                <button
+                <button style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-around" }}
                   type="button"
                   className="btn btn-outline-secondary"
                   onClick={handleReset}
@@ -435,6 +435,7 @@ const PostJob = () => {
                 </button>
                 <button
                   type="button"
+                  style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-around" }}
                   className="btn btn-outline-primary"
                 >
                   <Icon icon="heroicons:eye" className="me-1" />
@@ -442,6 +443,7 @@ const PostJob = () => {
                 </button>
                 <button
                   type="submit"
+                  style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-around" }}
                   className="btn btn-primary"
                 >
                   <Icon icon="heroicons:paper-airplane" className="me-1" />
