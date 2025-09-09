@@ -70,19 +70,24 @@ const TimeToHire = () => {
                  }}>
               <Icon icon="heroicons:clock" className="text-white" style={{ fontSize: '24px' }} />
             </div>
+            
             <div>
-              <h2 className="mb-0 fw-bold text-dark">Recruitment Analytics - Time to Hire</h2>
+              <h5 className="mb-0 fw-bold text-dark">Recruitment Analytics - Time to Hire</h5>
               <p className="mb-0 text-muted">Upload and analyze recruitment timeline data</p>
             </div>
           </div>
 
+
+
           {/* Upload Section */}
           <div className="card border-0 shadow-sm mb-4">
             <div className="card-body p-4">
-              <div className="d-flex align-items-center gap-2 mb-3">
-                <Icon icon="heroicons:folder-arrow-down" className="text-warning" style={{ fontSize: '20px' }} />
-                <h5 className="mb-0 fw-semibold">Upload Recruitment Data CSV</h5>
-              </div>
+              <div className="card-body p-4">
+                          <div className="d-flex align-items-center gap-2 mb-3 mr-1">
+                            <Icon icon="heroicons:folder-arrow-down" className="text-warning" style={{ fontSize: '20px' }} />
+                            <p className="mb-0 fw-semibold mt-1">Upload Recruitment Data CSV</p>
+                          </div>
+                          </div>
 
               {/* File Upload Area */}
               <div 
@@ -119,8 +124,9 @@ const TimeToHire = () => {
                       <p className="text-muted mb-3">Limit 200MB per file • CSV</p>
                       <button 
                         type="button" 
-                        className="btn btn-primary px-4"
+                        className="btn btn-primary"
                         onClick={handleBrowseFiles}
+                        style={{ display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-around" }}
                       >
                         <Icon icon="heroicons:folder-open" className="me-2" />
                         Browse files
