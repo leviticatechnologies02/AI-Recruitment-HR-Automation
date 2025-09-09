@@ -72,7 +72,8 @@ const TimeToHire = () => {
             </div>
             
             <div>
-              <h5 className="mb-0 fw-bold text-dark">Recruitment Analytics - Time to Hire</h5>
+              <h6 className='fw-semibold mb-0'>Recruitment Analytics - Time to Hire</h6>
+              
               <p className="mb-0 text-muted">Upload and analyze recruitment timeline data</p>
             </div>
           </div>

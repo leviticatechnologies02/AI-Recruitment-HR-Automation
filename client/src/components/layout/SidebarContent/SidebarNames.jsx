@@ -51,6 +51,15 @@ const SidebarNames = () => {
               <span>Time to Hire</span>
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to='/selected-candidates'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:clock' className='menu-icon' />
+              <span>Selected Candidates</span>
+            </NavLink>
+          </li>
         </ul>
       </div>
     </>

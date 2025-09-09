@@ -64,7 +64,7 @@ const PostJob = () => {
 
   return (
     <Sidebars>
-      <div className="container-fluid">
+      <div className="container-fluid p-10">
         <div className="row">
           <div className="col-12">
             {/* Header Section */}
@@ -79,7 +79,8 @@ const PostJob = () => {
                 <Icon icon="heroicons:plus" className="text-white" style={{ fontSize: '24px' }} />
               </div>
               <div>
-                <h5 className="mb-0 fw-bold text-dark">Post a New Job</h5>
+                <h6 className='fw-semibold mb-0'>Post a New Job</h6>
+                
                 <p className="mb-0 text-muted">Create and publish your job posting</p>
               </div>
             </div>

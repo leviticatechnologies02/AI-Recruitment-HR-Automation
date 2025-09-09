@@ -75,7 +75,8 @@ const HiringFunnel = () => {
               <Icon icon="heroicons:chart-bar-square" className="text-white" style={{ fontSize: '24px' }} />
             </div>
             <div>
-              <h5 className="mb-0 fw-bold text-dark">Hiring Funnel Analytics Dashboard</h5>
+              <h6 className='fw-semibold mb-0'>Hiring Funnel Analytics Dashboard</h6>
+              
               <p className="mb-0 text-muted">Upload and analyze your recruitment data</p>
             </div>
           </div>

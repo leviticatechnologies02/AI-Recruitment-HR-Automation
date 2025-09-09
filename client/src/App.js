@@ -14,6 +14,7 @@ import Dashboard from './components/layout/dashboard/Dashboard';
 import PostJob from './components/jobs/PostJob';
 import HiringFunnel from './components/jobs/HiringFunnel';
 import TimeToHire from './components/jobs/TimeToHire';
+import SelectedCandidates from './components/jobs/SelectedCandidates';
 
 const App = () => {
   return (
@@ -29,6 +30,8 @@ const App = () => {
       <Route path="/post-job" element={<PostJob />} />
       <Route path="/hiring-funnel" element={<HiringFunnel />} />
       <Route path="/time-to-hire" element={<TimeToHire />} />
+      <Route path="/selected-candidates" element={<SelectedCandidates/>} />
+      
     </Routes>
   );
 };
