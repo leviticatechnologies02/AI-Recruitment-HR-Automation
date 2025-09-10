@@ -25,5 +25,146 @@
       "BgI": "bg-info"
     }
     
+  },
+  "latestRegistered": {
+    "registeredUsers": [
+      {
+        "id": 1,
+        "name": "Dianne Russell",
+        "email": "redaniel@gmail.com",
+        "avatar": "assets/images/users/user1.png",
+        "registeredOn": "27 Mar 2024",
+        "plan": "Free",
+        "status": "Active"
+        
+      },
+      {
+        "id": 2,
+        "name": "Wade Warren",
+        "email": "xterris@gmail.com",
+        "avatar": "assets/images/users/user2.png",
+        "registeredOn": "26 Mar 2024",
+        "plan": "Basic",
+        "status": "Active"
+      },
+      {
+        "id": 3,
+        "name": "Albert Flores",
+        "email": "seannand@mail.ru",
+        "avatar": "assets/images/users/user3.png",
+        "registeredOn": "25 Mar 2024",
+        "plan": "Standard",
+        "status": "Inactive"
+      },
+      {
+        "id": 4,
+        "name": "Bessie Cooper",
+        "email": "igerrin@gmail.com",
+        "avatar": "assets/images/users/user4.png",
+        "registeredOn": "24 Mar 2024",
+        "plan": "Business",
+        "status": "Inactive"
+      },
+      {
+        "id": 5,
+        "name": "Arlene McCoy",
+        "email": "fellora@mail.ru",
+        "avatar": "assets/images/users/user5.png",
+        "registeredOn": "23 Mar 2024",
+        "plan": "Enterprise",
+        "status": "Active",
+        "statusClass": "bg-success-focus text-success-main"
+      }
+    ],
+    "subscribedUsers": [
+      {
+        "id": 1,
+        "name": "John Smith",
+        "email": "johnsmith@gmail.com",
+        "avatar": "assets/images/users/user1.png",
+        "registeredOn": "28 Mar 2024",
+        "plan": "Premium",
+        "status": "Active"
+      },
+      {
+        "id": 2,
+        "name": "Sarah Johnson",
+        "email": "sarah.j@gmail.com",
+        "avatar": "assets/images/users/user2.png",
+        "registeredOn": "27 Mar 2024",
+        "plan": "Pro",
+        "status": "Pending"
+      },
+      {
+        "id": 3,
+        "name": "Mike Davis",
+        "email": "mike.davis@mail.com",
+        "avatar": "assets/images/users/user3.png",
+        "registeredOn": "26 Mar 2024", 
+        "plan": "Basic",
+        "status": "Pending",
+        "statusClass": "bg-warning-focus text-warning-main"
+      },
+      {
+        "id": 4,
+        "name": "Emily Wilson",
+        "email": "emily.w@gmail.com",
+        "avatar": "assets/images/users/user4.png",
+        "registeredOn": "25 Mar 2024",
+        "plan": "Standard",
+        "status": "Inactive"
+      },
+      {
+        "id": 5,
+        "name": "Robert Brown",
+        "email": "rob.brown@mail.ru",
+        "avatar": "assets/images/users/user5.png",
+        "registeredOn": "24 Mar 2024",
+        "plan": "Enterprise",
+        "status": "Active"
+      }
+    ]
+  },
+  "subscriberChartData": {
+    "title": "Total Subscriber",
+    "totalCount": 50,
+    "changePercent": -10,
+    "changeDirection": "down",
+    "dailyChange": "-20 Per Day",
+    "chartData": {
+      "categories": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      "series": [
+        {
+          "name": "Subscribers",
+          "data": [800, 1200, 900, 1500, 1100, 1800]
+        }
+      ],
+      "colors": ["#FF6B6B"]
+    }
+  },
+  "salesChartData": {
+    "title": "Sales Statistic",
+    "totalAmount": 272,
+    "changePercent": 10,
+    "changeDirection": "up",
+    "dailyChange": "+ $1500 Per Day",
+    "chartData": {
+      "categories": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      "series": [
+        {
+          "name": "Sales",
+          "data": [1200, 1800, 1400, 2200, 1900, 2400, 2100, 2800, 2600, 3200, 2900, 3500]
+        }
+      ],
+      "colors": ["#487FFF"]
+    }
+  },
+  "usersOverviewData": {
+    "title": "Users Overview",
+    "chartData": {
+      "series": [400, 300],
+      "labels": ["New", "Subscribed"],
+      "colors": ["#487FFF", "#FFAB00"]
+    }
   }
 }
