@@ -69,6 +69,7 @@ const SidebarNames = () => {
             </>
           )}
 
+
           {/* Show Super Admin specific menu items */}
           {isSuperAdmin && (
             <>
@@ -103,6 +104,54 @@ const SidebarNames = () => {
               </li>
             </>
           )}
+          {/* Application Section */}
+          <li className='sidebar-menu-group-title'>Application</li>
+          <li>
+            <NavLink
+              to='/post-job'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:plus' className='menu-icon' />
+              <span>Post a Job</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to='/hiring-funnel'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
+              <span>Hiring Funnel</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to='/time-to-hire'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:clock' className='menu-icon' />
+              <span>Time to Hire</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to='/selected-candidates'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:clock' className='menu-icon' />
+              <span>Selected Candidates</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to='/candidates-generator'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:clock' className='menu-icon' />
+              <span>Candidates Generator</span>
+            </NavLink>
+          </li>
+
         </ul>
       </div>
     </>
