@@ -1,14 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    // Add your authentication logic here if needed
-    navigate('/pricing');
+    
+    if (isSuperAdmin) {
+      // Super Admin authentication logic
+      if (formData.email === 'superadmin@company.com' && formData.password === 'superadmin123') {
+        // Store role in localStorage for authorization
+        localStorage.setItem('userRole', 'superadmin');
+        localStorage.setItem('userEmail', formData.email);
+        navigate('/super-admin');
+      } else {
+        alert('Invalid Super Admin credentials');
+        return;
+      }
+    } else {
+      // Regular user authentication logic
+      localStorage.setItem('userRole', 'user');
+      localStorage.setItem('userEmail', formData.email);
+      navigate('/pricing');
+    }
   };
   return (
     <section className='auth bg-base d-flex flex-wrap'>
@@ -35,8 +64,12 @@ const Login = () => {
               </span>
               <input
                 type='email'
+                name='email'
+                value={formData.email}
+                onChange={handleInputChange}
                 className='form-control h-56-px bg-neutral-50 radius-12'
                 placeholder='Email'
+                required
               />
             </div>
             <div className='position-relative mb-20'>
@@ -46,9 +79,13 @@ const Login = () => {
                 </span>
                 <input
                   type='password'
+                  name='password'
+                  value={formData.password}
+                  onChange={handleInputChange}
                   className='form-control h-56-px bg-neutral-50 radius-12'
                   id='your-password'
                   placeholder='Password'
+                  required
                 />
               </div>
               <span
@@ -56,6 +93,30 @@ const Login = () => {
                 data-toggle='#your-password'
               />
             </div>
+            
+            {/* Super Admin Toggle */}
+            <div className='mb-20'>
+              <div className='form-check form-switch d-flex align-items-center'>
+                <input
+                  className='form-check-input me-2'
+                  type='checkbox'
+                  id='superAdminToggle'
+                  checked={isSuperAdmin}
+                  onChange={(e) => setIsSuperAdmin(e.target.checked)}
+                />
+                <label className='form-check-label fw-medium text-primary-600' htmlFor='superAdminToggle'>
+                  <Icon icon='heroicons:shield-check' className='me-1' />
+                  Login as Super Admin
+                </label>
+              </div>
+              {isSuperAdmin && (
+                <small className='text-warning d-block mt-1'>
+                  <Icon icon='heroicons:information-circle' className='me-1' />
+                  Super Admin credentials required
+                </small>
+              )}
+            </div>
+
             <div className=''>
               <div className='d-flex justify-content-between gap-2'>
                 <div className='form-check style-check d-flex align-items-center'>
