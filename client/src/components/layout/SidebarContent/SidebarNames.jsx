@@ -29,7 +29,7 @@ const SidebarNames = () => {
           {!isSuperAdmin && (
             <>
               {/* Application Section */}
-              <li className='sidebar-menu-group-title'>Application</li>
+             {/* <li className='sidebar-menu-group-title'>Application</li>
               <li>
                 <NavLink
                   to='/post-job'
@@ -65,7 +65,7 @@ const SidebarNames = () => {
                   <Icon icon='heroicons:users' className='menu-icon' />
                   <span>Selected Candidates</span>
                 </NavLink>
-              </li>
+              </li>*/}
             </>
           )}
 
