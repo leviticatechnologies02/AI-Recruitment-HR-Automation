@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { getUserRole } from '../../utils/auth';
  
 const PricingPage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Super Admins should not see pricing page, redirect them directly to Super Admin Panel
+    const userRole = getUserRole();
+    if (userRole === 'superadmin') {
+      navigate('/super-admin');
+    }
+  }, [navigate]);
 
   const handleGetStarted = () => {
     navigate('/dashboard');
