@@ -60,6 +60,15 @@ const SidebarNames = () => {
               <span>Selected Candidates</span>
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to='/candidates-generator'
+              className={(navData) => (navData.isActive ? "active-page" : "")}
+            >
+              <Icon icon='heroicons:clock' className='menu-icon' />
+              <span>Candidates Generator</span>
+            </NavLink>
+          </li>
         </ul>
       </div>
     </>
