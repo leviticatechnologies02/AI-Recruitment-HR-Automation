@@ -10,8 +10,6 @@ import PostJob from '../recruitment/PostJob';
 import HiringFunnel from '../recruitment/HiringFunnel';
 import TimeToHire from '../recruitment/TimeToHire';
 import SelectedCandidates from '../recruitment/SelectedCandidates';
-import CandidatesGenerator from '../recruitment/CandidatesGenerator';
-import JobsList from '../../pages/recruiter/jobs/JobsList';
 
 const AdminPanel = () => {
   const location = useLocation();
@@ -26,10 +24,6 @@ const AdminPanel = () => {
         return <TimeToHire />;
       case '/selected-candidates':
         return <SelectedCandidates />;
-      case '/candidates-generator':
-        return <CandidatesGenerator/>;
-      case "/jobs-list":
-        return <JobsList />;
       case '/dashboard':
       default:
         return (

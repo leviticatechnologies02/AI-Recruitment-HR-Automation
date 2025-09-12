@@ -151,9 +151,20 @@ table.dataTable td.dt-type-date {
   max-height: 0px;
 }
 
-/* .sidebar-menu .dropdown.open .sidebar-submenu {
+.sidebar-menu .dropdown.open .sidebar-submenu {
   max-height: 1000px;
-} */
+}
+
+/* Custom styles for recruiter dropdown */
+.sidebar-menu .dropdown .sidebar-submenu.show {
+  max-height: 1000px;
+}
+
+.sidebar-menu .dropdown .sidebar-submenu {
+  max-height: 0px;
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
 
 .sidebar-menu li > a > i {
   margin-inline-end: 0;

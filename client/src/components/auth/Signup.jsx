@@ -132,7 +132,7 @@ const Signup = () => {
               className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-16'
             onClick={handleSignup}
             >
-              
+              {" "}
               Signup
             </button>
             <div className='mt-32 center-border-horizontal text-center'>
