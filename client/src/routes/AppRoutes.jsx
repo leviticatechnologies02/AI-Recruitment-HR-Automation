@@ -39,6 +39,32 @@ import AIInterviewReview from '../components/recruiter/AIInterviewReview';
 import OfferTemplates from '../components/recruiter/OfferTemplates';
 import OfferTracking from '../components/recruiter/OfferTracking';
 
+// Pipeline Components
+import PipelineView from '../components/pipeline/PipelineView';
+import Stages from '../components/pipeline/Stages';
+import DragDrop from '../components/pipeline/DragDrop';
+import CollabrationTools from '../components/pipeline/CollabrationTools';
+
+// Analytics Components
+import RecruiterPerformance from '../components/analytics/RecruiterPerformance';
+import TimeToHire from '../components/analytics/TimeToHire';
+import CandidateSourcing from '../components/analytics/candidateSourcing';
+import AnalyticsJobPerformance from '../components/analytics/Jobperformance';
+
+// Company Settings Components
+import CompanyInfo from '../components/companySettings/CompanyInfo';
+import CompanyUsers from '../components/companySettings/CompanyUsers';
+import CompanyBilling from '../components/companySettings/CompanyBilling';
+import CompanyIntegration from '../components/companySettings/CompanyIntegartion';
+
+// HR Suite Components
+import WhiteLabel from '../components/hrSuite/WhiteLabel';
+import EmployeeAnalytics from '../components/hrSuite/EmployeeAnalytics';
+import Attendance from '../components/hrSuite/Attendance';
+import PayrollDashboard from '../components/hrSuite/PayrollDashboard';
+import Esign from '../components/hrSuite/Esign';
+import OnboardingDocuments from '../components/hrSuite/OnboardingDocuments';
+
 // Super Admin Pages
 import SuperAdminDashboard from '../pages/superadmin/TenantsList';
 
@@ -340,6 +366,194 @@ const AppRoutes = () => {
           <ProtectedRoute requiredRole="user">
             <DashboardLayout>
               <JobPerformance />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      {/* Pipeline Routes */}
+      <Route 
+        path="/pipeline/view" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <PipelineView />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/pipeline/stages" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <Stages />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/pipeline/drag-drop" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <DragDrop />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/pipeline/collaboration" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <CollabrationTools />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      {/* Analytics Routes */}
+      <Route 
+        path="/analytics/recruiter-performance" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <RecruiterPerformance />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/analytics/time-to-hire" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <TimeToHire />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/analytics/candidate-sourcing" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <CandidateSourcing />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/analytics/job-performance" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <AnalyticsJobPerformance />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      {/* Company Settings Routes */}
+      <Route 
+        path="/company-settings/info" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <CompanyInfo />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/company-settings/users" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <CompanyUsers />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/company-settings/billing" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <CompanyBilling />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/company-settings/integration" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <CompanyIntegration />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      
+      {/* HR Suite Routes */}
+      <Route 
+        path="/hr-suite/white-label" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <WhiteLabel />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/hr-suite/employee-analytics" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <EmployeeAnalytics />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/hr-suite/attendance" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <Attendance />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/hr-suite/payroll-dashboard" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <PayrollDashboard />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/hr-suite/esign" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <Esign />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/hr-suite/onboarding-documents" 
+        element={
+          <ProtectedRoute requiredRole="user">
+            <DashboardLayout>
+              <OnboardingDocuments />
             </DashboardLayout>
           </ProtectedRoute>
         } 

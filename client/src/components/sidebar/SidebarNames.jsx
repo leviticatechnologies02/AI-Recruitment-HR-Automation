@@ -11,6 +11,10 @@ const SidebarNames = () => {
   const [jobsListOpen, setJobsListOpen] = useState(false);
   const [jobCreateEditOpen, setJobCreateEditOpen] = useState(false);
   const [jobDetailsOpen, setJobDetailsOpen] = useState(false);
+  const [pipelineMenuOpen, setPipelineMenuOpen] = useState(false);
+  const [analyticsMenuOpen, setAnalyticsMenuOpen] = useState(false);
+  const [companySettingsMenuOpen, setCompanySettingsMenuOpen] = useState(false);
+  const [hrSuiteMenuOpen, setHrSuiteMenuOpen] = useState(false);
 
   const toggleRecruiterMenu = () => {
     setRecruiterMenuOpen(!recruiterMenuOpen);
@@ -30,6 +34,22 @@ const SidebarNames = () => {
 
   const toggleJobDetails = () => {
     setJobDetailsOpen(!jobDetailsOpen);
+  };
+
+  const togglePipelineMenu = () => {
+    setPipelineMenuOpen(!pipelineMenuOpen);
+  };
+
+  const toggleAnalyticsMenu = () => {
+    setAnalyticsMenuOpen(!analyticsMenuOpen);
+  };
+
+  const toggleCompanySettingsMenu = () => {
+    setCompanySettingsMenuOpen(!companySettingsMenuOpen);
+  };
+
+  const toggleHrSuiteMenu = () => {
+    setHrSuiteMenuOpen(!hrSuiteMenuOpen);
   };
 
   return (
@@ -334,43 +354,262 @@ const SidebarNames = () => {
                   </ul>
                 </li>
 
-              {/* Application Section */}
-              <li className='sidebar-menu-group-title'>Application</li>
-              <li>
-                <NavLink
-                  to='/jobs/new'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
+              {/* Pipeline Section */}
+              <li className='sidebar-menu-group-title'>Pipeline</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    togglePipelineMenu();
+                  }}
                 >
-                  <Icon icon='heroicons:plus' className='menu-icon' />
-                  <span>Post a Job</span>
-                </NavLink>
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:queue-list' className='menu-icon' />
+                    <span>Pipeline Management</span>
+                  </div>
+                  <Icon
+                    icon={pipelineMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${pipelineMenuOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/pipeline/view'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:eye' className='menu-icon' />
+                      <span>Pipeline View</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/pipeline/stages'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:bars-3' className='menu-icon' />
+                      <span>Stages</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/pipeline/drag-drop'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:arrows-pointing-out' className='menu-icon' />
+                      <span>Drag & Drop</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/pipeline/collaboration'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:users' className='menu-icon' />
+                      <span>Collaboration Tools</span>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <NavLink
-                  to='/analytics'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
+
+              {/* Analytics Section */}
+              <li className='sidebar-menu-group-title'>Analytics</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleAnalyticsMenu();
+                  }}
                 >
-                  <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
-                  <span>Analytics</span>
-                </NavLink>
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
+                    <span>Analytics Dashboard</span>
+                  </div>
+                  <Icon
+                    icon={analyticsMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${analyticsMenuOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/analytics/recruiter-performance'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:user-group' className='menu-icon' />
+                      <span>Recruiter Performance</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/analytics/time-to-hire'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:clock' className='menu-icon' />
+                      <span>Time to Hire</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/analytics/candidate-sourcing'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:magnifying-glass' className='menu-icon' />
+                      <span>Candidate Sourcing</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/analytics/job-performance'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:chart-bar' className='menu-icon' />
+                      <span>Job Performance</span>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <NavLink
-                  to='/pipeline'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
+
+              {/* Company Settings Section */}
+              <li className='sidebar-menu-group-title'>Company Settings</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleCompanySettingsMenu();
+                  }}
                 >
-                  <Icon icon='heroicons:clock' className='menu-icon' />
-                  <span>Pipeline</span>
-                </NavLink>
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:building-office' className='menu-icon' />
+                    <span>Company Management</span>
+                  </div>
+                  <Icon
+                    icon={companySettingsMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${companySettingsMenuOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/company-settings/info'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:information-circle' className='menu-icon' />
+                      <span>Company Info</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/company-settings/users'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:user-group' className='menu-icon' />
+                      <span>Company Users</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/company-settings/billing'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:credit-card' className='menu-icon' />
+                      <span>Company Billing</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/company-settings/integration'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:puzzle-piece' className='menu-icon' />
+                      <span>Company Integration</span>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <NavLink
-                  to='/candidates'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
+
+              {/* HR Suite Section */}
+              <li className='sidebar-menu-group-title'>HR Suite</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleHrSuiteMenu();
+                  }}
                 >
-                  <Icon icon='heroicons:users' className='menu-icon' />
-                  <span>Candidates</span>
-                </NavLink>
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:users' className='menu-icon' />
+                    <span>HR Management</span>
+                  </div>
+                  <Icon
+                    icon={hrSuiteMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${hrSuiteMenuOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/white-label'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:paint-brush' className='menu-icon' />
+                      <span>White Label</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/employee-analytics'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
+                      <span>Employee Analytics</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/attendance'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:clock' className='menu-icon' />
+                      <span>Attendance</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/payroll-dashboard'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:currency-dollar' className='menu-icon' />
+                      <span>Payroll Dashboard</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/esign'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:pencil-square' className='menu-icon' />
+                      <span>E-Sign</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/onboarding-documents'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:document-text' className='menu-icon' />
+                      <span>Onboarding Documents</span>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
             </>
           )}
@@ -677,51 +916,262 @@ const SidebarNames = () => {
                 </ul>
               </li>
 
-              <li className='sidebar-menu-group-title'>Application</li>
-              <li>
-                <NavLink
-                  to='/jobs/new'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
+              {/* Pipeline Section */}
+              <li className='sidebar-menu-group-title'>Pipeline</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    togglePipelineMenu();
+                  }}
                 >
-                  <Icon icon='heroicons:plus' className='menu-icon' />
-                  <span>Post a Job</span>
-                </NavLink>
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:queue-list' className='menu-icon' />
+                    <span>Pipeline Management</span>
+                  </div>
+                  <Icon
+                    icon={pipelineMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${pipelineMenuOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/pipeline/view'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:eye' className='menu-icon' />
+                      <span>Pipeline View</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/pipeline/stages'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:bars-3' className='menu-icon' />
+                      <span>Stages</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/pipeline/drag-drop'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:arrows-pointing-out' className='menu-icon' />
+                      <span>Drag & Drop</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/pipeline/collaboration'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:users' className='menu-icon' />
+                      <span>Collaboration Tools</span>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <NavLink
-                  to='/analytics'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
+
+              {/* Analytics Section */}
+              <li className='sidebar-menu-group-title'>Analytics</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleAnalyticsMenu();
+                  }}
                 >
-                  <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
-                  <span>Analytics</span>
-                </NavLink>
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
+                    <span>Analytics Dashboard</span>
+                  </div>
+                  <Icon
+                    icon={analyticsMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${analyticsMenuOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/analytics/recruiter-performance'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:user-group' className='menu-icon' />
+                      <span>Recruiter Performance</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/analytics/time-to-hire'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:clock' className='menu-icon' />
+                      <span>Time to Hire</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/analytics/candidate-sourcing'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:magnifying-glass' className='menu-icon' />
+                      <span>Candidate Sourcing</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/analytics/job-performance'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:chart-bar' className='menu-icon' />
+                      <span>Job Performance</span>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <NavLink
-                  to='/pipeline'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
+
+              {/* Company Settings Section */}
+              <li className='sidebar-menu-group-title'>Company Settings</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleCompanySettingsMenu();
+                  }}
                 >
-                  <Icon icon='heroicons:clock' className='menu-icon' />
-                  <span>Pipeline</span>
-                </NavLink>
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:building-office' className='menu-icon' />
+                    <span>Company Management</span>
+                  </div>
+                  <Icon
+                    icon={companySettingsMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${companySettingsMenuOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/company-settings/info'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:information-circle' className='menu-icon' />
+                      <span>Company Info</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/company-settings/users'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:user-group' className='menu-icon' />
+                      <span>Company Users</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/company-settings/billing'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:credit-card' className='menu-icon' />
+                      <span>Company Billing</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/company-settings/integration'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:puzzle-piece' className='menu-icon' />
+                      <span>Company Integration</span>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <NavLink
-                  to='/candidates'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
+
+              {/* HR Suite Section */}
+              <li className='sidebar-menu-group-title'>HR Suite</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleHrSuiteMenu();
+                  }}
                 >
-                  <Icon icon='heroicons:users' className='menu-icon' />
-                  <span>Candidates</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to='/ai/prescreening'
-                  className={(navData) => (navData.isActive ? "active-page" : "")}
-                >
-                  <Icon icon='heroicons:user-plus' className='menu-icon' />
-                  <span>AI Prescreening</span>
-                </NavLink>
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:users' className='menu-icon' />
+                    <span>HR Management</span>
+                  </div>
+                  <Icon
+                    icon={hrSuiteMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${hrSuiteMenuOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/white-label'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:paint-brush' className='menu-icon' />
+                      <span>White Label</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/employee-analytics'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
+                      <span>Employee Analytics</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/attendance'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:clock' className='menu-icon' />
+                      <span>Attendance</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/payroll-dashboard'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:currency-dollar' className='menu-icon' />
+                      <span>Payroll Dashboard</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/esign'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:pencil-square' className='menu-icon' />
+                      <span>E-Sign</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/hr-suite/onboarding-documents'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:document-text' className='menu-icon' />
+                      <span>Onboarding Documents</span>
+                    </NavLink>
+                  </li>
+                </ul>
               </li>
 
               <li className='sidebar-menu-group-title'>System Management</li>
