@@ -15,6 +15,10 @@ const SidebarNames = () => {
   const [analyticsMenuOpen, setAnalyticsMenuOpen] = useState(false);
   const [companySettingsMenuOpen, setCompanySettingsMenuOpen] = useState(false);
   const [hrSuiteMenuOpen, setHrSuiteMenuOpen] = useState(false);
+  const [tenantsmanagemantOpen, setTenantsManagementOpen] = useState(false);
+  const [planscreditsOpen, setPlansCredits] = useState(false);
+  const [systemhealthOpen, setSystemHealth] = useState(false);
+  const [featureflagsOpen, setFeatureFlags] = useState(false);
 
   const toggleRecruiterMenu = () => {
     setRecruiterMenuOpen(!recruiterMenuOpen);
@@ -51,7 +55,18 @@ const SidebarNames = () => {
   const toggleHrSuiteMenu = () => {
     setHrSuiteMenuOpen(!hrSuiteMenuOpen);
   };
-
+  const toggleTenantsManagement = () => {
+    setTenantsManagementOpen(!tenantsmanagemantOpen);
+  };
+  const togglePlansCredits = () => {
+    setPlansCredits(!planscreditsOpen);
+  };
+  const toggleSystemHealth = () => {
+    setSystemHealth(!systemhealthOpen);
+  };
+  const toggleFeatureFlags = () => {
+    setFeatureFlags(!featureflagsOpen);
+  };
   return (
     <>
       <div className='sidebar-menu-area'>
@@ -611,6 +626,9 @@ const SidebarNames = () => {
                   </li>
                 </ul>
               </li>
+
+
+
             </>
           )}
 
@@ -1174,6 +1192,213 @@ const SidebarNames = () => {
                 </ul>
               </li>
 
+              {/* Super Admin Section */}
+              <li className='sidebar-menu-group-title'>Super Admin</li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleTenantsManagement();
+                  }}
+                >
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:list-bullet' className='menu-icon' />
+                    <span>Tenants Management</span>
+                  </div>
+                  <Icon
+                    icon={tenantsmanagemantOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${tenantsmanagemantOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/tenants/management/Info'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:play-circle' className='menu-icon' />
+                      <span>Tenants Info</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/tenants/management/actions'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:x-circle' className='menu-icon' />
+                      <span>Actions</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/tenants/management/details'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:document-text' className='menu-icon' />
+                      <span>Tenants Details page</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    togglePlansCredits();
+                  }}
+                >
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:list-bullet' className='menu-icon' />
+                    <span>Plans & Credits</span>
+                  </div>
+                  <Icon
+                    icon={planscreditsOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${planscreditsOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/plans/credits/list'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:play-circle' className='menu-icon' />
+                      <span>Plans List</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/plans/credits/allocation'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:x-circle' className='menu-icon' />
+                      <span>Credits Allocation</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/plans/credits/usage-tracking'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:document-text' className='menu-icon' />
+                      <span>Usage Tracking</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+              
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleSystemHealth();
+                  }}
+                >
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:list-bullet' className='menu-icon' />
+                    <span>System Health</span>
+                  </div>
+                  <Icon
+                    icon={systemhealthOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${systemhealthOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/system/health/errors'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:play-circle' className='menu-icon' />
+                      <span>API Errors</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/system/health/uptime'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:x-circle' className='menu-icon' />
+                      <span>Uptime</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/system/health/usage'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:document-text' className='menu-icon' />
+                      <span>Usage</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+              <li className="dropdown">
+                <a
+                  href="#"
+                  className="d-flex align-items-center justify-content-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleFeatureFlags();
+                  }}
+                >
+                  <div className="d-flex align-items-center">
+                    <Icon icon='heroicons:list-bullet' className='menu-icon' />
+                    <span>Feature Flags</span>
+                  </div>
+                  <Icon
+                    icon={featureflagsOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    className='submenu-arrow'
+                  />
+                </a>
+                <ul className={`sidebar-submenu ${featureflagsOpen ? 'show' : ''}`}>
+                  <li>
+                    <NavLink
+                      to='/feature/flags/description'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:play-circle' className='menu-icon' />
+                      <span>Description</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/feature/flags/toggle-switch'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:x-circle' className='menu-icon' />
+                      <span>Toggle Switch</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/feature/flags/target-tenants'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:document-text' className='menu-icon' />
+                      <span>Target Tenants</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/feature/flags/rollout-status'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
+                    >
+                      <Icon icon='heroicons:document-text' className='menu-icon' />
+                      <span>Rollout Status</span>
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+
+
+
               <li className='sidebar-menu-group-title'>System Management</li>
               <li>
                 <a href="#" className="text-muted" onClick={(e) => { e.preventDefault(); alert('User Management feature coming soon...'); }}>
@@ -1193,6 +1418,8 @@ const SidebarNames = () => {
                   <span>Advanced Reports</span>
                 </a>
               </li>
+
+              
             </>
           )}
 
