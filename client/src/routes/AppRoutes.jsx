@@ -12,15 +12,8 @@ import ForgotPassword from '../pages/public/ForgotPassword';
 import Pricing from '../pages/public/Pricing';
 
 // Jobs Components
-import ActiveJobs from '../components/jobs/jobsList/ActiveJobs';
-import ClosedJobs from '../components/jobs/jobsList/ClosedJobs';
-import DraftJobs from '../components/jobs/jobsList/DraftJobs';
-import JobDetailsCreate from '../components/jobs/jobCreateEdit/JobDetails';
-import ApplicationSettings from '../components/jobs/jobCreateEdit/ApplicationSettings';
-import VisibilityPositingOptions from '../components/jobs/jobCreateEdit/VisibilityPositingOptions';
-import ApplicationsOverView from '../components/jobs/jobDetails/ApplicationsOverView';
-import JobDescriptionRequirements from '../components/jobs/jobDetails/JobDescriptionRequirements';
-import JobPerformance from '../components/jobs/jobDetails/JobPerformance';
+import PostNewJob from '../components/jobs/PostNewJob';
+import JobsList from '../components/jobs/JobsList';
 
 // Recruiter Components
 import RecruiterDashboard from '../components/recruiter/RecruiterDashboard';
@@ -290,101 +283,30 @@ const AppRoutes = () => {
       />
       
       {/* Jobs Routes */}
-      {/* Jobs List Routes */}
+      
       <Route 
-        path="/jobs/list/active" 
+        path="/jobs/post-new" 
         element={
           <ProtectedRoute requiredRole="user">
             <DashboardLayout>
-              <ActiveJobs />
+              <PostNewJob/>
             </DashboardLayout>
           </ProtectedRoute>
         } 
       />
       <Route 
-        path="/jobs/list/closed" 
+        path="/jobs/list" 
         element={
           <ProtectedRoute requiredRole="user">
             <DashboardLayout>
-              <ClosedJobs />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/jobs/list/draft" 
-        element={
-          <ProtectedRoute requiredRole="user">
-            <DashboardLayout>
-              <DraftJobs />
+              <JobsList/>
             </DashboardLayout>
           </ProtectedRoute>
         } 
       />
       
-      {/* Job Create/Edit Routes */}
-      <Route 
-        path="/jobs/create/details" 
-        element={
-          <ProtectedRoute requiredRole="user">
-            <DashboardLayout>
-              <JobDetailsCreate />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/jobs/create/settings" 
-        element={
-          <ProtectedRoute requiredRole="user">
-            <DashboardLayout>
-              <ApplicationSettings />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/jobs/create/visibility" 
-        element={
-          <ProtectedRoute requiredRole="user">
-            <DashboardLayout>
-              <VisibilityPositingOptions />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } 
-      />
       
-      {/* Job Details Routes */}
-      <Route 
-        path="/jobs/details/applications" 
-        element={
-          <ProtectedRoute requiredRole="user">
-            <DashboardLayout>
-              <ApplicationsOverView />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/jobs/details/description" 
-        element={
-          <ProtectedRoute requiredRole="user">
-            <DashboardLayout>
-              <JobDescriptionRequirements />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } 
-      />
-      <Route 
-        path="/jobs/details/performance" 
-        element={
-          <ProtectedRoute requiredRole="user">
-            <DashboardLayout>
-              <JobPerformance />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } 
-      />
+      
       
       {/* Pipeline Routes */}
       <Route 

@@ -8,9 +8,6 @@ const SidebarNames = () => {
   const isSuperAdmin = userRole === 'superadmin';
   const [recruiterMenuOpen, setRecruiterMenuOpen] = useState(false);
   const [jobsMenuOpen, setJobsMenuOpen] = useState(false);
-  const [jobsListOpen, setJobsListOpen] = useState(false);
-  const [jobCreateEditOpen, setJobCreateEditOpen] = useState(false);
-  const [jobDetailsOpen, setJobDetailsOpen] = useState(false);
   const [pipelineMenuOpen, setPipelineMenuOpen] = useState(false);
   const [analyticsMenuOpen, setAnalyticsMenuOpen] = useState(false);
   const [companySettingsMenuOpen, setCompanySettingsMenuOpen] = useState(false);
@@ -27,19 +24,6 @@ const SidebarNames = () => {
   const toggleJobsMenu = () => {
     setJobsMenuOpen(!jobsMenuOpen);
   };
-
-  const toggleJobsList = () => {
-    setJobsListOpen(!jobsListOpen);
-  };
-
-  const toggleJobCreateEdit = () => {
-    setJobCreateEditOpen(!jobCreateEditOpen);
-  };
-
-  const toggleJobDetails = () => {
-    setJobDetailsOpen(!jobDetailsOpen);
-  };
-
   const togglePipelineMenu = () => {
     setPipelineMenuOpen(!pipelineMenuOpen);
   };
@@ -228,146 +212,39 @@ const SidebarNames = () => {
                   className="d-flex align-items-center justify-content-between"
                   onClick={(e) => {
                     e.preventDefault();
-                    toggleJobsList();
+                    toggleJobsMenu();
                   }}
                 >
                   <div className="d-flex align-items-center">
                     <Icon icon='heroicons:list-bullet' className='menu-icon' />
-                    <span>Jobs List</span>
+                    <span>Jobs</span>
                   </div>
                   <Icon
-                    icon={jobsListOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
+                    icon={jobsMenuOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
                     className='submenu-arrow'
                   />
                 </a>
-                <ul className={`sidebar-submenu ${jobsListOpen ? 'show' : ''}`}>
+                <ul className={`sidebar-submenu ${jobsMenuOpen ? 'show' : ''}`}>
                   <li>
                     <NavLink
-                      to='/jobs/list/active'
+                      to='/jobs/post-new'
                       className={(navData) => (navData.isActive ? "active-page" : "")}
                     >
                       <Icon icon='heroicons:play-circle' className='menu-icon' />
-                      <span>Active Jobs</span>
+                      <span>Post New Job</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      to='/jobs/list/closed'
+                      to='/jobs/list'
                       className={(navData) => (navData.isActive ? "active-page" : "")}
                     >
                       <Icon icon='heroicons:x-circle' className='menu-icon' />
-                      <span>Closed Jobs</span>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to='/jobs/list/draft'
-                      className={(navData) => (navData.isActive ? "active-page" : "")}
-                    >
-                      <Icon icon='heroicons:document-text' className='menu-icon' />
-                      <span>Draft Jobs</span>
+                      <span>Jobs List</span>
                     </NavLink>
                   </li>
                 </ul>
               </li>
-                 {/* Job Create/Edit Submenu */}
-                <li className="dropdown">
-                  <a
-                    href="#"
-                    className="d-flex align-items-center justify-content-between"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleJobCreateEdit();
-                    }}
-                  >
-                    <div className="d-flex align-items-center">
-                      <Icon icon='heroicons:plus-circle' className='menu-icon' />
-                      <span>Job Create/Edit</span>
-                    </div>
-                    <Icon
-                      icon={jobCreateEditOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
-                      className='submenu-arrow'
-                    />
-                  </a>
-                  <ul className={`sidebar-submenu ${jobCreateEditOpen ? 'show' : ''}`}>
-                    <li>
-                      <NavLink
-                        to='/jobs/create/details'
-                        className={(navData) => (navData.isActive ? "active-page" : "")}
-                      >
-                        <Icon icon='heroicons:document-text' className='menu-icon' />
-                        <span>Job Details</span>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to='/jobs/create/settings'
-                        className={(navData) => (navData.isActive ? "active-page" : "")}
-                      >
-                        <Icon icon='heroicons:cog-6-tooth' className='menu-icon' />
-                        <span>Application Settings</span>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to='/jobs/create/visibility'
-                        className={(navData) => (navData.isActive ? "active-page" : "")}
-                      >
-                        <Icon icon='heroicons:eye' className='menu-icon' />
-                        <span>Visibility & Posting Options</span>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>  
-                {/* Job Details Submenu */}
-                <li className="dropdown">
-                  <a
-                    href="#"
-                    className="d-flex align-items-center justify-content-between"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleJobDetails();
-                    }}
-                  >
-                    <div className="d-flex align-items-center">
-                      <Icon icon='heroicons:chart-bar' className='menu-icon' />
-                      <span>Job Details</span>
-                    </div>
-                    <Icon
-                      icon={jobDetailsOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
-                      className='submenu-arrow'
-                    />
-                  </a>
-                  <ul className={`sidebar-submenu ${jobDetailsOpen ? 'show' : ''}`}>
-                    <li>
-                      <NavLink
-                        to='/jobs/details/applications'
-                        className={(navData) => (navData.isActive ? "active-page" : "")}
-                      >
-                        <Icon icon='heroicons:users' className='menu-icon' />
-                        <span>Applications Overview</span>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to='/jobs/details/description'
-                        className={(navData) => (navData.isActive ? "active-page" : "")}
-                      >
-                        <Icon icon='heroicons:document-text' className='menu-icon' />
-                        <span>Job Description & Requirements</span>
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to='/jobs/details/performance'
-                        className={(navData) => (navData.isActive ? "active-page" : "")}
-                      >
-                        <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
-                        <span>Job Performance</span>
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>
 
               {/* Pipeline Section */}
               <li className='sidebar-menu-group-title'>Pipeline</li>
@@ -762,7 +639,8 @@ const SidebarNames = () => {
               </li>
 
               {/* Jobs Section */}
-              <li className='sidebar-menu-group-title'>Jobs</li>
+               <li className='sidebar-menu-group-title'>Jobs</li>
+
               <li className="dropdown">
                 <a
                   href="#"
@@ -773,7 +651,7 @@ const SidebarNames = () => {
                   }}
                 >
                   <div className="d-flex align-items-center">
-                    <Icon icon='heroicons:briefcase' className='menu-icon' />
+                    <Icon icon='heroicons:list-bullet' className='menu-icon' />
                     <span>Jobs</span>
                   </div>
                   <Icon
@@ -782,158 +660,26 @@ const SidebarNames = () => {
                   />
                 </a>
                 <ul className={`sidebar-submenu ${jobsMenuOpen ? 'show' : ''}`}>
-                  {/* Jobs List Submenu */}
-                  <li className="dropdown">
-                    <a
-                      href="#"
-                      className="d-flex align-items-center justify-content-between"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleJobsList();
-                      }}
+                  <li>
+                    <NavLink
+                      to='/jobs/post-new'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
                     >
-                      <div className="d-flex align-items-center">
-                        <Icon icon='heroicons:list-bullet' className='menu-icon' />
-                        <span>Jobs List</span>
-                      </div>
-                      <Icon
-                        icon={jobsListOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
-                        className='submenu-arrow'
-                      />
-                    </a>
-                    <ul className={`sidebar-submenu ${jobsListOpen ? 'show' : ''}`}>
-                      <li>
-                        <NavLink
-                          to='/jobs/list/active'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:play-circle' className='menu-icon' />
-                          <span>Active Jobs</span>
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to='/jobs/list/closed'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:x-circle' className='menu-icon' />
-                          <span>Closed Jobs</span>
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to='/jobs/list/draft'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:document-text' className='menu-icon' />
-                          <span>Draft Jobs</span>
-                        </NavLink>
-                      </li>
-                    </ul>
+                      <Icon icon='heroicons:play-circle' className='menu-icon' />
+                      <span>Post New Job</span>
+                    </NavLink>
                   </li>
-
-                  {/* Job Create/Edit Submenu */}
-                  <li className="dropdown">
-                    <a
-                      href="#"
-                      className="d-flex align-items-center justify-content-between"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleJobCreateEdit();
-                      }}
+                  <li>
+                    <NavLink
+                      to='/jobs/list'
+                      className={(navData) => (navData.isActive ? "active-page" : "")}
                     >
-                      <div className="d-flex align-items-center">
-                        <Icon icon='heroicons:plus-circle' className='menu-icon' />
-                        <span>Job Create/Edit</span>
-                      </div>
-                      <Icon
-                        icon={jobCreateEditOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
-                        className='submenu-arrow'
-                      />
-                    </a>
-                    <ul className={`sidebar-submenu ${jobCreateEditOpen ? 'show' : ''}`}>
-                      <li>
-                        <NavLink
-                          to='/jobs/create/details'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:document-text' className='menu-icon' />
-                          <span>Job Details</span>
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to='/jobs/create/settings'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:cog-6-tooth' className='menu-icon' />
-                          <span>Application Settings</span>
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to='/jobs/create/visibility'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:eye' className='menu-icon' />
-                          <span>Visibility & Posting Options</span>
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </li>
-
-                  {/* Job Details Submenu */}
-                  <li className="dropdown">
-                    <a
-                      href="#"
-                      className="d-flex align-items-center justify-content-between"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleJobDetails();
-                      }}
-                    >
-                      <div className="d-flex align-items-center">
-                        <Icon icon='heroicons:chart-bar' className='menu-icon' />
-                        <span>Job Details</span>
-                      </div>
-                      <Icon
-                        icon={jobDetailsOpen ? 'heroicons:chevron-up' : 'heroicons:chevron-down'}
-                        className='submenu-arrow'
-                      />
-                    </a>
-                    <ul className={`sidebar-submenu ${jobDetailsOpen ? 'show' : ''}`}>
-                      <li>
-                        <NavLink
-                          to='/jobs/details/applications'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:users' className='menu-icon' />
-                          <span>Applications Overview</span>
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to='/jobs/details/description'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:document-text' className='menu-icon' />
-                          <span>Job Description & Requirements</span>
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to='/jobs/details/performance'
-                          className={(navData) => (navData.isActive ? "active-page" : "")}
-                        >
-                          <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
-                          <span>Job Performance</span>
-                        </NavLink>
-                      </li>
-                    </ul>
+                      <Icon icon='heroicons:x-circle' className='menu-icon' />
+                      <span>Jobs List</span>
+                    </NavLink>
                   </li>
                 </ul>
               </li>
-
               {/* Pipeline Section */}
               <li className='sidebar-menu-group-title'>Pipeline</li>
               <li className="dropdown">
