@@ -225,3 +225,15 @@ table.dataTable td.dt-type-date {
   width: 100%;
   height: 100vh;
 }
+
+/* Sidebar nav links - remove underline across all states */
+.sidebar-menu a,
+.sidebar-menu a:hover,
+.sidebar-menu a:focus,
+.sidebar-menu a:active,
+aside.sidebar a,
+aside.sidebar a:hover,
+aside.sidebar a:focus,
+aside.sidebar a:active {
+  text-decoration: none !important;
+}
