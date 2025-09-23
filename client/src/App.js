@@ -11,6 +11,11 @@ import AdminPanel from './components/recruiterDashboard/AdminPanel';
 import Candidates from './components/recruiterDashboard/Candidates';
 import RecruiterDashboardLayout from './components/recruiterDashboard/RecruiterDashboardLayout';
 import CreateJob from './components/CreateJob';
+import JobList from './components/JobList';
+import PipelineView from './components/pipeline/PipelineView';
+import Stages from './components/pipeline/Stages';
+import DragDrop from './components/pipeline/DragDrop';
+import CollaborationTools from './components/pipeline/CollaborationTools';
 
 const App = () => {
   return (
@@ -47,6 +52,61 @@ const App = () => {
           <ProtectedRoute>
             <RecruiterDashboardLayout>
               <CreateJob />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/jobslist'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <JobList />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/pipeline/view'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <PipelineView />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/pipeline/stages'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <Stages />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/pipeline/drag-drop'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <DragDrop />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/pipeline/collaboration'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <CollaborationTools />
             </RecruiterDashboardLayout>
           </ProtectedRoute>
         }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { X, Eye, Save, Send, ArrowLeft, MapPin, DollarSign, Building2, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 
 const CreateJob = () => {
@@ -401,9 +402,9 @@ const CreateJob = () => {
             </div>
 
             <div className='d-flex flex-column flex-sm-row gap-2 justify-content-between pt-2'>
-              <button type='button' className='btn btn-link d-inline-flex align-items-center p-0'>
+              <Link to='/jobslist' className='btn btn-link d-inline-flex align-items-center p-0'>
                 <ArrowLeft size={14} className='me-2' /> Back to Jobs
-              </button>
+              </Link>
               <div className='d-flex gap-2'>
                 <button type='button' onClick={() => handleSubmit(true)} className='btn btn-outline-secondary d-inline-flex align-items-center'>
                   <Save size={14} className='me-2' /> Save as Draft

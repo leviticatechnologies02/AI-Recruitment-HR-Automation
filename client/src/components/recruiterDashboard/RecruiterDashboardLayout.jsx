@@ -91,7 +91,33 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
     }
   };
 
-  const LinkItem = ({ to, tabKey, icon, label }) => {
+  const LinkItem = ({ to, tabKey, icon, label, isParent = false }) => {
+    if (internalNav) {
+      return (
+        <a href="#" onClick={(e) => { e.preventDefault(); onTabChange && onTabChange(tabKey); }} className={activeTab === tabKey ? "active-page" : ""}>
+          <Icon icon={icon} className="menu-icon" />
+          <span>{label}</span>
+        </a>
+      );
+    }
+    return (
+      <NavLink 
+        to={to} 
+        className={(navData) => {
+          if (isParent) {
+            // For parent items like "Jobs", check if current path starts with the parent path
+            return location.pathname.startsWith(to) ? "active-page" : "";
+          }
+          return navData.isActive ? "active-page" : "";
+        }}
+      >
+        <Icon icon={icon} className="menu-icon" />
+        <span>{label}</span>
+      </NavLink>
+    );
+  };
+
+  const ShortcutLink = ({ to, tabKey, label, icon }) => {
     if (internalNav) {
       return (
         <a href="#" onClick={(e) => { e.preventDefault(); onTabChange && onTabChange(tabKey); }} className={activeTab === tabKey ? "active-page" : ""}>
@@ -105,23 +131,6 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
         <Icon icon={icon} className="menu-icon" />
         <span>{label}</span>
       </NavLink>
-    );
-  };
-
-  const ShortcutLink = ({ to, tabKey, label }) => {
-    if (internalNav) {
-      return (
-        <a href="#" onClick={(e) => { e.preventDefault(); onTabChange && onTabChange(tabKey); }} className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2">
-          <Icon icon="heroicons:plus" />
-          <span>{label}</span>
-        </a>
-      );
-    }
-    return (
-      <Link to={to} className="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2">
-        <Icon icon="heroicons:plus" />
-        <span>{label}</span>
-      </Link>
     );
   };
 
@@ -156,13 +165,31 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
             <li className='sidebar-menu-group-title'>User Workspace</li>
 
             <li>
-              <LinkItem to='/jobs' tabKey='jobs' icon='solar:clipboard-list-outline' label='Jobs' />
+         <LinkItem to='/jobslist' tabKey='jobs' icon='solar:clipboard-list-outline' label='Jobs' isParent={true} />
             </li>
             <li>
               <LinkItem to='/candidates' tabKey='candidates' icon='heroicons:users' label='Candidates' />
             </li>
-            <li>
-              <LinkItem to='/pipeline' tabKey='pipeline' icon='heroicons:queue-list' label='Pipeline' />
+            <li className='dropdown'>
+              <a href='#' className='d-flex align-items-center'>
+                <Icon icon='heroicons:queue-list' className='menu-icon' />
+                <span>Pipeline</span>
+                <Icon icon='heroicons:chevron-down' className='ms-auto' style={{ border: 'none', outline: 'none', boxShadow: 'none', background: 'none' }} />
+              </a>
+              <ul className='sidebar-submenu'>
+                <li>
+                  <LinkItem to='/pipeline/view' tabKey='pipeline-view' icon='heroicons:eye' label='Pipeline View' />
+                </li>
+                <li>
+                  <LinkItem to='/pipeline/stages' tabKey='pipeline-stages' icon='heroicons:list-bullet' label='Stages' />
+                </li>
+                <li>
+                  <LinkItem to='/pipeline/drag-drop' tabKey='pipeline-drag-drop' icon='heroicons:arrows-up-down' label='Drag & Drop' />
+                </li>
+                <li>
+                  <LinkItem to='/pipeline/collaboration' tabKey='pipeline-collaboration' icon='heroicons:users' label='Collaboration Tools' />
+                </li>
+              </ul>
             </li>
             <li>
               <LinkItem to='/analytics' tabKey='analytics' icon='heroicons:chart-bar-square' label='Analytics' />
@@ -173,7 +200,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
 
             <li className='sidebar-menu-group-title'>Shortcuts</li>
             <li>
-              <ShortcutLink to='/jobs/new' tabKey='create-job' label='+ Create Job' />
+              <ShortcutLink to='/jobs/new' tabKey='create-job' label='Create Job' icon='heroicons:plus' />
             </li>
           </ul>
         </div>

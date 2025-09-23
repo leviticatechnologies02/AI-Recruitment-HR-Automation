@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
+import JobList from '../JobList';
 import RecruiterDashboardLayout from './RecruiterDashboardLayout';
 
 const RecruiterDashboardHome = () => {
@@ -135,9 +136,9 @@ const RecruiterDashboardHome = () => {
             <span className='text-secondary-light text-sm'>Need to move fast? Use these actions.</span>
           </div>
           <div className='d-flex flex-wrap justify-content-center gap-3'>
-            <button className='btn btn-outline-primary d-flex align-items-center gap-2'>
+            <Link to='/jobs/new' className='btn btn-outline-primary d-flex align-items-center gap-2'>
               <Icon icon='heroicons:plus'/> <span>Create Job</span>
-            </button>
+            </Link>
             <Link to='/candidates' className='btn btn-outline-primary d-flex align-items-center gap-2'>
               <Icon icon='solar:eye-linear'/> <span>View Candidates</span>
             </Link>
@@ -151,7 +152,12 @@ const RecruiterDashboardHome = () => {
         </div>
       </div>
 
-      {/* Recent Applicants */}
+      {/* Job list and recent applicants */}
+      <div className='card border shadow-none mb-24'>
+        <div className='card-body p-0'>
+          <JobList />
+        </div>
+      </div>
       <div className='card border shadow-none'>
         <div className='card-header bg-base border-bottom'>
           <div className='d-flex align-items-center justify-content-between'>

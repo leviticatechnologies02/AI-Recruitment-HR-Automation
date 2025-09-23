@@ -237,3 +237,32 @@ aside.sidebar a:focus,
 aside.sidebar a:active {
   text-decoration: none !important;
 }
+
+/* Remove border from dropdown arrow icons */
+.sidebar-menu .dropdown a .ms-auto,
+.sidebar-menu .dropdown a .ms-auto svg,
+.sidebar-menu .dropdown a .ms-auto i,
+.sidebar-menu .dropdown a .ms-auto .iconify {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+/* More specific targeting for iconify icons */
+.sidebar-menu .dropdown a .ms-auto[data-icon] {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+/* Center text in select dropdowns */
+.form-select-center {
+  text-align: center !important;
+  text-align-last: center !important;
+}
+
+.form-select-center option {
+  text-align: center !important;
+}
