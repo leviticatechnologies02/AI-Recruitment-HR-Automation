@@ -16,6 +16,10 @@ import PipelineView from './components/pipeline/PipelineView';
 import Stages from './components/pipeline/Stages';
 import DragDrop from './components/pipeline/DragDrop';
 import CollaborationTools from './components/pipeline/CollaborationTools';
+import RecruiterPerformance from './components/analytics/RecruiterPerformance';
+import TimeToHire from './components/analytics/TimeToHire';
+import CandidateSourcing from './components/analytics/CandidateSourcing';
+import JobPerformance from './components/analytics/JobPerformance';
 
 const App = () => {
   return (
@@ -107,6 +111,47 @@ const App = () => {
           <ProtectedRoute>
             <RecruiterDashboardLayout>
               <CollaborationTools />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/analytics/recruiter-performance'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <RecruiterPerformance />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/analytics/time-to-hire'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <TimeToHire />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/analytics/job-sourcing'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <CandidateSourcing />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/analytics/job-performance'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <JobPerformance />
             </RecruiterDashboardLayout>
           </ProtectedRoute>
         }

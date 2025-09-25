@@ -74,7 +74,7 @@ const JobList = () => {
                   <th scope='col'>Location</th>
                   <th scope='col'>Salary</th>
                   <th scope='col'>Expiry</th>
-                  <th scope='col' className='text-center'>Status</th>
+                  <th scope='col' className='text-center'>Apply</th>
                 </tr>
               </thead>
               <tbody>
@@ -92,9 +92,7 @@ const JobList = () => {
                     <td>{formatSalary(job.currency, job.salaryMin, job.salaryMax)}</td>
                     <td>{job.expiryDate ? new Date(job.expiryDate).toLocaleDateString() : '-'}</td>
                     <td className='text-center'>
-                      {job.status === 'Open' && <span className='badge bg-success-subtle text-success-main'>Open</span>}
-                      {job.status === 'Draft' && <span className='badge bg-warning-subtle text-warning-main'>Draft</span>}
-                      {job.status === 'Closed' && <span className='badge bg-danger-subtle text-danger-main'>Closed</span>}
+                      <Link to='/candidates' className='btn btn-outline-success btn-sm'>Apply</Link>
                     </td>
                   </tr>
                 ))}

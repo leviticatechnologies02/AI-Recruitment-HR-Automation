@@ -70,6 +70,13 @@ const CreateJob = () => {
 
   const handleSubmit = (asDraft = false) => {
     if (!asDraft && !validateForm()) return;
+    
+    // Print form data to console
+    console.log('=== FORM SUBMISSION DATA ===');
+    console.log('Submission Type:', asDraft ? 'Draft' : 'Publish');
+    console.log('Form Data:', formData);
+    console.log('============================');
+    
     setIsDraft(asDraft);
     setShowSuccessModal(true);
   };

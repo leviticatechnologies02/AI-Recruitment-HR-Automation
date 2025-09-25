@@ -174,8 +174,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
               <a href='#' className='d-flex align-items-center'>
                 <Icon icon='heroicons:queue-list' className='menu-icon' />
                 <span>Pipeline</span>
-                <Icon icon='heroicons:chevron-down' className='ms-auto' style={{ border: 'none', outline: 'none', boxShadow: 'none', background: 'none' }} />
-              </a>
+                <Icon icon='heroicons:chevron-down' className='ms-auto' style={{ border: 'none', outline: 'none', boxShadow: 'none', background: 'none' }} />              </a>
               <ul className='sidebar-submenu'>
                 <li>
                   <LinkItem to='/pipeline/view' tabKey='pipeline-view' icon='heroicons:eye' label='Pipeline View' />
@@ -192,7 +191,27 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
               </ul>
             </li>
             <li>
-              <LinkItem to='/analytics' tabKey='analytics' icon='heroicons:chart-bar-square' label='Analytics' />
+              <div className='dropdown'>
+                <a href='#' className='d-flex align-items-center'>
+                  <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
+                  <span>Analytics</span>
+                  <Icon icon='heroicons:chevron-down' className='ms-auto' style={{ border: 'none', outline: 'none', boxShadow: 'none', background: 'none' }} />
+                </a>
+                <ul className='sidebar-submenu'>
+                  <li>
+                    <LinkItem to='/analytics/recruiter-performance' tabKey='analytics-recruiter' icon='heroicons:user-group' label='Recruiter Performance' />
+                  </li>
+                  <li>
+                    <LinkItem to='/analytics/time-to-hire' tabKey='analytics-time' icon='heroicons:clock' label='Time To Hire' />
+                  </li>
+                  <li>
+                    <LinkItem to='/analytics/job-performance' tabKey='analytics-job' icon='heroicons:briefcase' label='Job Performance' />
+                  </li>
+                  <li>
+                    <LinkItem to='/analytics/job-sourcing' tabKey='analytics-sourcing' icon='heroicons:user-plus' label='Job Sourcing' />
+                  </li>
+                </ul>
+              </div>
             </li>
             <li>
               <LinkItem to='/company-settings/info' tabKey='settings' icon='icon-park-outline:setting-two' label='Settings' />
