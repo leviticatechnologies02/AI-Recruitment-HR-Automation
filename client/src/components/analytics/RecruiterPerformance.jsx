@@ -218,10 +218,10 @@ export default function RecruiterPerformance() {
       </div>
 
       {/* KPI Cards */}
-      <div className="row g-3 mb-24">
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+      <div className="row g-3 mb-24 align-items-stretch">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Candidates Added</div>
                 <div className="h4 mb-0">{totalMetrics.candidatesAdded}</div>
@@ -230,9 +230,9 @@ export default function RecruiterPerformance() {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Interviews Scheduled</div>
                 <div className="h4 mb-0 text-success">{totalMetrics.interviewsScheduled}</div>
@@ -241,9 +241,9 @@ export default function RecruiterPerformance() {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Avg Time-to-Hire</div>
                 <div className="h4 mb-0 text-warning">{totalMetrics.avgTimeToHire} days</div>
@@ -252,9 +252,9 @@ export default function RecruiterPerformance() {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Offer Acceptance</div>
                 <div className="h4 mb-0 text-primary-600">{totalMetrics.avgOfferAcceptance}%</div>
@@ -263,9 +263,9 @@ export default function RecruiterPerformance() {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Total Hires</div>
                 <div className="h4 mb-0 text-success">{totalMetrics.totalHires}</div>

@@ -180,10 +180,10 @@ const CandidateSourcing = () => {
         </div>
 
         {/* KPI Cards */}
-        <div className="row g-3 mb-24">
-          <div className="col-6 col-md-4 col-xl-2">
-            <div className="card border shadow-none h-100">
-              <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="row g-3 mb-24 align-items-stretch p-24" >
+          <div className="col-12 col-sm-6 col-lg-3 d-flex">
+            <div className="card border shadow-none w-100">
+              <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
                 <div>
                   <div className="text-secondary-light text-sm">Total Candidates</div>
                   <div className="h4 mb-0">{kpiData.totalCandidates}</div>
@@ -192,9 +192,9 @@ const CandidateSourcing = () => {
               </div>
             </div>
           </div>
-          <div className="col-6 col-md-4 col-xl-2">
-            <div className="card border shadow-none h-100">
-              <div className="card-body p-16 d-flex align-items-center justify-content-between">
+          <div className="col-12 col-sm-6 col-lg-3 d-flex">
+            <div className="card border shadow-none w-100">
+              <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
                 <div>
                   <div className="text-secondary-light text-sm">Unique Channels</div>
                   <div className="h4 mb-0 text-success">{kpiData.uniqueChannels}</div>
@@ -203,9 +203,9 @@ const CandidateSourcing = () => {
               </div>
             </div>
           </div>
-          <div className="col-6 col-md-4 col-xl-2">
-            <div className="card border shadow-none h-100">
-              <div className="card-body p-16 d-flex align-items-center justify-content-between">
+          <div className="col-12 col-sm-6 col-lg-3 d-flex">
+            <div className="card border shadow-none w-100">
+              <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
                 <div>
                   <div className="text-secondary-light text-sm">Best Channel</div>
                   <div className="h6 mb-0">{kpiData.bestChannel}</div>
@@ -214,9 +214,9 @@ const CandidateSourcing = () => {
               </div>
             </div>
           </div>
-          <div className="col-6 col-md-4 col-xl-2">
-            <div className="card border shadow-none h-100">
-              <div className="card-body p-16 d-flex align-items-center justify-content-between">
+          <div className="col-12 col-sm-6 col-lg-3 d-flex">
+            <div className="card border shadow-none w-100">
+              <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
                 <div>
                   <div className="text-secondary-light text-sm">Avg Cost per Hire</div>
                   <div className="h6 mb-0">{formatCurrency(kpiData.avgCostPerHire)}</div>
@@ -225,9 +225,9 @@ const CandidateSourcing = () => {
               </div>
             </div>
           </div>
-          <div className="col-6 col-md-4 col-xl-2">
-            <div className="card border shadow-none h-100">
-              <div className="card-body p-16 d-flex align-items-center justify-content-between">
+          <div className="col-12 col-sm-6 col-lg-3 d-flex">
+            <div className="card border shadow-none w-100">
+              <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
                 <div>
                   <div className="text-secondary-light text-sm">Avg Conversion</div>
                   <div className="h4 mb-0 text-primary-600">{kpiData.avgConversionRate}%</div>
@@ -239,7 +239,7 @@ const CandidateSourcing = () => {
         </div>
 
         {/* Charts Row 1 */}
-        <div className="row g-3 mb-24">
+        <div className="row g-3 mb-24 p-24">
           <div className="col-12 col-lg-6">
             <div className="card border shadow-none h-100">
               <div className="card-body p-24">
@@ -291,7 +291,7 @@ const CandidateSourcing = () => {
         </div>
 
         {/* Charts Row 2 */}
-        <div className="row g-3 mb-24">
+        <div className="row g-3 mb-24 p-24">
           <div className="col-12 col-lg-6">
             <div className="card border shadow-none h-100">
               <div className="card-body p-24">
@@ -339,7 +339,7 @@ const CandidateSourcing = () => {
         </div>
 
         {/* Performance Table */}
-        <div className="card border shadow-none mb-24">
+        <div className="card  body shadow-none mb-24 p-24">
           <div className="card-body p-24">
             <h6 className="mb-3">Sourcing Performance Table</h6>
             <div className="table-responsive">
@@ -378,7 +378,7 @@ const CandidateSourcing = () => {
         </div>
 
         {/* Insights Section */}
-        <div className="row g-3">
+        <div className="row g-3 p-24">
           <div className="col-12 col-lg-4">
             <div className="card border shadow-none h-100">
               <div className="card-body p-24 bg-success-subtle">

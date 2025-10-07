@@ -193,10 +193,10 @@ const JobPerformance = () => {
         </div>
       </div>
 
-      <div className="row g-3 mb-24">
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+      <div className="row g-3 mb-24 align-items-stretch">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Applications</div>
                 <div className="h4 mb-0 text-primary-600">{kpis.applications}</div>
@@ -205,9 +205,9 @@ const JobPerformance = () => {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Shortlisted</div>
                 <div className="h4 mb-0 text-success">{kpis.shortlisted}</div>
@@ -216,9 +216,9 @@ const JobPerformance = () => {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Interviews</div>
                 <div className="h4 mb-0 text-warning">{kpis.interviews}</div>
@@ -227,9 +227,9 @@ const JobPerformance = () => {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Offers</div>
                 <div className="h4 mb-0 text-danger">{kpis.offers}</div>
@@ -238,9 +238,9 @@ const JobPerformance = () => {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Hires</div>
                 <div className="h4 mb-0 text-primary-600">{kpis.hires}</div>
@@ -249,9 +249,9 @@ const JobPerformance = () => {
             </div>
           </div>
         </div>
-        <div className="col-6 col-md-4 col-xl-2">
-          <div className="card border shadow-none h-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between">
+        <div className="col-12 col-sm-6 col-lg-3 d-flex">
+          <div className="card border shadow-none w-100">
+            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-secondary-light text-sm">Conversion</div>
                 <div className="h4 mb-0 text-primary-600">{kpis.conversionRate}%</div>
