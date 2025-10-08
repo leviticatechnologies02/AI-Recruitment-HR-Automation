@@ -26,6 +26,9 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
         if (submenu) {
           submenu.style.maxHeight = "0px";
         }
+        // also clear any active-page markers on submenu list items when closing dropdowns
+        const submenuLis = dropdown.querySelectorAll('.sidebar-submenu li');
+        submenuLis.forEach(li => li.classList.remove('active-page'));
       });
 
       if (!isActive) {
@@ -47,18 +50,23 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
 
     const openActiveDropdown = () => {
       const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
+      // clear previous submenu active markers first
+      const allSubmenuLis = document.querySelectorAll('.sidebar-menu .sidebar-submenu li');
+      allSubmenuLis.forEach(li => li.classList.remove('active-page'));
+
       allDropdowns.forEach((dropdown) => {
         const submenuLinks = dropdown.querySelectorAll(".sidebar-submenu li a");
         submenuLinks.forEach((link) => {
-          if (
-            link.getAttribute("href") === location.pathname ||
-            link.getAttribute("to") === location.pathname
-          ) {
+          const href = link.getAttribute("href") || link.getAttribute("to");
+          if (href === location.pathname) {
             dropdown.classList.add("open");
             const submenu = dropdown.querySelector(".sidebar-submenu");
             if (submenu) {
               submenu.style.maxHeight = `${submenu.scrollHeight}px`;
             }
+            // mark the exact submenu <li> as active so CSS selectors that expect the li get the state
+            const parentLi = link.closest('li');
+            if (parentLi) parentLi.classList.add('active-page');
           }
         });
       });

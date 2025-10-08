@@ -26,6 +26,8 @@ const CreateJob = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [serverError, setServerError] = useState(null);
 
   const departments = ['Engineering', 'Marketing', 'Sales', 'HR', 'Finance', 'Operations', 'Customer Success', 'Design', 'Product'];
   const employmentTypes = ['Full-time', 'Part-time', 'Contract', 'Freelance', 'Internship'];
@@ -68,17 +70,71 @@ const CreateJob = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (asDraft = false) => {
+  const handleSubmit = async (asDraft = false) => {
+    setServerError(null);
     if (!asDraft && !validateForm()) return;
-    
-    // Print form data to console
-    console.log('=== FORM SUBMISSION DATA ===');
-    console.log('Submission Type:', asDraft ? 'Draft' : 'Publish');
-    console.log('Form Data:', formData);
-    console.log('============================');
-    
-    setIsDraft(asDraft);
-    setShowSuccessModal(true);
+
+    // Prepare multipart/form-data because jdFile may be included
+    const url = 'http://127.0.0.1:8000/api/jobs/api/jobs/create';
+
+    try {
+      setIsSubmitting(true);
+
+      console.log('=== FORM SUBMISSION DATA ===');
+      console.log('Submission Type:', asDraft ? 'Draft' : 'Publish');
+      console.log('Form Data:', formData);
+      console.log('============================');
+
+      const payload = new FormData();
+      // Simple fields
+      payload.append('title', formData.title || '');
+      payload.append('department', formData.department || '');
+      payload.append('employment_type', formData.employmentType || '');
+      payload.append('location', formData.location || '');
+      payload.append('is_remote', formData.isRemote ? 'true' : 'false');
+      payload.append('description', formData.description || '');
+      payload.append('responsibilities', formData.responsibilities || '');
+      payload.append('requirements', formData.requirements || '');
+      payload.append('salary_min', formData.salaryMin || '');
+      payload.append('salary_max', formData.salaryMax || '');
+      payload.append('currency', formData.currency || 'USD');
+      payload.append('expiry_date', formData.expiryDate || '');
+      payload.append('reference_id', formData.referenceId || '');
+      payload.append('is_draft', asDraft ? 'true' : 'false');
+
+      // Arrays: send as JSON strings (most backends accept this with multipart)
+      payload.append('benefits', JSON.stringify(formData.benefits || []));
+      payload.append('skills', JSON.stringify(formData.skills || []));
+
+      // File
+      if (formData.jdFile) {
+        payload.append('jd_file', formData.jdFile);
+      }
+
+      const res = await fetch(url, {
+        method: 'POST',
+        // Do NOT set Content-Type; browser will set multipart boundary
+        body: payload,
+      });
+
+      const resText = await res.text();
+      let resJson = null;
+      try { resJson = JSON.parse(resText); } catch (e) { /* not json */ }
+
+      if (!res.ok) {
+        const message = (resJson && (resJson.detail || resJson.message)) || res.statusText || resText || 'Server error';
+        throw new Error(message);
+      }
+
+      console.log('Server response:', resJson || resText);
+      setIsDraft(asDraft);
+      setShowSuccessModal(true);
+    } catch (err) {
+      console.error('Submit error:', err);
+      setServerError(err.message || 'Failed to submit job');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const JobPreview = () => (
@@ -413,16 +469,31 @@ const CreateJob = () => {
                 <ArrowLeft size={14} className='me-2' /> Back to Jobs
               </Link>
               <div className='d-flex gap-2'>
-                <button type='button' onClick={() => handleSubmit(true)} className='btn btn-outline-secondary d-inline-flex align-items-center'>
-                  <Save size={14} className='me-2' /> Save as Draft
+                <button
+                  type='button'
+                  onClick={() => handleSubmit(true)}
+                  className='btn btn-outline-secondary d-inline-flex align-items-center'
+                  disabled={isSubmitting}
+                >
+                  <Save size={14} className='me-2' /> {isSubmitting ? 'Saving...' : 'Save as Draft'}
                 </button>
-                <button type='button' onClick={() => setShowPreview(true)} className='btn btn-outline-primary d-inline-flex align-items-center'>
+                <button type='button' onClick={() => setShowPreview(true)} className='btn btn-outline-primary d-inline-flex align-items-center' disabled={isSubmitting}>
                   <Eye size={14} className='me-2' /> Preview
                 </button>
-                <button type='button' onClick={() => handleSubmit(false)} className='btn btn-primary d-inline-flex align-items-center'>
-                  <Send size={14} className='me-2' /> Publish Job
+                <button
+                  type='button'
+                  onClick={() => handleSubmit(false)}
+                  className='btn btn-primary d-inline-flex align-items-center'
+                  disabled={isSubmitting}
+                >
+                  <Send size={14} className='me-2' /> {isSubmitting ? 'Publishing...' : 'Publish Job'}
                 </button>
               </div>
+              {serverError && (
+                <div className='mt-3'>
+                  <div className='alert alert-danger d-inline-flex align-items-center' role='alert'>{serverError}</div>
+                </div>
+              )}
             </div>
           </form>
         </div>

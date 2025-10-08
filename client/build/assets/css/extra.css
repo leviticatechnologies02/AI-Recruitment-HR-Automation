@@ -151,9 +151,20 @@ table.dataTable td.dt-type-date {
   max-height: 0px;
 }
 
-/* .sidebar-menu .dropdown.open .sidebar-submenu {
+.sidebar-menu .dropdown.open .sidebar-submenu {
   max-height: 1000px;
-} */
+}
+
+/* Custom styles for recruiter dropdown */
+.sidebar-menu .dropdown .sidebar-submenu.show {
+  max-height: 1000px;
+}
+
+.sidebar-menu .dropdown .sidebar-submenu {
+  max-height: 0px;
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
 
 .sidebar-menu li > a > i {
   margin-inline-end: 0;
@@ -213,4 +224,45 @@ table.dataTable td.dt-type-date {
   top: 0;
   width: 100%;
   height: 100vh;
+}
+
+/* Sidebar nav links - remove underline across all states */
+.sidebar-menu a,
+.sidebar-menu a:hover,
+.sidebar-menu a:focus,
+.sidebar-menu a:active,
+aside.sidebar a,
+aside.sidebar a:hover,
+aside.sidebar a:focus,
+aside.sidebar a:active {
+  text-decoration: none !important;
+}
+
+/* Remove border from dropdown arrow icons */
+.sidebar-menu .dropdown a .ms-auto,
+.sidebar-menu .dropdown a .ms-auto svg,
+.sidebar-menu .dropdown a .ms-auto i,
+.sidebar-menu .dropdown a .ms-auto .iconify {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+/* More specific targeting for iconify icons */
+.sidebar-menu .dropdown a .ms-auto[data-icon] {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+/* Center text in select dropdowns */
+.form-select-center {
+  text-align: center !important;
+  text-align-last: center !important;
+}
+
+.form-select-center option {
+  text-align: center !important;
 }
