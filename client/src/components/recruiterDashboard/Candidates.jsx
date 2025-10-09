@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Download, X, ChevronLeft, ChevronRight, UserPlus, ArrowRight, Eye, Copy, Trash2, Printer } from 'lucide-react';
+import CandidateProfilePage from './CandidateProfilePage';
 
 const CandidatesPage = () => {
   const [selectedCandidates, setSelectedCandidates] = useState([]);
@@ -411,113 +412,12 @@ const CandidatesPage = () => {
         </div>
       </div>
 
-      {/* Candidate Detail Modal */}
+      {/* Candidate Profile Page */}
       {showCandidateModal && selectedCandidate && (
-        <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050}} tabIndex="-1">
-          <div className="modal-dialog modal-lg modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Candidate Details</h5>
-                <button type="button" className="btn-close" onClick={handleCloseCandidateModal}></button>
-              </div>
-              <div className="modal-body">
-                {/* Header Section */}
-                <div className="text-center mb-4 pb-3 border-bottom">
-                  <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style={{width: '80px', height: '80px'}}>
-                    <span className="fs-3 fw-bold">{selectedCandidate.name.split(' ').map(n => n[0]).join('')}</span>
-                  </div>
-                  <h4 className="mb-2">{selectedCandidate.name}</h4>
-                  <p className="text-muted mb-2">{selectedCandidate.role}</p>
-                  <div className="d-flex justify-content-center gap-2">
-                    <span className={`badge ${getStageColor(selectedCandidate.stage)}`}>
-                      {selectedCandidate.stage}
-                    </span>
-                    <span className={`badge ${selectedCandidate.status === 'In Progress' ? 'bg-primary-subtle text-primary' : selectedCandidate.status === 'Completed' ? 'bg-success-subtle text-success' : selectedCandidate.status === 'Pending' ? 'bg-warning-subtle text-warning' : 'bg-secondary-subtle text-secondary'}`}>
-                      {selectedCandidate.status}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Details Section */}
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="card border-0 bg-light">
-                      <div className="card-body">
-                        <h6 className="card-title text-primary mb-3">Personal Information</h6>
-                        <div className="mb-3">
-                          <label className="form-label text-muted small fw-semibold">Full Name</label>
-                          <p className="mb-0 fw-medium">{selectedCandidate.name}</p>
-                        </div>
-                        <div className="mb-3">
-                          <label className="form-label text-muted small fw-semibold">Job Role</label>
-                          <p className="mb-0 fw-medium">{selectedCandidate.role}</p>
-                        </div>
-                        <div className="mb-3">
-                          <label className="form-label text-muted small fw-semibold">Location</label>
-                          <p className="mb-0 fw-medium">Hyderabad, India</p>
-                        </div>
-                        <div className="mb-0">
-                          <label className="form-label text-muted small fw-semibold">Experience</label>
-                          <p className="mb-0 fw-medium">2-3 years of experience in {selectedCandidate.role}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="card border-0 bg-light">
-                      <div className="card-body">
-                        <h6 className="card-title text-primary mb-3">Contact Information</h6>
-                        <div className="mb-3">
-                          <label className="form-label text-muted small fw-semibold">Phone Number</label>
-                          <p className="mb-0 fw-medium">+91 9876543210</p>
-                        </div>
-                        <div className="mb-3">
-                          <label className="form-label text-muted small fw-semibold">Email Address</label>
-                          <p className="mb-0 fw-medium">{selectedCandidate.name.toLowerCase().replace(' ', '.')}@email.com</p>
-                        </div>
-                        <div className="mb-3">
-                          <label className="form-label text-muted small fw-semibold">Current Stage</label>
-                          <p className="mb-0 fw-medium">{selectedCandidate.stage}</p>
-                        </div>
-                        <div className="mb-0">
-                          <label className="form-label text-muted small fw-semibold">Application Status</label>
-                          <p className="mb-0 fw-medium">{selectedCandidate.status}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Skills Section */}
-                <div className="mt-4">
-                  <div className="card border-0 bg-light">
-                    <div className="card-body">
-                      <h6 className="card-title text-primary mb-3">Technical Skills</h6>
-                      <div className="d-flex flex-wrap gap-2">
-                        {selectedCandidate.skills.map((skill, idx) => (
-                          <span key={idx} className="badge bg-primary fs-6 px-3 py-2">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleCloseCandidateModal}>
-                  Close
-                </button>
-                <button type="button" className="btn btn-primary">
-                  Schedule Interview
-                </button>
-                <button type="button" className="btn btn-success">
-                  Move to Next Stage
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <CandidateProfilePage 
+          candidate={selectedCandidate} 
+          onClose={handleCloseCandidateModal} 
+        />
       )}
     </div>
   );
