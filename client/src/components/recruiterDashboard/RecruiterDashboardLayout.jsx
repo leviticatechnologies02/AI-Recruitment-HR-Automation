@@ -4,8 +4,8 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, onTabChange }) => {
-  const [sidebarActive, seSidebarActive] = useState(false);
-  const [mobileMenu, setMobileMenu] = useState(false);
+  let [sidebarActive, seSidebarActive] = useState(false);
+  let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -19,23 +19,22 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
 
       const isActive = clickedDropdown.classList.contains("open");
 
+      // Close all dropdowns
       const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
       allDropdowns.forEach((dropdown) => {
         dropdown.classList.remove("open");
         const submenu = dropdown.querySelector(".sidebar-submenu");
         if (submenu) {
-          submenu.style.maxHeight = "0px";
+          submenu.style.maxHeight = "0px"; // Collapse submenu
         }
-        // also clear any active-page markers on submenu list items when closing dropdowns
-        const submenuLis = dropdown.querySelectorAll('.sidebar-submenu li');
-        submenuLis.forEach(li => li.classList.remove('active-page'));
       });
 
+      // Toggle the clicked dropdown
       if (!isActive) {
         clickedDropdown.classList.add("open");
         const submenu = clickedDropdown.querySelector(".sidebar-submenu");
         if (submenu) {
-          submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+          submenu.style.maxHeight = `${submenu.scrollHeight}px`; // Expand submenu
         }
       }
     };
@@ -50,30 +49,27 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
 
     const openActiveDropdown = () => {
       const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
-      // clear previous submenu active markers first
-      const allSubmenuLis = document.querySelectorAll('.sidebar-menu .sidebar-submenu li');
-      allSubmenuLis.forEach(li => li.classList.remove('active-page'));
-
       allDropdowns.forEach((dropdown) => {
         const submenuLinks = dropdown.querySelectorAll(".sidebar-submenu li a");
         submenuLinks.forEach((link) => {
-          const href = link.getAttribute("href") || link.getAttribute("to");
-          if (href === location.pathname) {
+          if (
+            link.getAttribute("href") === location.pathname ||
+            link.getAttribute("to") === location.pathname
+          ) {
             dropdown.classList.add("open");
             const submenu = dropdown.querySelector(".sidebar-submenu");
             if (submenu) {
-              submenu.style.maxHeight = `${submenu.scrollHeight}px`;
+              submenu.style.maxHeight = `${submenu.scrollHeight}px`; // Expand submenu
             }
-            // mark the exact submenu <li> as active so CSS selectors that expect the li get the state
-            const parentLi = link.closest('li');
-            if (parentLi) parentLi.classList.add('active-page');
           }
         });
       });
     };
 
+    // Open the submenu that contains the active route
     openActiveDropdown();
 
+    // Cleanup event listeners on unmount
     return () => {
       dropdownTriggers.forEach((trigger) => {
         trigger.removeEventListener("click", handleDropdownClick);
@@ -81,11 +77,11 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
     };
   }, [location.pathname]);
 
-  const sidebarControl = () => {
+  let sidebarControl = () => {
     seSidebarActive(!sidebarActive);
   };
 
-  const mobileMenuControl = () => {
+  let mobileMenuControl = () => {
     setMobileMenu(!mobileMenu);
   };
 
@@ -142,7 +138,51 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
     );
   };
 
+  // Add CSS to ensure active state is visible
+  const activeStyles = `
+    .sidebar-menu li > a.active-page {
+      background-color: #007bff !important;
+      color: #fff !important;
+      border-radius: 8px;
+    }
+    .sidebar-menu .sidebar-submenu li > a.active-page {
+      background-color: #6c757d !important;
+      color: #fff !important;
+      border-radius: 6px;
+    }
+    .sidebar-menu .dropdown.open > a {
+      background-color: #007bff !important;
+      color: #fff !important;
+      border-radius: 8px;
+    }
+    .sidebar-menu .dropdown > a {
+      background-color: transparent !important;
+      color: inherit !important;
+    }
+    .sidebar-menu .dropdown.has-active-submenu > a {
+      background-color: #007bff !important;
+      color: #fff !important;
+      border-radius: 8px;
+    }
+    .navbar-header.sticky-top {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1020;
+    }
+    .sidebar-submenu li {
+      list-style: none !important;
+    }
+    .sidebar-submenu li::before {
+      display: none !important;
+    }
+    .sidebar-submenu {
+      list-style-type: none !important;
+    }
+  `;
+
   return (
+    <>
+      <style>{activeStyles}</style>
     <section className={mobileMenu ? "overlay active" : "overlay "}>
       {/* sidebar */}
       <aside
@@ -166,66 +206,143 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
         </div>
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
+            {/* Recruiter Dashboard */}
             <li>
-              <LinkItem to='/dashboard' tabKey='dashboard' icon='heroicons:home' label='Recruiter' />
+              <LinkItem to='/dashboard' tabKey='dashboard' icon='heroicons:home' label='Recruiter Dashboard' />
             </li>
 
-            <li className='sidebar-menu-group-title'>User Workspace</li>
+            <li className='sidebar-menu-group-title'>Recruitment Management</li>
 
+            {/* Jobs Management */}
             <li>
-         <LinkItem to='/jobslist' tabKey='jobs' icon='solar:clipboard-list-outline' label='Jobs' isParent={true} />
+              <LinkItem to='/jobslist' tabKey='jobs' icon='solar:clipboard-list-outline' label='Jobs' isParent={true} />
             </li>
+
+            {/* Candidates Management */}
             <li>
               <LinkItem to='/candidates' tabKey='candidates' icon='heroicons:users' label='Candidates' />
             </li>
+
+            {/* Pipeline Dropdown */}
             <li className='dropdown'>
-              <a href='#' className='d-flex align-items-center'>
+              <Link to='#'>
                 <Icon icon='heroicons:queue-list' className='menu-icon' />
                 <span>Pipeline</span>
-                <Icon icon='heroicons:chevron-down' className='ms-auto' style={{ border: 'none', outline: 'none', boxShadow: 'none', background: 'none' }} />              </a>
+              </Link>
               <ul className='sidebar-submenu'>
                 <li>
-                  <LinkItem to='/pipeline/view' tabKey='pipeline-view' icon='heroicons:eye' label='Pipeline View' />
+                  <NavLink
+                    to='/pipeline/view'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
+                    Pipeline View
+                  </NavLink>
                 </li>
                 <li>
-                  <LinkItem to='/pipeline/stages' tabKey='pipeline-stages' icon='heroicons:list-bullet' label='Stages' />
+                  <NavLink
+                    to='/pipeline/stages'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
+                    Stages
+                  </NavLink>
                 </li>
                 <li>
-                  <LinkItem to='/pipeline/drag-drop' tabKey='pipeline-drag-drop' icon='heroicons:arrows-up-down' label='Drag & Drop' />
+                  <NavLink
+                    to='/pipeline/drag-drop'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
+                    Drag & Drop
+                  </NavLink>
                 </li>
                 <li>
-                  <LinkItem to='/pipeline/collaboration' tabKey='pipeline-collaboration' icon='heroicons:users' label='Collaboration Tools' />
+                  <NavLink
+                    to='/pipeline/collaboration'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
+                    Collaboration Tools
+                  </NavLink>
                 </li>
               </ul>
             </li>
-            <li>
-              <div className='dropdown'>
-                <a href='#' className='d-flex align-items-center'>
-                  <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
-                  <span>Analytics</span>
-                  <Icon icon='heroicons:chevron-down' className='ms-auto' style={{ border: 'none', outline: 'none', boxShadow: 'none', background: 'none' }} />
-                </a>
-                <ul className='sidebar-submenu'>
-                  <li>
-                    <LinkItem to='/analytics/recruiter-performance' tabKey='analytics-recruiter' icon='heroicons:user-group' label='Recruiter Performance' />
-                  </li>
-                  <li>
-                    <LinkItem to='/analytics/time-to-hire' tabKey='analytics-time' icon='heroicons:clock' label='Time To Hire' />
-                  </li>
-                  <li>
-                    <LinkItem to='/analytics/job-performance' tabKey='analytics-job' icon='heroicons:briefcase' label='Job Performance' />
-                  </li>
-                  <li>
-                    <LinkItem to='/analytics/job-sourcing' tabKey='analytics-sourcing' icon='heroicons:user-plus' label='Job Sourcing' />
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li>
-              <LinkItem to='/company-settings/info' tabKey='settings' icon='icon-park-outline:setting-two' label='Settings' />
+
+            <li className='sidebar-menu-group-title'>Analytics & Insights</li>
+
+            {/* Analytics Dropdown */}
+            <li className='dropdown'>
+              <Link to='#'>
+                <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
+                <span>Analytics</span>
+              </Link>
+              <ul className='sidebar-submenu'>
+                <li>
+                  <NavLink
+                    to='/analytics/recruiter-performance'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
+                    Recruiter Performance
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/analytics/time-to-hire'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
+                    Time To Hire
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/analytics/job-performance'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
+                    Job Performance
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/analytics/job-sourcing'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
+                    Job Sourcing
+                  </NavLink>
+                </li>
+              </ul>
             </li>
 
-            <li className='sidebar-menu-group-title'>Shortcuts</li>
+            <li className='sidebar-menu-group-title'>Configuration</li>
+
+            {/* Settings */}
+            <li>
+              <LinkItem to='/settings' tabKey='settings' icon='icon-park-outline:setting-two' label='Settings' />
+            </li>
+
+            <li className='sidebar-menu-group-title'>Quick Actions</li>
+
+            {/* Shortcuts */}
             <li>
               <ShortcutLink to='/jobs/new' tabKey='create-job' label='Create Job' icon='heroicons:plus' />
             </li>
@@ -329,6 +446,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
 
         <div className='dashboard-main-body bg-neutral-50'>{children}</div>
 
+        {/* Footer section */}
         <footer className='d-footer bg-neutral-50'>
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
@@ -341,6 +459,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
         </footer>
       </main>
     </section>
+    </>
   );
 };
 

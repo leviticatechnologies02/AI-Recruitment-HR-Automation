@@ -17,7 +17,8 @@ const Landing = () => {
             <Link to='/pricing' className='text-secondary-light'>Pricing</Link>
           </nav>
           <div className='d-flex align-items-center gap-2'>
-            <Link to='/login' className='btn btn-outline-primary btn-sm'>Sign In</Link>
+            <Link to='/candidate/login' className='btn btn-outline-success btn-sm'>Candidate Login</Link>
+            <Link to='/login' className='btn btn-outline-primary btn-sm'>Recruiter Sign In</Link>
             <Link to='/signup' className='btn btn-primary btn-sm'>Sign Up</Link>
           </div>
         </div>

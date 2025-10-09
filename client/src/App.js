@@ -20,6 +20,12 @@ import RecruiterPerformance from './components/analytics/RecruiterPerformance';
 import TimeToHire from './components/analytics/TimeToHire';
 import CandidateSourcing from './components/analytics/CandidateSourcing';
 import JobPerformance from './components/analytics/JobPerformance';
+import Settings from './components/Settings';
+import CandidateLogin from './components/candidateDashboard/CandidateLogin';
+import CandidateDashboard from './components/candidateDashboard/CandidateDashboard';
+import CandidateDashboardLayout from './components/candidateDashboard/CandidateDashboardLayout';
+import JobSearch from './components/candidateDashboard/JobSearch';
+import Applications from './components/candidateDashboard/Applications';
 
 const App = () => {
   return (
@@ -153,6 +159,50 @@ const App = () => {
             <RecruiterDashboardLayout>
               <JobPerformance />
             </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/settings'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <Settings />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Candidate Routes */}
+      <Route path='/candidate/login' element={<CandidateLogin />} />
+      <Route
+        path='/candidate/dashboard'
+        element={
+          <ProtectedRoute>
+            <CandidateDashboardLayout>
+              <CandidateDashboard />
+            </CandidateDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/candidate/jobs'
+        element={
+          <ProtectedRoute>
+            <CandidateDashboardLayout>
+              <JobSearch />
+            </CandidateDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/candidate/applications'
+        element={
+          <ProtectedRoute>
+            <CandidateDashboardLayout>
+              <Applications />
+            </CandidateDashboardLayout>
           </ProtectedRoute>
         }
       />
