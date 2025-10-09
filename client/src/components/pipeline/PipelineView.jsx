@@ -1,391 +1,633 @@
-import React, { useState, useMemo } from 'react';
-import { Filter, Calendar, User, Briefcase, Eye, ArrowRight, X, Clock, Mail, FileText, UserPlus, UserX } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Plus, Eye, MoreVertical, Users, TrendingUp, Calendar, ArrowRight } from 'lucide-react';
 
 const PipelineView = () => {
-  // Sample data
-  const [candidates] = useState([
+  const [stages, setStages] = useState([
     {
-      id: 1,
-      name: "Aisha Sharma",
-      email: "aisha.sharma@email.com",
-      position: "Frontend Engineer",
-      stage: "Phone Screen",
-      appliedDate: "2024-09-21",
-      recruiter: "Sarah Johnson",
-      resumeLink: "#",
-      notes: "Strong React background, good communication skills. Completed initial screening successfully.",
-      timeline: [
-        { stage: "Applied", date: "2024-09-21", status: "completed" },
-        { stage: "Phone Screen", date: "2024-09-22", status: "current" }
+      id: 'applied',
+      name: 'Applied',
+      color: 'bg-primary text-white',
+      bgColor: 'bg-primary-subtle',
+      candidates: [
+        { id: 1, name: 'Nagendra Uggirala', role: 'Frontend Developer', avatar: 'NU', appliedDate: '2024-01-15' },
+        { id: 2, name: 'Ravi Kumar', role: 'Backend Developer', avatar: 'RK', appliedDate: '2024-01-14' },
+        { id: 3, name: 'Anita Desai', role: 'Full Stack Developer', avatar: 'AD', appliedDate: '2024-01-13' },
+        { id: 4, name: 'Vikram Singh', role: 'DevOps Engineer', avatar: 'VS', appliedDate: '2024-01-12' }
       ]
     },
     {
-      id: 2,
-      name: "Ravi Kumar",
-      email: "ravi.kumar@email.com",
-      position: "Backend Developer",
-      stage: "Rejected",
-      appliedDate: "2024-09-18",
-      recruiter: "Mike Chen",
-      resumeLink: "#",
-      notes: "Technical skills didn't match our current requirements. Polite candidate, may consider for future openings.",
-      timeline: [
-        { stage: "Applied", date: "2024-09-18", status: "completed" },
-        { stage: "Phone Screen", date: "2024-09-19", status: "completed" },
-        { stage: "Rejected", date: "2024-09-20", status: "current" }
+      id: 'screening',
+      name: 'Screening',
+      color: 'bg-info text-white',
+      bgColor: 'bg-info-subtle',
+      candidates: [
+        { id: 5, name: 'Priya Sharma', role: 'UI/UX Designer', avatar: 'PS', appliedDate: '2024-01-10' },
+        { id: 6, name: 'Arun Patel', role: 'Frontend Developer', avatar: 'AP', appliedDate: '2024-01-09' },
+        { id: 7, name: 'Meera Reddy', role: 'Product Manager', avatar: 'MR', appliedDate: '2024-01-08' }
       ]
     },
     {
-      id: 3,
-      name: "Meera Patel",
-      email: "meera.patel@email.com",
-      position: "Product Manager",
-      stage: "Onsite",
-      appliedDate: "2024-09-15",
-      recruiter: "Sarah Johnson",
-      resumeLink: "#",
-      notes: "Excellent product sense and leadership experience. Team feedback very positive after technical round.",
-      timeline: [
-        { stage: "Applied", date: "2024-09-15", status: "completed" },
-        { stage: "Phone Screen", date: "2024-09-16", status: "completed" },
-        { stage: "Interview", date: "2024-09-18", status: "completed" },
-        { stage: "Onsite", date: "2024-09-20", status: "current" }
+      id: 'interview',
+      name: 'Interview',
+      color: 'bg-warning text-dark',
+      bgColor: 'bg-warning-subtle',
+      candidates: [
+        { id: 8, name: 'Karthik Menon', role: 'Backend Developer', avatar: 'KM', appliedDate: '2024-01-05' },
+        { id: 9, name: 'Sneha Iyer', role: 'Data Scientist', avatar: 'SI', appliedDate: '2024-01-04' }
       ]
     },
     {
-      id: 4,
-      name: "David Wilson",
-      email: "david.wilson@email.com",
-      position: "Data Scientist",
-      stage: "Applied",
-      appliedDate: "2024-09-23",
-      recruiter: "Mike Chen",
-      resumeLink: "#",
-      notes: "PhD in Machine Learning, published research. Just applied today.",
-      timeline: [
-        { stage: "Applied", date: "2024-09-23", status: "current" }
+      id: 'offer',
+      name: 'Offer',
+      color: 'bg-success text-white',
+      bgColor: 'bg-success-subtle',
+      candidates: [
+        { id: 10, name: 'Rajesh Gupta', role: 'Senior Developer', avatar: 'RG', appliedDate: '2024-01-02' }
       ]
     },
     {
-      id: 5,
-      name: "Lisa Zhang",
-      email: "lisa.zhang@email.com",
-      position: "UX Designer",
-      stage: "Offer Extended",
-      appliedDate: "2024-09-10",
-      recruiter: "Sarah Johnson",
-      resumeLink: "#",
-      notes: "Outstanding portfolio and cultural fit. Offer extended at competitive package.",
-      timeline: [
-        { stage: "Applied", date: "2024-09-10", status: "completed" },
-        { stage: "Phone Screen", date: "2024-09-11", status: "completed" },
-        { stage: "Interview", date: "2024-09-13", status: "completed" },
-        { stage: "Onsite", date: "2024-09-16", status: "completed" },
-        { stage: "Offer Extended", date: "2024-09-18", status: "current" }
+      id: 'hired',
+      name: 'Hired',
+      color: 'bg-danger text-white',
+      bgColor: 'bg-danger-subtle',
+      candidates: [
+        { id: 11, name: 'Divya Nair', role: 'Frontend Developer', avatar: 'DN', appliedDate: '2023-12-28' }
       ]
     }
   ]);
 
-  const [jobs] = useState([
-    "All Jobs", "Frontend Engineer", "Backend Developer", "Product Manager", "Data Scientist", "UX Designer"
-  ]);
-
-  const [recruiters] = useState([
-    "All Recruiters", "Sarah Johnson", "Mike Chen", "Emma Davis"
-  ]);
-
-  const stages = [
-    { id: "Applied", name: "Applied", color: "bg-blue-50 border-blue-200" },
-    { id: "Phone Screen", name: "Phone Screen", color: "bg-yellow-50 border-yellow-200" },
-    { id: "Interview", name: "Interview", color: "bg-purple-50 border-purple-200" },
-    { id: "Onsite", name: "Onsite", color: "bg-orange-50 border-orange-200" },
-    { id: "Offer Extended", name: "Offer Extended", color: "bg-green-50 border-green-200" },
-    { id: "Hired", name: "Hired", color: "bg-emerald-50 border-emerald-200" },
-    { id: "Rejected", name: "Rejected", color: "bg-red-50 border-red-200" }
-  ];
-
-  // State
-  const [selectedJob, setSelectedJob] = useState("All Jobs");
-  const [selectedStage, setSelectedStage] = useState("All Stages");
-  const [selectedRecruiter, setSelectedRecruiter] = useState("All Recruiters");
+  const [draggedCard, setDraggedCard] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterRole, setFilterRole] = useState('all');
+  const [showAddStage, setShowAddStage] = useState(false);
+  const [newStageName, setNewStageName] = useState('');
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [editingStageId, setEditingStageId] = useState(null);
+  const [editStageName, setEditStageName] = useState('');
   const [selectedCandidate, setSelectedCandidate] = useState(null);
-  const [selectedCandidates, setSelectedCandidates] = useState(new Set());
 
-  // Filter candidates
-  const filteredCandidates = useMemo(() => {
-    return candidates.filter(candidate => {
-      if (selectedJob !== "All Jobs" && candidate.position !== selectedJob) return false;
-      if (selectedStage !== "All Stages" && candidate.stage !== selectedStage) return false;
-      if (selectedRecruiter !== "All Recruiters" && candidate.recruiter !== selectedRecruiter) return false;
-      return true;
-    });
-  }, [candidates, selectedJob, selectedStage, selectedRecruiter]);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const today = new Date();
-    const diffTime = Math.abs(today - date);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return '1 day ago';
-    return `${diffDays} days ago`;
+  const handleViewProfile = (candidate) => {
+    setSelectedCandidate(candidate);
   };
 
-  const getStageBadgeClass = (stage) => {
-    const map = {
-      'Applied': 'badge bg-info-subtle text-info-main',
-      'Phone Screen': 'badge bg-primary-subtle text-primary-600',
-      'Interview': 'badge bg-primary-subtle text-primary-600',
-      'Onsite': 'badge bg-warning-subtle text-warning-main',
-      'Offer Extended': 'badge bg-success-subtle text-success-main',
-      'Hired': 'badge bg-success-subtle text-success-main',
-      'Rejected': 'badge bg-danger-subtle text-danger-main'
-    };
-    return map[stage] || 'badge bg-neutral-200 text-black';
-  };
-
-  const handleCandidateSelect = (candidateId, isSelected) => {
-    const newSelected = new Set(selectedCandidates);
-    if (isSelected) {
-      newSelected.add(candidateId);
-    } else {
-      newSelected.delete(candidateId);
+  const handleScheduleInterview = () => {
+    if (selectedCandidate) {
+      alert(`Interview scheduled for ${selectedCandidate.name}!`);
     }
-    setSelectedCandidates(newSelected);
   };
 
-  const CandidateCard = ({ candidate }) => (
-    <div className="card border shadow-none h-100">
-      <div className="card-body p-24">
-        <div className="d-flex align-items-start justify-content-between mb-3">
-          <div className="d-flex align-items-center gap-2">
-            <input
-              type="checkbox"
-              checked={selectedCandidates.has(candidate.id)}
-              onChange={(e) => handleCandidateSelect(candidate.id, e.target.checked)}
-              className="form-check-input me-2"
-            />
-            <div className="d-flex align-items-center gap-2">
-              <span className="w-40-px h-40-px bg-primary-600 text-white rounded-circle d-flex justify-content-center align-items-center">
-                <User size={18} />
-              </span>
-              <h6 className="mb-0">{candidate.name}</h6>
-            </div>
-          </div>
-          <span className={getStageBadgeClass(candidate.stage)}>{candidate.stage}</span>
-        </div>
-        <div className="d-grid gap-2 text-secondary-light mb-3">
-          <div className="d-flex align-items-center gap-2">
-            <span className="w-28-px h-28-px bg-primary-50 rounded d-flex justify-content-center align-items-center">
-              <Briefcase size={14} className="text-primary-600" />
-            </span>
-            <span className="fw-medium">{candidate.position}</span>
-          </div>
-          <div className="d-flex align-items-center gap-2">
-            <span className="w-28-px h-28-px bg-success-subtle rounded d-flex justify-content-center align-items-center">
-              <Calendar size={14} className="text-success" />
-            </span>
-            <span className="fw-medium">{formatDate(candidate.appliedDate)}</span>
-          </div>
-          <div className="d-flex align-items-center gap-2">
-            <span className="w-28-px h-28-px bg-purple rounded d-flex justify-content-center align-items-center text-white">
-              <User size={14} />
-            </span>
-            <span className="fw-medium">{candidate.recruiter}</span>
-          </div>
-        </div>
-        <button onClick={() => setSelectedCandidate(candidate)} className="btn btn-primary w-100 d-inline-flex align-items-center justify-content-center gap-2">
-          <Eye size={16} />
-          <span>View Details</span>
-        </button>
-      </div>
-    </div>
-  );
+  const handleSendEmail = () => {
+    if (selectedCandidate) {
+      alert(`Email sent to ${selectedCandidate.name} at ${selectedCandidate.name.toLowerCase().replace(' ', '.')}@email.com`);
+    }
+  };
 
-  const CandidateModal = ({ candidate, onClose }) => (
-    <>
-      <div className="modal d-block" tabIndex="-1" role="dialog">
-        <div className="modal-dialog modal-lg" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <div className="d-flex align-items-center gap-2">
-                <span className="w-44-px h-44-px bg-primary-600 text-white rounded-circle d-flex justify-content-center align-items-center">
-                  <User size={20} />
-                </span>
-                <h6 className="modal-title mb-0">{candidate.name}</h6>
-              </div>
-              <button type="button" className="btn-close" aria-label="Close" onClick={onClose}></button>
-            </div>
-            <div className="modal-body">
-              <div className="row g-3">
-                <div className="col-md-6">
-                  <div className="border rounded p-3 d-flex align-items-center gap-3">
-                    <span className="w-36-px h-36-px bg-primary-600 text-white rounded d-flex justify-content-center align-items-center">
-                      <Mail size={18} />
-                    </span>
-                    <div>
-                      <div className="text-secondary-light text-sm">Email</div>
-                      <div className="fw-medium">{candidate.email}</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="border rounded p-3 d-flex align-items-center gap-3">
-                    <span className="w-36-px h-36-px bg-purple text-white rounded d-flex justify-content-center align-items-center">
-                      <Briefcase size={18} />
-                    </span>
-                    <div>
-                      <div className="text-secondary-light text-sm">Position</div>
-                      <div className="fw-medium">{candidate.position}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  const handleRejectCandidate = () => {
+    if (selectedCandidate && window.confirm(`Are you sure you want to reject ${selectedCandidate.name}?`)) {
+      // Move candidate to rejected stage or remove from pipeline
+      setStages(prevStages => {
+        return prevStages.map(stage => ({
+          ...stage,
+          candidates: stage.candidates.filter(c => c.id !== selectedCandidate.id)
+        }));
+      });
+      setSelectedCandidate(null);
+      alert(`${selectedCandidate.name} has been rejected and removed from the pipeline.`);
+    }
+  };
 
-              <div className="alert alert-primary mt-3 d-flex align-items-center gap-2">
-                <span className={getStageBadgeClass(candidate.stage)}>{candidate.stage}</span>
-                <span className="fw-medium">Current Stage</span>
-              </div>
+  const handleEditStage = (stageId, currentName) => {
+    setEditingStageId(stageId);
+    setEditStageName(currentName);
+    setOpenMenuId(null);
+  };
 
-              <div className="border rounded p-3 mb-3">
-                <h6 className="mb-3">Stage Timeline</h6>
-                <div className="d-grid gap-2">
-                  {candidate.timeline.map((item, index) => (
-                    <div key={index} className="d-flex align-items-center gap-3">
-                      <span className={`w-12-px h-12-px rounded-circle ${item.status === 'current' ? 'bg-primary-600' : item.status === 'completed' ? 'bg-success' : 'bg-neutral-300'}`}></span>
-                      <div className="flex-grow-1">
-                        <div className="fw-semibold">{item.stage}</div>
-                        <div className="text-secondary-light text-sm">{formatDate(item.date)}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+  const handleSaveEditStage = () => {
+    if (editStageName.trim()) {
+      setStages(prevStages => 
+        prevStages.map(stage => 
+          stage.id === editingStageId 
+            ? { ...stage, name: editStageName }
+            : stage
+        )
+      );
+      setEditingStageId(null);
+      setEditStageName('');
+    }
+  };
 
-              <div className="border rounded p-3 mb-3">
-                <h6 className="mb-2">Recruiter Notes</h6>
-                <div className="text-secondary-light">{candidate.notes}</div>
-              </div>
+  const handleDeleteStage = (stageId) => {
+    if (window.confirm('Are you sure you want to delete this stage? All candidates will be moved to "Applied" stage.')) {
+      const stageToDelete = stages.find(s => s.id === stageId);
+      const candidatesToMove = stageToDelete?.candidates || [];
+      
+      setStages(prevStages => {
+        const filtered = prevStages.filter(s => s.id !== stageId);
+        if (candidatesToMove.length > 0) {
+          return filtered.map(stage => 
+            stage.id === 'applied'
+              ? { ...stage, candidates: [...stage.candidates, ...candidatesToMove] }
+              : stage
+          );
+        }
+        return filtered;
+      });
+      setOpenMenuId(null);
+    }
+  };
 
-              <div className="border rounded p-3">
-                <a href={candidate.resumeLink} className="text-primary-600 fw-semibold d-inline-flex align-items-center gap-2">
-                  <FileText size={16} />
-                  <span>View Resume</span>
-                </a>
-              </div>
-            </div>
-            <div className="modal-footer d-flex flex-wrap justify-content-center gap-2">
-              <button className="btn btn-primary d-inline-flex align-items-center gap-2">
-                <ArrowRight size={16} />
-                <span>Move Stage</span>
-              </button>
-              <button className="btn btn-success d-inline-flex align-items-center gap-2">
-                <Calendar size={16} />
-                <span>Schedule Interview</span>
-              </button>
-              <button className="btn btn-danger d-inline-flex align-items-center gap-2">
-                <UserX size={16} />
-                <span>Reject</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="modal-backdrop fade show"></div>
-    </>
-  );
+  const handleDragStart = (e, candidate, stageId) => {
+    setDraggedCard({ candidate, sourceStageId: stageId });
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = (e, targetStageId) => {
+    e.preventDefault();
+    
+    if (!draggedCard || draggedCard.sourceStageId === targetStageId) {
+      setDraggedCard(null);
+      return;
+    }
+
+    setStages(prevStages => {
+      const newStages = prevStages.map(stage => {
+        if (stage.id === draggedCard.sourceStageId) {
+          return {
+            ...stage,
+            candidates: stage.candidates.filter(c => c.id !== draggedCard.candidate.id)
+          };
+        }
+        if (stage.id === targetStageId) {
+          return {
+            ...stage,
+            candidates: [...stage.candidates, draggedCard.candidate]
+          };
+        }
+        return stage;
+      });
+      return newStages;
+    });
+
+    setDraggedCard(null);
+  };
+
+  const handleAddStage = () => {
+    if (newStageName.trim()) {
+      const colors = [
+        { color: 'bg-secondary-subtle text-secondary', bgColor: 'bg-secondary-subtle' },
+        { color: 'bg-dark-subtle text-dark', bgColor: 'bg-dark-subtle' },
+        { color: 'bg-light text-dark', bgColor: 'bg-light' }
+      ];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      const newStage = {
+        id: `stage-${Date.now()}`,
+        name: newStageName,
+        ...randomColor,
+        candidates: []
+      };
+      setStages([...stages, newStage]);
+      setNewStageName('');
+      setShowAddStage(false);
+    }
+  };
+
+  const filteredStages = stages.map(stage => ({
+    ...stage,
+    candidates: stage.candidates.filter(candidate => {
+      const matchesSearch = candidate.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           candidate.role.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesRole = filterRole === 'all' || candidate.role.toLowerCase().includes(filterRole.toLowerCase());
+      return matchesSearch && matchesRole;
+    })
+  }));
+
+  const totalCandidates = stages.reduce((sum, stage) => sum + stage.candidates.length, 0);
 
   return (
     <div className="container-fluid py-4">
-      <div className="mb-12">
-        <h4 className="mb-2">Pipeline View</h4>
-        <p className="text-secondary-light mb-0">Visualize and manage candidates across stages.</p>
-      </div>
-
-      <div className="card border shadow-none mb-24">
-        <div className="card-body p-24">
-          <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-            <span className="w-36-px h-36-px bg-primary-600 text-white rounded d-flex justify-content-center align-items-center">
-              <Filter size={16} />
-            </span>
-            <span className="fw-semibold">Filters</span>
+      {/* Header */}
+      <div className="mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h2 className="mb-2">Recruitment Pipeline</h2>
+            <p className="text-muted mb-0">Track and manage candidates through hiring stages</p>
           </div>
-          <div className="row g-3">
-            <div className="col-12 col-md-4">
-              <select value={selectedJob} onChange={(e) => setSelectedJob(e.target.value)} className="form-select">
-                {jobs.map(job => (
-                  <option key={job} value={job}>{job}</option>
-                ))}
-              </select>
-            </div>
-            <div className="col-12 col-md-4">
-              <select value={selectedStage} onChange={(e) => setSelectedStage(e.target.value)} className="form-select">
-                <option value="All Stages">All Stages</option>
-                {stages.map(stage => (
-                  <option key={stage.id} value={stage.id}>{stage.name}</option>
-                ))}
-              </select>
-            </div>
-            <div className="col-12 col-md-4">
-              <select value={selectedRecruiter} onChange={(e) => setSelectedRecruiter(e.target.value)} className="form-select">
-                {recruiters.map(recruiter => (
-                  <option key={recruiter} value={recruiter}>{recruiter}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+          <button
+            onClick={() => setShowAddStage(true)}
+            className="btn btn-primary d-flex align-items-center gap-2"
+          >
+            <Plus size={20} />
+            Add Stage
+          </button>
+        </div>
 
-          {selectedCandidates.size > 0 && (
-            <div className="mt-3 pt-3 border-top">
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex align-items-center gap-2">
-                  <span className="w-32-px h-32-px bg-success-subtle rounded d-flex justify-content-center align-items-center">
-                    <User size={16} className="text-success" />
-                  </span>
-                  <span className="text-secondary-light">
-                    {selectedCandidates.size} candidate{selectedCandidates.size > 1 ? 's' : ''} selected
-                  </span>
+        {/* Stats Cards */}
+        <div className="card border shadow-sm mb-4">
+          <div className="row g-0">
+            <div className="col-md-3 border-end">
+              <div className="card-body text-center">
+                <div className="d-flex align-items-center justify-content-center gap-3 mb-2">
+                  <div className="p-2 bg-primary-subtle rounded">
+                    <Users size={20} className="text-primary" />
+                  </div>
+                  <span className="text-muted small">Total Candidates</span>
                 </div>
-                <div className="d-flex gap-2">
-                  <button className="btn btn-outline-primary d-inline-flex align-items-center gap-2">
-                    <ArrowRight size={14} />
-                    <span>Move Stage</span>
-                  </button>
-                  <button className="btn btn-outline-danger d-inline-flex align-items-center gap-2">
-                    <UserX size={14} />
-                    <span>Reject Selected</span>
-                  </button>
-                </div>
+                <h3 className="mb-0">{totalCandidates}</h3>
               </div>
             </div>
-          )}
+          
+            <div className="col-md-3 border-end">
+              <div className="card-body text-center">
+                <div className="d-flex align-items-center justify-content-center gap-3 mb-2">
+                  <div className="p-2 bg-success-subtle rounded">
+                    <TrendingUp size={20} className="text-success" />
+                  </div>
+                  <span className="text-muted small">Hired This Month</span>
+                </div>
+                <h3 className="mb-0">{stages.find(s => s.id === 'hired')?.candidates.length || 0}</h3>
+              </div>
+            </div>
+
+            <div className="col-md-3 border-end">
+              <div className="card-body text-center">
+                <div className="d-flex align-items-center justify-content-center gap-3 mb-2">
+                  <div className="p-2 bg-warning-subtle rounded">
+                    <Calendar size={20} className="text-warning" />
+                  </div>
+                  <span className="text-muted small">Active Offers</span>
+                </div>
+                <h3 className="mb-0">{stages.find(s => s.id === 'offer')?.candidates.length || 0}</h3>
+              </div>
+            </div>
+
+            <div className="col-md-3">
+              <div className="card-body text-center">
+                <div className="d-flex align-items-center justify-content-center gap-3 mb-2">
+                  <div className="p-2 bg-info-subtle rounded">
+                    <ArrowRight size={20} className="text-info" />
+                  </div>
+                  <span className="text-muted small">Pipeline Stages</span>
+                </div>
+                <h3 className="mb-0">{stages.length}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Search and Filter Bar */}
+        <div className="d-flex gap-3 mb-4">
+          <div className="flex-grow-1">
+            <div className="input-group">
+              <span className="input-group-text bg-white border-end-0">
+                <Search size={16} className="text-muted" />
+              </span>
+              <input
+                type="text"
+                placeholder="Search candidates by name or role..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="form-control border-start-0"
+              />
+            </div>
+          </div>
+          <select
+            value={filterRole}
+            onChange={(e) => setFilterRole(e.target.value)}
+            className="form-select w-auto"
+          >
+            <option value="all">All Roles</option>
+            <option value="frontend">Frontend</option>
+            <option value="backend">Backend</option>
+            <option value="designer">Designer</option>
+            <option value="devops">DevOps</option>
+          </select>
         </div>
       </div>
 
-      <div className="row g-3">
-        {filteredCandidates.map(candidate => (
-          <div key={candidate.id} className="col-12 col-md-6 col-lg-4">
-            <CandidateCard candidate={candidate} />
+      {/* Kanban Board */}
+      <div className="d-flex gap-3 overflow-auto pb-3">
+        {filteredStages.map(stage => (
+          <div
+            key={stage.id}
+            onDragOver={handleDragOver}
+            onDrop={(e) => handleDrop(e, stage.id)}
+            className={`flex-shrink-0 border rounded p-3 ${stage.bgColor}`}
+            style={{width: '320px'}}
+          >
+            {/* Stage Header */}
+            <div className="d-flex justify-content-between align-items-center mb-3 p-2 rounded bg-white bg-opacity-75">
+              <div className="d-flex align-items-center gap-2">
+                <span className={`badge ${stage.color} fs-6 px-3 py-2 fw-bold`}>
+                  {stage.name}
+                </span>
+                <span className="text-muted fw-semibold fs-5">
+                  {stage.candidates.length}
+                </span>
+              </div>
+              <div className="position-relative">
+                <button 
+                  onClick={() => setOpenMenuId(openMenuId === stage.id ? null : stage.id)}
+                  className="btn btn-link btn-sm text-muted p-1"
+                >
+                  <MoreVertical size={20} />
+                </button>
+                {openMenuId === stage.id && (
+                  <>
+                    <div 
+                      className="position-fixed top-0 start-0 w-100 h-100" 
+                      style={{zIndex: 10}}
+                      onClick={() => setOpenMenuId(null)}
+                    />
+                    <div className="position-absolute end-0 mt-2 bg-white rounded shadow border" style={{width: '200px', zIndex: 20}}>
+                      <button 
+                        onClick={() => handleEditStage(stage.id, stage.name)}
+                        className="w-100 px-3 py-2 btn btn-link text-start text-dark border-0 rounded-top"
+                      >
+                        Edit Stage
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteStage(stage.id)}
+                        className="w-100 px-3 py-2 btn btn-link text-start text-danger border-0 rounded-bottom"
+                      >
+                        Delete Stage
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Candidate Cards */}
+            <div className="d-flex flex-column gap-2" style={{minHeight: '200px'}}>
+              {stage.candidates.map(candidate => (
+                <div
+                  key={candidate.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, candidate, stage.id)}
+                  className="card border shadow-sm"
+                  style={{cursor: 'move'}}
+                >
+                  <div className="card-body p-3">
+                    <div className="d-flex align-items-start gap-3">
+                      <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style={{width: '40px', height: '40px'}}>
+                        {candidate.avatar}
+                      </div>
+                      <div className="flex-grow-1">
+                        <h6 className="mb-1">{candidate.name}</h6>
+                        <p className="text-muted small mb-1">{candidate.role}</p>
+                        <p className="text-muted small mb-0">Applied: {candidate.appliedDate}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="d-flex gap-2 mt-3">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewProfile(candidate);
+                        }}
+                        className="btn btn-outline-info btn-sm d-flex align-items-center gap-1"
+                      >
+                        <Eye size={14} />
+                        View
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
-        {filteredCandidates.length === 0 && (
-          <div className="col-12 text-center py-5">
-            <div className="card border shadow-none mx-auto" style={{maxWidth: '480px'}}>
-              <div className="card-body p-24">
-                <span className="w-64-px h-64-px bg-primary-600 text-white rounded-circle d-inline-flex justify-content-center align-items-center mb-3">
-                  <UserPlus size={28} />
-                </span>
-                <h6 className="mb-2">No candidates found</h6>
-                <p className="text-secondary-light mb-0">Try adjusting your filters to see more candidates.</p>
+
+        {/* Add Stage Column */}
+        <div className="flex-shrink-0" style={{width: '320px'}}>
+          <button
+            onClick={() => setShowAddStage(true)}
+            className="w-100 h-100 border-2 border-dashed border-secondary rounded d-flex flex-column align-items-center justify-content-center gap-2 text-muted"
+            style={{minHeight: '200px'}}
+          >
+            <Plus size={32} />
+            <span className="fw-semibold">Add New Stage</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Candidate Profile Modal */}
+      {selectedCandidate && (
+        <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050}} tabIndex="-1">
+          <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              {/* Modal Header */}
+              <div className="modal-header">
+                <div className="d-flex align-items-center gap-3">
+                  <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style={{width: '60px', height: '60px', fontSize: '24px', fontWeight: 'bold'}}>
+                    {selectedCandidate.avatar}
+                  </div>
+                  <div>
+                    <h5 className="modal-title mb-1">{selectedCandidate.name}</h5>
+                    <p className="text-muted mb-0">{selectedCandidate.role}</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setSelectedCandidate(null)}
+                ></button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="modal-body">
+                {/* Contact Information */}
+                <div className="mb-4">
+                  <h6 className="fw-semibold mb-3">Contact Information</h6>
+                  <div className="card bg-light">
+                    <div className="card-body">
+                      <div className="row g-2">
+                        <div className="col-4 text-muted">Email:</div>
+                        <div className="col-8 fw-medium">{selectedCandidate.name.toLowerCase().replace(' ', '.')}@email.com</div>
+                        <div className="col-4 text-muted">Phone:</div>
+                        <div className="col-8 fw-medium">+91 98765 43210</div>
+                        <div className="col-4 text-muted">Location:</div>
+                        <div className="col-8 fw-medium">Hyderabad, India</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Application Details */}
+                <div className="mb-4">
+                  <h6 className="fw-semibold mb-3">Application Details</h6>
+                  <div className="card bg-light">
+                    <div className="card-body">
+                      <div className="row g-2">
+                        <div className="col-4 text-muted">Applied Date:</div>
+                        <div className="col-8 fw-medium">{selectedCandidate.appliedDate}</div>
+                        <div className="col-4 text-muted">Position:</div>
+                        <div className="col-8 fw-medium">{selectedCandidate.role}</div>
+                        <div className="col-4 text-muted">Experience:</div>
+                        <div className="col-8 fw-medium">5+ years</div>
+                        <div className="col-4 text-muted">Expected Salary:</div>
+                        <div className="col-8 fw-medium">₹15-20 LPA</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Skills */}
+                <div className="mb-4">
+                  <h6 className="fw-semibold mb-3">Skills</h6>
+                  <div className="d-flex flex-wrap gap-2">
+                    {['React', 'JavaScript', 'TypeScript', 'Node.js', 'CSS', 'Git', 'Agile'].map((skill) => (
+                      <span key={skill} className="badge bg-primary">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Resume */}
+                <div className="mb-4">
+                  <h6 className="fw-semibold mb-3">Resume</h6>
+                  <button className="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Download Resume
+                  </button>
+                </div>
+
+                {/* Notes */}
+                <div className="mb-4">
+                  <h6 className="fw-semibold mb-3">Interview Notes</h6>
+                  <textarea
+                    placeholder="Add notes about this candidate..."
+                    className="form-control"
+                    rows="4"
+                  ></textarea>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="modal-footer">
+                <button 
+                  className="btn btn-success"
+                  onClick={handleScheduleInterview}
+                >
+                  Schedule Interview
+                </button>
+                <button 
+                  className="btn btn-primary"
+                  onClick={handleSendEmail}
+                >
+                  Send Email
+                </button>
+                <button 
+                  className="btn btn-outline-secondary"
+                  onClick={handleRejectCandidate}
+                >
+                  Reject
+                </button>
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {selectedCandidate && (
-        <CandidateModal candidate={selectedCandidate} onClose={() => setSelectedCandidate(null)} />
+      {/* Edit Stage Modal */}
+      {editingStageId && (
+        <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050}} tabIndex="-1">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Edit Stage</h5>
+                <button type="button" className="btn-close" onClick={() => {
+                  setEditingStageId(null);
+                  setEditStageName('');
+                }}></button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  placeholder="Enter stage name..."
+                  value={editStageName}
+                  onChange={(e) => setEditStageName(e.target.value)}
+                  className="form-control"
+                  autoFocus
+                />
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setEditingStageId(null);
+                    setEditStageName('');
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleSaveEditStage}
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Stage Modal */}
+      {showAddStage && (
+        <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050}} tabIndex="-1">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Add New Stage</h5>
+                <button type="button" className="btn-close" onClick={() => {
+                  setShowAddStage(false);
+                  setNewStageName('');
+                }}></button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  placeholder="Enter stage name..."
+                  value={newStageName}
+                  onChange={(e) => setNewStageName(e.target.value)}
+                  className="form-control"
+                  autoFocus
+                />
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setShowAddStage(false);
+                    setNewStageName('');
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleAddStage}
+                >
+                  Add Stage
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

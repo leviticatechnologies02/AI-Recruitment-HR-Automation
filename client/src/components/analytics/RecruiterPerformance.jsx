@@ -169,6 +169,109 @@ export default function RecruiterPerformance() {
     return sortOrder === 'desc' ? <ArrowDown size={14} /> : <ArrowUp size={14} />;
   };
 
+  // Export selected recruiter details as CSV
+  const exportRecruiterDetails = (details) => {
+    if (!details) return;
+    const csvEscape = (val) => {
+      if (val === null || val === undefined) return '""';
+      return '"' + String(val).replace(/"/g, '""') + '"';
+    };
+
+    const parts = [];
+    // Header / Basic info
+    parts.push('Metric,Value');
+    parts.push([ 'Name', details.name ].map(csvEscape).join(','));
+    parts.push([ 'Candidates', details.candidatesAdded ].map(csvEscape).join(','));
+    parts.push([ 'Interviews', details.interviewsScheduled ].map(csvEscape).join(','));
+    parts.push([ 'Avg Time To Hire (days)', details.timeToHire ].map(csvEscape).join(','));
+    parts.push([ 'Offer Acceptance Rate (%)', details.offerAcceptanceRate ].map(csvEscape).join(','));
+    parts.push([ 'Hires', details.hires ].map(csvEscape).join(','));
+
+    parts.push('');
+    // Pipeline breakdown
+    parts.push('Pipeline Stage,Count');
+    Object.entries(details.pipelineData).forEach(([stage, count]) => {
+      parts.push([ stage, count ].map(csvEscape).join(','));
+    });
+
+    parts.push('');
+    // Monthly hires
+    parts.push('Month,Hires,TimeToHire');
+    (details.monthlyHires || []).forEach(m => {
+      parts.push([ m.month, m.hires, m.timeToHire ].map(csvEscape).join(','));
+    });
+
+    const csv = parts.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const fileNameSafe = details.name ? details.name.replace(/[^a-z0-9-_\. ]/gi, '_') : 'recruiter';
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `recruiter-${fileNameSafe}-details.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  // Export summary report for currently filtered data
+  const exportReport = () => {
+    const csvEscape = (val) => {
+      if (val === null || val === undefined) return '""';
+      return '"' + String(val).replace(/"/g, '""') + '"';
+    };
+
+    const parts = [];
+    // include selected filters
+    parts.push(`Filters,Date Range=${dateRange},Recruiter=${selectedRecruiter},JobRole=${jobRole}`);
+    parts.push('');
+
+    // include summary metrics
+    parts.push('Summary,Value');
+    parts.push([ 'Total Recruiters', filteredData.length ].map(csvEscape).join(','));
+    parts.push([ 'Total Candidates (sum)', filteredData.reduce((s, r) => s + r.candidatesAdded, 0) ].map(csvEscape).join(','));
+    parts.push([ 'Total Interviews (sum)', filteredData.reduce((s, r) => s + r.interviewsScheduled, 0) ].map(csvEscape).join(','));
+    parts.push([ 'Total Hires (sum)', filteredData.reduce((s, r) => s + r.hires, 0) ].map(csvEscape).join(','));
+    parts.push('');
+
+    // table header for per-recruiter data
+    parts.push('Recruiter,Candidates,Interviews,TimeToHire,OfferAcceptanceRate,Hires');
+    filteredData.forEach(r => {
+      parts.push([
+        r.name,
+        r.candidatesAdded,
+        r.interviewsScheduled,
+        r.timeToHire,
+        r.offerAcceptanceRate,
+        r.hires
+      ].map(csvEscape).join(','));
+    });
+
+    // pipeline totals
+    parts.push('');
+    parts.push('Pipeline Stage,Count');
+    const pipelineTotals = {
+      applied: filteredData.reduce((s, r) => s + (r.pipelineData?.applied || 0), 0),
+      screening: filteredData.reduce((s, r) => s + (r.pipelineData?.screening || 0), 0),
+      interview: filteredData.reduce((s, r) => s + (r.pipelineData?.interview || 0), 0),
+      offer: filteredData.reduce((s, r) => s + (r.pipelineData?.offer || 0), 0),
+      hired: filteredData.reduce((s, r) => s + (r.pipelineData?.hired || 0), 0)
+    };
+    Object.entries(pipelineTotals).forEach(([k, v]) => parts.push([k, v].map(csvEscape).join(',')));
+
+    const csv = parts.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const now = new Date().toISOString().slice(0,19).replace(/[:T]/g, '-');
+    a.download = `recruiter-report-${now}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="container-fluid py-4">
       <div className="mb-12">
@@ -208,7 +311,7 @@ export default function RecruiterPerformance() {
               </select>
             </div>
             <div className="col-12 col-md-3 d-flex justify-content-md-end">
-              <button className="btn btn-primary d-inline-flex align-items-center gap-2">
+              <button className="btn btn-primary d-inline-flex align-items-center gap-2" onClick={exportReport}>
                 <Download size={16} />
                 <span>Export Report</span>
               </button>
@@ -218,59 +321,43 @@ export default function RecruiterPerformance() {
       </div>
 
       {/* KPI Cards */}
-      <div className="row g-3 mb-24 align-items-stretch">
-        <div className="col-12 col-sm-6 col-lg-3 d-flex">
-          <div className="card border shadow-none w-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
+      <div className="row g-3 mb-4">
+        <div className="col-12 col-md-4">
+          <div className="card border-0 shadow-sm h-100" style={{backgroundColor: '#e3f2fd'}}>
+            <div className="card-body p-4 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
-                <div className="text-secondary-light text-sm">Candidates Added</div>
-                <div className="h4 mb-0">{totalMetrics.candidatesAdded}</div>
+                <div className="text-primary fw-semibold small">Active Jobs</div>
+                <div className="h3 mb-0 text-primary fw-bold">12</div>
               </div>
-              <UserPlus className="text-primary-600" />
+              <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style={{width: '48px', height: '48px'}}>
+                <CalendarCheck size={24} />
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-12 col-sm-6 col-lg-3 d-flex">
-          <div className="card border shadow-none w-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
+        <div className="col-12 col-md-4">
+          <div className="card border-0 shadow-sm h-100" style={{backgroundColor: '#e8f5e8'}}>
+            <div className="card-body p-4 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
-                <div className="text-secondary-light text-sm">Interviews Scheduled</div>
-                <div className="h4 mb-0 text-success">{totalMetrics.interviewsScheduled}</div>
+                <div className="text-success fw-semibold small">Avg. Time-to-Hire</div>
+                <div className="h3 mb-0 text-success fw-bold">18 days</div>
               </div>
-              <Calendar className="text-success" />
+              <div className="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style={{width: '48px', height: '48px'}}>
+                <Clock size={24} />
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-12 col-sm-6 col-lg-3 d-flex">
-          <div className="card border shadow-none w-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
+        <div className="col-12 col-md-4">
+          <div className="card border-0 shadow-sm h-100" style={{backgroundColor: '#fff3e0'}}>
+            <div className="card-body p-4 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
-                <div className="text-secondary-light text-sm">Avg Time-to-Hire</div>
-                <div className="h4 mb-0 text-warning">{totalMetrics.avgTimeToHire} days</div>
+                <div className="text-warning fw-semibold small">Applications This Week</div>
+                <div className="h3 mb-0 text-warning fw-bold">56</div>
               </div>
-              <Clock className="text-warning" />
-            </div>
-          </div>
-        </div>
-        <div className="col-12 col-sm-6 col-lg-3 d-flex">
-          <div className="card border shadow-none w-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
-              <div>
-                <div className="text-secondary-light text-sm">Offer Acceptance</div>
-                <div className="h4 mb-0 text-primary-600">{totalMetrics.avgOfferAcceptance}%</div>
+              <div className="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style={{width: '48px', height: '48px'}}>
+                <TrendingUp size={24} />
               </div>
-              <TrendingUp className="text-primary-600" />
-            </div>
-          </div>
-        </div>
-        <div className="col-12 col-sm-6 col-lg-3 d-flex">
-          <div className="card border shadow-none w-100">
-            <div className="card-body p-16 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
-              <div>
-                <div className="text-secondary-light text-sm">Total Hires</div>
-                <div className="h4 mb-0 text-success">{totalMetrics.totalHires}</div>
-              </div>
-              <Trophy className="text-success" />
             </div>
           </div>
         </div>
@@ -355,47 +442,72 @@ export default function RecruiterPerformance() {
       </div>
 
       {/* Recruiter Comparison */}
-      <div className="card border shadow-none">
-        <div className="card-header bg-base border-bottom">
+      <div className="card border shadow-sm">
+        <div className="card-header bg-white border-bottom">
           <h6 className="mb-0">Recruiter Comparison</h6>
         </div>
         <div className="card-body p-0">
           <div className="table-responsive">
-            <table className="table mb-0 align-middle">
-              <thead>
+            <table className="table table-hover mb-0">
+              <thead className="table-light">
                 <tr>
-                  <th>Recruiter</th>
-                  <th onClick={() => handleSort('candidatesAdded')} style={{cursor:'pointer'}}>Candidates Added {getSortIcon('candidatesAdded')}</th>
-                  <th onClick={() => handleSort('interviewsScheduled')} style={{cursor:'pointer'}}>Interviews {getSortIcon('interviewsScheduled')}</th>
-                  <th onClick={() => handleSort('hires')} style={{cursor:'pointer'}}>Hires {getSortIcon('hires')}</th>
-                  <th onClick={() => handleSort('timeToHire')} style={{cursor:'pointer'}}>Time-to-Hire {getSortIcon('timeToHire')}</th>
-                  <th onClick={() => handleSort('offerAcceptanceRate')} style={{cursor:'pointer'}}>Offer % {getSortIcon('offerAcceptanceRate')}</th>
-                  <th>Actions</th>
+                  <th className="text-start fw-semibold">Recruiter</th>
+                  <th className="text-center fw-semibold" onClick={() => handleSort('candidatesAdded')} style={{cursor:'pointer'}}>
+                    Candidates Added {getSortIcon('candidatesAdded')}
+                  </th>
+                  <th className="text-center fw-semibold" onClick={() => handleSort('interviewsScheduled')} style={{cursor:'pointer'}}>
+                    Interviews {getSortIcon('interviewsScheduled')}
+                  </th>
+                  <th className="text-center fw-semibold" onClick={() => handleSort('hires')} style={{cursor:'pointer'}}>
+                    Hires {getSortIcon('hires')}
+                  </th>
+                  <th className="text-center fw-semibold" onClick={() => handleSort('timeToHire')} style={{cursor:'pointer'}}>
+                    Time-to-Hire {getSortIcon('timeToHire')}
+                  </th>
+                  <th className="text-center fw-semibold" onClick={() => handleSort('offerAcceptanceRate')} style={{cursor:'pointer'}}>
+                    Offer % {getSortIcon('offerAcceptanceRate')}
+                  </th>
+                  <th className="text-center fw-semibold">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredData.map((recruiter) => (
                   <tr key={recruiter.id}>
-                    <td>
-                      <div className="d-flex align-items-center gap-2">
-                        <span className="w-40-px h-40-px bg-primary-600 text-white rounded-circle d-flex justify-content-center align-items-center fw-bold">{recruiter.name.split(' ').map(n => n[0]).join('')}</span>
+                    <td className="text-start">
+                      <div className="d-flex align-items-center gap-3">
+                        <div className="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center fw-bold" style={{width: '40px', height: '40px'}}>
+                          {recruiter.name.split(' ').map(n => n[0]).join('')}
+                        </div>
                         <span className="fw-medium">{recruiter.name}</span>
                       </div>
                     </td>
-                    <td>{recruiter.candidatesAdded}</td>
-                    <td>{recruiter.interviewsScheduled}</td>
-                    <td><span className="badge bg-success-subtle text-success-main">{recruiter.hires}</span></td>
-                    <td>{recruiter.timeToHire} days</td>
-                    <td>
-                      <div className="d-flex align-items-center gap-2">
-                        <div className="bg-neutral-200 rounded-pill" style={{width:'80px', height:'6px'}}>
-                          <div className="bg-primary-600 rounded-pill" style={{width: `${recruiter.offerAcceptanceRate}%`, height:'6px'}}></div>
+                    <td className="text-center">
+                      <span className="fw-semibold">{recruiter.candidatesAdded}</span>
+                    </td>
+                    <td className="text-center">
+                      <span className="fw-semibold">{recruiter.interviewsScheduled}</span>
+                    </td>
+                    <td className="text-center">
+                      <span className="badge bg-success-subtle text-success px-3 py-2 fw-semibold">
+                        {recruiter.hires}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      <span className="fw-semibold">{recruiter.timeToHire} days</span>
+                    </td>
+                    <td className="text-center">
+                      <div className="d-flex align-items-center justify-content-center gap-2">
+                        <div className="bg-light rounded-pill" style={{width:'80px', height:'8px'}}>
+                          <div className="bg-primary rounded-pill" style={{width: `${recruiter.offerAcceptanceRate}%`, height:'8px'}}></div>
                         </div>
-                        <span className="text-sm">{recruiter.offerAcceptanceRate}%</span>
+                        <span className="fw-semibold small">{recruiter.offerAcceptanceRate}%</span>
                       </div>
                     </td>
-                    <td>
-                      <button onClick={() => setSelectedRecruiterDetails(recruiter)} className="btn btn-link p-0 d-inline-flex align-items-center gap-1">
+                    <td className="text-center">
+                      <button 
+                        onClick={() => setSelectedRecruiterDetails(recruiter)} 
+                        className="btn btn-outline-primary btn-sm d-flex align-items-center gap-1"
+                      >
                         <Eye size={14} /> View Details
                       </button>
                     </td>
@@ -515,7 +627,7 @@ export default function RecruiterPerformance() {
                 </div>
                 <div className="modal-footer">
                   <button className="btn btn-outline-secondary" onClick={() => setSelectedRecruiterDetails(null)}>Close</button>
-                  <button className="btn btn-primary">Export Details</button>
+                  <button className="btn btn-primary" onClick={() => exportRecruiterDetails(selectedRecruiterDetails)}>Export Details</button>
                 </div>
               </div>
             </div>
