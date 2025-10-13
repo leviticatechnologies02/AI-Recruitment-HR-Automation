@@ -27,6 +27,8 @@ import CandidateDashboardLayout from './components/candidateDashboard/CandidateD
 import JobSearch from './components/candidateDashboard/JobSearch';
 import Applications from './components/candidateDashboard/Applications';
 import Profile from './components/candidateDashboard/Profile';
+import CandidateSettings from './components/candidateDashboard/CandidateSettings';
+
 
 const App = () => {
   return (
@@ -213,6 +215,16 @@ const App = () => {
           <ProtectedRoute>
             <CandidateDashboardLayout>
               <Profile />
+            </CandidateDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/candidate/settings'
+        element={
+          <ProtectedRoute>
+            <CandidateDashboardLayout>
+              <CandidateSettings />
             </CandidateDashboardLayout>
           </ProtectedRoute>
         }

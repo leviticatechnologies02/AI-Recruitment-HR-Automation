@@ -213,7 +213,8 @@ const JobSearch = () => {
                   <h5 className='fw-semibold text-gray-800 mb-0'>Filters</h5>
                   <button onClick={clearFilters} className='btn btn-link btn-sm text-primary-600 p-0'>
                     Clear All
-                  </button>
+                  </button>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
                 </div>
 
                 {/* Salary Range */}

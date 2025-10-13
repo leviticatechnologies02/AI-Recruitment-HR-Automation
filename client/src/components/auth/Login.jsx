@@ -42,8 +42,8 @@ const Login = () => {
   return (
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none flex-grow-1'>
-        <div className='d-flex align-items-center flex-column h-150 justify-content-center'>
-          <img src='assets/images/auth/auth-img.png' alt='WowDash React Vite' />
+        <div className='d-flex align-items-center flex-column h-100 justify-content-center'>
+          <img src='assets/images/auth/auth-img1.png' alt='WowDash React Vite' />
         </div>
       </div>
       <div className='auth-right py-32 px-24 d-flex flex-column justify-content-center'>
