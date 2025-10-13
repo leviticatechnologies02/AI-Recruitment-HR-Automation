@@ -96,11 +96,24 @@ export default function Profile() {
 
   return (
     <div className='dashboard-main-body'>
-      {/* Toast Notification */}
+      {/* Success Modal */}
       {showToast && (
-        <div className='position-fixed top-0 end-0 m-16 z-3 bg-success-600 text-white px-20 py-12 rounded-lg shadow-lg d-flex align-items-center gap-2'>
-          <Icon icon='heroicons:check' style={{ fontSize: '20px' }} />
-          <span>Profile updated successfully!</span>
+        <div className='position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center z-3' style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div className='bg-white rounded-lg shadow-lg p-24 text-center' style={{ maxWidth: '400px', width: '90%' }}>
+            <div className='mb-16'>
+              <div className='w-64-px h-64-px bg-success-600 rounded-circle mx-auto mb-12 d-flex align-items-center justify-content-center'>
+                <Icon icon='heroicons:check' className='text-white' style={{ fontSize: '24px' }} />
+              </div>
+              <h3 className='text-xl fw-bold text-gray-900 mb-8'>Profile Updated Successfully!</h3>
+              <p className='text-secondary-light mb-0'>Your profile has been saved and updated.</p>
+            </div>
+            <button 
+              onClick={() => setShowToast(false)}
+              className='btn btn-primary px-20 py-8'
+            >
+              Continue
+            </button>
+          </div>
         </div>
       )}
 
