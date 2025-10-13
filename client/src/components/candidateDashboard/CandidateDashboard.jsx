@@ -48,47 +48,47 @@ const CandidateDashboard = () => {
           <p className='text-secondary-light'>Here's what's happening with your job search today.</p>
         </div>
 
-        {/* Stats Cards - Single Row */}
+        {/* Stats Cards - Column Format */}
         <div className='card border-0 shadow-sm mb-24'>
           <div className='card-body p-24'>
             <div className='row g-4'>
               <div className='col-12 col-md-6 col-lg-3'>
-                <div className='d-flex align-items-center justify-content-between'>
+                <div className='d-flex align-items-center gap-3'>
+                  <Icon icon='heroicons:document-text' className='text-primary-600' style={{ fontSize: '24px' }} />
                   <div>
-                    <p className='text-secondary-light text-sm mb-4'>Total Applications</p>
-                    <p className='text-2xl fw-bold text-gray-800'>{candidateData.recentApplications.length}</p>
+                    <p className='text-secondary-light text-sm mb-2'>Total Applications</p>
+                    <p className='text-2xl fw-bold text-gray-800 mb-0'>{candidateData.recentApplications.length}</p>
                   </div>
-                  <Icon icon='heroicons:document-text' className='text-primary-600' style={{ fontSize: '32px' }} />
                 </div>
               </div>
               
               <div className='col-12 col-md-6 col-lg-3'>
-                <div className='d-flex align-items-center justify-content-between'>
+                <div className='d-flex align-items-center gap-3'>
+                  <Icon icon='heroicons:heart' className='text-danger-600' style={{ fontSize: '24px' }} />
                   <div>
-                    <p className='text-secondary-light text-sm mb-4'>Saved Jobs</p>
-                    <p className='text-2xl fw-bold text-gray-800'>{candidateData.savedJobs.length}</p>
+                    <p className='text-secondary-light text-sm mb-2'>Saved Jobs</p>
+                    <p className='text-2xl fw-bold text-gray-800 mb-0'>{candidateData.savedJobs.length}</p>
                   </div>
-                  <Icon icon='heroicons:heart' className='text-danger-600' style={{ fontSize: '32px' }} />
                 </div>
               </div>
               
               <div className='col-12 col-md-6 col-lg-3'>
-                <div className='d-flex align-items-center justify-content-between'>
+                <div className='d-flex align-items-center gap-3'>
+                  <Icon icon='heroicons:arrow-trending-up' className='text-warning-600' style={{ fontSize: '24px' }} />
                   <div>
-                    <p className='text-secondary-light text-sm mb-4'>In Progress</p>
-                    <p className='text-2xl fw-bold text-gray-800'>2</p>
+                    <p className='text-secondary-light text-sm mb-2'>In Progress</p>
+                    <p className='text-2xl fw-bold text-gray-800 mb-0'>2</p>
                   </div>
-                  <Icon icon='heroicons:arrow-trending-up' className='text-warning-600' style={{ fontSize: '32px' }} />
                 </div>
               </div>
               
               <div className='col-12 col-md-6 col-lg-3'>
-                <div className='d-flex align-items-center justify-content-between'>
+                <div className='d-flex align-items-center gap-3'>
+                  <Icon icon='heroicons:user' className='text-success-600' style={{ fontSize: '24px' }} />
                   <div>
-                    <p className='text-secondary-light text-sm mb-4'>Profile Completion</p>
-                    <p className='text-2xl fw-bold text-gray-800'>{candidateData.profileCompletion}%</p>
+                    <p className='text-secondary-light text-sm mb-2'>Profile Completion</p>
+                    <p className='text-2xl fw-bold text-gray-800 mb-0'>{candidateData.profileCompletion}%</p>
                   </div>
-                  <Icon icon='heroicons:user' className='text-success-600' style={{ fontSize: '32px' }} />
                 </div>
               </div>
             </div>
