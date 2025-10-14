@@ -13,9 +13,6 @@ import RecruiterDashboardLayout from './components/recruiterDashboard/RecruiterD
 import CreateJob from './components/CreateJob';
 import JobList from './components/JobList';
 import PipelineView from './components/pipeline/PipelineView';
-import Stages from './components/pipeline/Stages';
-import DragDrop from './components/pipeline/DragDrop';
-import CollaborationTools from './components/pipeline/CollaborationTools';
 import RecruiterPerformance from './components/analytics/RecruiterPerformance';
 import TimeToHire from './components/analytics/TimeToHire';
 import CandidateSourcing from './components/analytics/CandidateSourcing';
@@ -28,6 +25,14 @@ import JobSearch from './components/candidateDashboard/JobSearch';
 import Applications from './components/candidateDashboard/Applications';
 import Profile from './components/candidateDashboard/Profile';
 import CandidateSettings from './components/candidateDashboard/CandidateSettings';
+import AssessmentsLibrary from './components/recruiterDashboard/Assessment/AssessmentsLibrary';
+import AssignAssessment from './components/recruiterDashboard/Assessment/AssignAssessment';
+import Results from './components/recruiterDashboard/Assessment/Results';
+import AIPreScreening from './components/recruiterDashboard/Assessment/AIPreScreening';
+import ConfigureAIInterview from './components/recruiterDashboard/Assessment/ConfigureAIInterview';
+import ReviewAIInterview from './components/recruiterDashboard/Assessment/ReviewAIInterview';
+import OfferTemplates from './components/recruiterDashboard/Assessment/OfferTemplates';
+import OfferTracking from './components/recruiterDashboard/Assessment/OfferTracking';
 
 
 const App = () => {
@@ -92,38 +97,9 @@ const App = () => {
         }
       />
 
-      <Route
-        path='/pipeline/stages'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <Stages />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
+      
 
-      <Route
-        path='/pipeline/drag-drop'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <DragDrop />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path='/pipeline/collaboration'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <CollaborationTools />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
+      
 
       <Route
         path='/analytics/recruiter-performance'
@@ -172,6 +148,88 @@ const App = () => {
           <ProtectedRoute>
             <RecruiterDashboardLayout>
               <Settings />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Assessment Routes */}
+      <Route
+        path='/recruiter/assessments-library'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <AssessmentsLibrary />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/recruiter/assign-assessment'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <AssignAssessment />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/recruiter/results'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <Results />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/recruiter/prescreening'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <AIPreScreening />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/recruiter/ai-interview-configure'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <ConfigureAIInterview />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/recruiter/ai-interview-review'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <ReviewAIInterview />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/recruiter/offer-templates'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <OfferTemplates />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/recruiter/offer-tracking'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <OfferTracking />
             </RecruiterDashboardLayout>
           </ProtectedRoute>
         }

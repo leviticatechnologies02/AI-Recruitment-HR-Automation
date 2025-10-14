@@ -6,8 +6,13 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, onTabChange }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
+  let [assessmentMenuOpen, setAssessmentMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const toggleAssessmentMenu = () => {
+    setAssessmentMenuOpen(!assessmentMenuOpen);
+  };
 
   useEffect(() => {
     const handleDropdownClick = (event) => {
@@ -211,7 +216,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
               <LinkItem to='/dashboard' tabKey='dashboard' icon='heroicons:home' label='Recruiter Dashboard' />
             </li>
 
-            <li className='sidebar-menu-group-title'>Recruitment Management</li>
+            <li className='sidebar-menu-group-title'>Recruitment</li>
 
             {/* Jobs Management */}
             <li>
@@ -222,6 +227,10 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
             <li>
               <LinkItem to='/candidates' tabKey='candidates' icon='heroicons:users' label='Candidates' />
             </li>
+
+             
+
+
 
             {/* Pipeline Dropdown */}
             <li className='dropdown'>
@@ -241,43 +250,110 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                     Pipeline View
                   </NavLink>
                 </li>
+              </ul>
+            </li>
+
+            
+
+            {/* Assessment Dropdown */}
+            <li className='dropdown'>
+              <Link to='#'>
+                <Icon icon='heroicons:briefcase' className='menu-icon' />
+                <span>Assessment</span>
+              </Link>
+              <ul className='sidebar-submenu'>
                 <li>
                   <NavLink
-                    to='/pipeline/stages'
+                    to='/recruiter/assessments-library'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
-                    Stages
+                    <Icon icon='heroicons:document-text' className='icon text-sm me-2' />
+                    Assessments Library
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
-                    to='/pipeline/drag-drop'
+                    to='/recruiter/assign-assessment'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
-                    Drag & Drop
+                    <Icon icon='heroicons:user-plus' className='icon text-sm me-2' />
+                    Assign Assessment
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
-                    to='/pipeline/collaboration'
+                    to='/recruiter/results'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
-                    Collaboration Tools
+                    <Icon icon='heroicons:chart-bar' className='icon text-sm me-2' />
+                    Results
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/recruiter/prescreening'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:magnifying-glass' className='icon text-sm me-2' />
+                    AI Prescreening
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/recruiter/ai-interview-configure'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:cog-6-tooth' className='icon text-sm me-2' />
+                    Configure AI Interview
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/recruiter/ai-interview-review'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:eye' className='icon text-sm me-2' />
+                    Review AI Interview
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/recruiter/offer-templates'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:document-duplicate' className='icon text-sm me-2' />
+                    Offer Templates
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/recruiter/offer-tracking'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <Icon icon='heroicons:clipboard-document-list' className='icon text-sm me-2' />
+                    Offer Tracking
                   </NavLink>
                 </li>
               </ul>
             </li>
 
-            <li className='sidebar-menu-group-title'>Analytics & Insights</li>
+           
 
             {/* Analytics Dropdown */}
             <li className='dropdown'>

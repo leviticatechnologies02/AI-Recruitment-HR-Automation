@@ -347,48 +347,33 @@ const JobSearch = () => {
     }
 
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#f8fafc' }}>
-        {/* Header Section */}
-        <div style={{ 
-          background: 'linear-gradient(135deg, #4f46e5 0%, #1e40af 50%, #1e3a8a 100%)', 
-          minHeight: '50vh',
-          position: 'relative'
-        }} className="text-white">
-          <div className="max-w-6xl mx-auto px-8 py-16">
-            {/* Back Button */}
-            <button
+      <div className='dashboard-main-body bg-neutral-50'>
+         <button
               onClick={onBack}
-              className="text-white hover:text-blue-100 font-medium mb-12 flex items-center gap-2 transition-colors"
-              style={{ fontSize: '16px', opacity: '0.9' }}
+              className='btn btn-light mb-20 d-flex align-items-center gap-2 fw-medium'
             >
-              ← Back to Search
+              <Icon icon='heroicons:arrow-left' style={{ fontSize: '20px' }} />
+              Back to Search
             </button>
+        {/* Header Section */}
+        <div className='bg-gradient-primary text-white py-40'>
+          <div className='container-fluid px-24'>
+            {/* Back Button */}
+           
 
             {/* Main Header Content */}
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between">
+            <div className='row align-items-end justify-content-between'>
               {/* Left Content */}
-              <div className="flex-1 mb-12 lg:mb-0">
-                <h1 className="text-6xl font-bold mb-6" style={{ color: '#ffffff', lineHeight: '1.1' }}>
-                  {currentJob.title}
-                </h1>
-                <p className="text-2xl mb-0" style={{ color: '#ffffff', opacity: '0.9' }}>
-                  {currentJob.company}
-                </p>
+              <div className='col-12 col-lg-8 mb-16 mb-lg-0'>
+                <h1 className='text-4xl fw-bold mb-12'>{currentJob.title}</h1>
+                <p className='text-xl mb-0'>{currentJob.company}</p>
               </div>
 
               {/* Right Content - Apply Button */}
-              <div className="lg:ml-12">
+              <div className='col-12 col-lg-4 text-lg-end'>
                 <button 
                   onClick={() => document.getElementById('apply-section').scrollIntoView({ behavior: 'smooth' })}
-                  className="px-12 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-200 shadow-xl"
-                  style={{ 
-                    backgroundColor: '#ffffff', 
-                    color: '#4f46e5',
-                    fontSize: '18px',
-                    minWidth: '180px',
-                    border: 'none',
-                    cursor: 'pointer'
-                  }}
+                  className='btn btn-light btn-lg fw-semibold px-24 py-12'
                 >
                   Apply Now
                 </button>
@@ -398,226 +383,203 @@ const JobSearch = () => {
         </div>
 
         {/* Main Content Area */}
-        <div className="max-w-5xl mx-auto px-8 py-12">
+        <div className='container-fluid px-24 py-24'>
           {/* Single Large Content Card */}
-          <div style={{ 
-            backgroundColor: '#ffffff', 
-            borderRadius: '16px', 
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-            minHeight: '60vh'
-          }} className="p-12">
-            
-            {/* Job Overview */}
-            <div className="mb-12">
-              <div className="flex flex-col space-y-3">
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4" style={{ color: '#6b7280' }} />
-                  <span style={{ color: '#374151', fontSize: '16px', fontWeight: '500' }}>
-                    {currentJob.location}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <DollarSign className="w-4 h-4" style={{ color: '#6b7280' }} />
-                  <span style={{ color: '#374151', fontSize: '16px', fontWeight: '500' }}>
-                    {currentJob.salary}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Clock className="w-4 h-4" style={{ color: '#6b7280' }} />
-                  <span style={{ color: '#374151', fontSize: '16px', fontWeight: '500' }}>
-                    {currentJob.type}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Briefcase className="w-4 h-4" style={{ color: '#6b7280' }} />
-                  <span style={{ color: '#374151', fontSize: '16px', fontWeight: '500' }}>
-                    {currentJob.experience}
-                  </span>
+          <div className='card border-0 shadow-sm mb-24'>
+            <div className='card-body p-24'>
+              
+              {/* Job Overview */}
+              <div className='mb-24'>
+                <div className='row g-3'>
+                  <div className='col-12 col-md-6'>
+                    <div className='d-flex align-items-center gap-2'>
+                      <Icon icon='heroicons:map-pin' className='text-secondary-light' style={{ fontSize: '20px' }} />
+                      <span className='text-gray-700 fw-medium'>{currentJob.location}</span>
+                    </div>
+                  </div>
+                  <div className='col-12 col-md-6'>
+                    <div className='d-flex align-items-center gap-2'>
+                      <Icon icon='heroicons:currency-dollar' className='text-secondary-light' style={{ fontSize: '20px' }} />
+                      <span className='text-gray-700 fw-medium'>{currentJob.salary}</span>
+                    </div>
+                  </div>
+                  <div className='col-12 col-md-6'>
+                    <div className='d-flex align-items-center gap-2'>
+                      <Icon icon='heroicons:clock' className='text-secondary-light' style={{ fontSize: '20px' }} />
+                      <span className='text-gray-700 fw-medium'>{currentJob.type}</span>
+                    </div>
+                  </div>
+                  <div className='col-12 col-md-6'>
+                    <div className='d-flex align-items-center gap-2'>
+                      <Icon icon='heroicons:briefcase' className='text-secondary-light' style={{ fontSize: '20px' }} />
+                      <span className='text-gray-700 fw-medium'>{currentJob.experience}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Job Description */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold mb-4" style={{ color: '#1f2937' }}>Job Description</h2>
-              <p className="leading-relaxed" style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.6' }}>
-                {currentJob.description || 'No description available.'}
-              </p>
-            </div>
+              {/* Job Description */}
+              <div className='mb-24'>
+                <h2 className='text-xl fw-bold text-gray-900 mb-12'>Job Description</h2>
+                <p className='text-gray-700 lh-lg'>
+                  {currentJob.description || 'No description available.'}
+                </p>
+              </div>
 
-            {/* Responsibilities */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold mb-4" style={{ color: '#1f2937' }}>Responsibilities</h2>
-              <div className="ml-4">
-                <ul className="space-y-2">
+              {/* Responsibilities */}
+              <div className='mb-24'>
+                <h2 className='text-xl fw-bold text-gray-900 mb-12'>Responsibilities</h2>
+                <ul className='ps-20'>
                   {(currentJob.responsibilities || []).map((resp, idx) => (
-                    <li key={idx} style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.5' }}>
+                    <li key={idx} className='text-gray-700 mb-8'>
                       {resp}
                     </li>
                   ))}
                 </ul>
               </div>
-            </div>
 
-            {/* Required Skills */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold mb-4" style={{ color: '#1f2937' }}>Required Skills</h2>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {(currentJob.skills || []).map((skill, idx) => (
-                  <span 
-                    key={idx} 
-                    className="px-3 py-2 rounded-lg text-sm font-medium"
-                    style={{ backgroundColor: '#e0e7ff', color: '#4f46e5' }}
-                  >
-                    {skill}
-                  </span>
-                ))}
+              {/* Required Skills */}
+              <div className='mb-24'>
+                <h2 className='text-xl fw-bold text-gray-900 mb-12'>Required Skills</h2>
+                <div className='d-flex flex-wrap gap-2 mb-16'>
+                  {(currentJob.skills || []).map((skill, idx) => (
+                    <span 
+                      key={idx} 
+                      className='badge bg-primary-50 text-primary-600 px-12 py-6 fw-medium'
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+                <div className='d-flex align-items-center gap-2 text-secondary-light'>
+                  <Icon icon='heroicons:clock' style={{ fontSize: '16px' }} />
+                  <span className='text-sm'>Posted on: {currentJob.postedDate || 'N/A'}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-sm" style={{ color: '#6b7280' }}>
-                <Clock className="w-4 h-4" />
-                <span>Posted on: {currentJob.postedDate || 'N/A'}</span>
-              </div>
-            </div>
 
-            {/* Company Details */}
-            <div>
-              <h2 className="text-2xl font-bold mb-4" style={{ color: '#1f2937' }}>Company Details</h2>
+              {/* Company Details */}
               <div>
-                <h3 className="font-semibold text-xl mb-3" style={{ color: '#1f2937' }}>
-                  {currentJob.company}
-                </h3>
-                <p className="leading-relaxed" style={{ color: '#6b7280', fontSize: '16px', lineHeight: '1.6' }}>
-                  {currentJob.companyDetails?.about || 'Leading technology company focused on innovation and growth.'}
-                </p>
+                <h2 className='text-xl fw-bold text-gray-900 mb-12'>Company Details</h2>
+                <div>
+                  <h3 className='fw-semibold text-lg text-gray-900 mb-8'>
+                    {currentJob.company}
+                  </h3>
+                  <p className='text-gray-700 lh-lg'>
+                    {currentJob.companyDetails?.about || 'Leading technology company focused on innovation and growth.'}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Apply Section */}
-          <div id="apply-section" className="mt-12 p-10" style={{ 
-            backgroundColor: '#ffffff', 
-            borderRadius: '16px', 
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
-          }}>
-            <div className="flex items-center gap-3 mb-6">
-              <Upload className="w-6 h-6" style={{ color: '#4f46e5' }} />
-              <h2 className="text-2xl font-bold" style={{ color: '#1f2937' }}>
-                Apply for this Job
-              </h2>
-            </div>
-
-            <div className="space-y-4">
-              <p style={{ color: '#6b7280', fontSize: '16px', marginBottom: '20px' }}>Choose how you want to apply:</p>
-
-              {/* Upload Resume Option */}
-              <div style={{ 
-                border: applicationMethod === 'upload' ? '2px solid #4f46e5' : '1px solid #e5e7eb', 
-                borderRadius: '12px', 
-                padding: '24px',
-                backgroundColor: '#ffffff'
-              }} className="hover:border-indigo-400 transition-all duration-200">
-                <label className="flex items-start gap-4 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="applicationMethod"
-                    value="upload"
-                    checked={applicationMethod === 'upload'}
-                    onChange={(e) => setApplicationMethod(e.target.value)}
-                    className="mt-1"
-                    style={{ accentColor: '#4f46e5', width: '20px', height: '20px' }}
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Upload className="w-4 h-4" style={{ color: '#6b7280' }} />
-                      <span className="font-semibold" style={{ color: '#1f2937', fontSize: '16px' }}>Upload Resume</span>
-                    </div>
-                    {applicationMethod === 'upload' && (
-                      <div className="mt-3">
-                        <input
-                          type="file"
-                          accept=".pdf,.doc,.docx"
-                          onChange={handleFileChange}
-                          className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-                          style={{ color: '#6b7280', fontSize: '14px' }}
-                        />
-                        {selectedFile && (
-                          <p className="mt-2 text-sm font-medium" style={{ color: '#059669' }}>✓ {selectedFile.name}</p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </label>
+          <div id='apply-section' className='card border-0 shadow-sm'>
+            <div className='card-body p-24'>
+              <div className='d-flex align-items-center gap-3 mb-20'>
+                <Icon icon='heroicons:arrow-up-tray' className='text-primary-600' style={{ fontSize: '24px' }} />
+                <h2 className='text-xl fw-bold text-gray-900 mb-0'>
+                  Apply for this Job
+                </h2>
               </div>
 
-              {/* Use Existing Profile Option */}
-              <div style={{ 
-                border: applicationMethod === 'profile' ? '2px solid #4f46e5' : '1px solid #e5e7eb', 
-                borderRadius: '12px', 
-                padding: '24px',
-                backgroundColor: '#ffffff'
-              }} className="hover:border-indigo-400 transition-all duration-200">
-                <label className="flex items-start gap-4 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="applicationMethod"
-                    value="profile"
-                    checked={applicationMethod === 'profile'}
-                    onChange={(e) => setApplicationMethod(e.target.value)}
-                    className="mt-1"
-                    style={{ accentColor: '#4f46e5', width: '20px', height: '20px' }}
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <User className="w-4 h-4" style={{ color: '#6b7280' }} />
-                      <span className="font-semibold" style={{ color: '#1f2937', fontSize: '16px' }}>Use Existing Profile</span>
-                    </div>
-                    {applicationMethod === 'profile' && (
-                      <div className="mt-3" style={{ backgroundColor: '#f8fafc', borderRadius: '12px', padding: '16px' }}>
-                        <p className="font-semibold mb-1" style={{ color: '#1f2937', fontSize: '16px' }}>{candidateProfile.name}</p>
-                        <p className="text-sm mb-3" style={{ color: '#6b7280' }}>{candidateProfile.role}</p>
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {candidateProfile.skills.map((skill, idx) => (
-                            <span 
-                              key={idx} 
-                              className="px-3 py-1 rounded-lg text-xs border font-medium"
-                              style={{ backgroundColor: '#ffffff', color: '#4b5563', borderColor: '#e5e7eb' }}
-                            >
-                              {skill}
-                            </span>
-                          ))}
+              <div className='d-flex flex-column gap-3'>
+                <p className='text-gray-700 mb-12'>Choose how you want to apply:</p>
+
+                {/* Upload Resume Option */}
+                <div className={`border rounded-lg p-20 ${applicationMethod === 'upload' ? 'border-primary-600 border-2' : 'border-gray-300'}`}>
+                  <label className='d-flex align-items-start gap-3' style={{ cursor: 'pointer' }}>
+                    <input
+                      type='radio'
+                      name='applicationMethod'
+                      value='upload'
+                      checked={applicationMethod === 'upload'}
+                      onChange={(e) => setApplicationMethod(e.target.value)}
+                      className='form-check-input mt-4'
+                    />
+                    <div className='flex-grow-1'>
+                      <div className='d-flex align-items-center gap-2 mb-8'>
+                        <Icon icon='heroicons:arrow-up-tray' className='text-secondary-light' style={{ fontSize: '16px' }} />
+                        <span className='fw-semibold text-gray-900'>Upload Resume</span>
+                      </div>
+                      {applicationMethod === 'upload' && (
+                        <div className='mt-12'>
+                          <input
+                            type='file'
+                            accept='.pdf,.doc,.docx'
+                            onChange={handleFileChange}
+                            className='form-control'
+                          />
+                          {selectedFile && (
+                            <p className='mt-8 text-sm fw-medium text-success-600'>✓ {selectedFile.name}</p>
+                          )}
                         </div>
-                        <p className="text-sm" style={{ color: '#6b7280' }}>
-                          Resume: <span className="font-semibold" style={{ color: '#4f46e5' }}>{candidateProfile.resume}</span>
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </label>
-              </div>
+                      )}
+                    </div>
+                  </label>
+                </div>
 
-              <button
-                onClick={handleApply}
-                disabled={applicationMethod === 'upload' && !selectedFile}
-                className="w-full py-3 rounded-lg font-semibold transition-all duration-200"
-                style={{ 
-                  backgroundColor: applicationMethod === 'upload' && !selectedFile ? '#9ca3af' : '#4f46e5',
-                  color: '#ffffff',
-                  cursor: applicationMethod === 'upload' && !selectedFile ? 'not-allowed' : 'pointer',
-                  fontSize: '16px'
-                }}
-                onMouseOver={(e) => {
-                  if (!(applicationMethod === 'upload' && !selectedFile)) {
-                    e.target.style.backgroundColor = '#4338ca';
-                  }
-                }}
-                onMouseOut={(e) => {
-                  if (!(applicationMethod === 'upload' && !selectedFile)) {
-                    e.target.style.backgroundColor = '#4f46e5';
-                  }
-                }}
-              >
-                Apply Now
-              </button>
+                {/* Use Existing Profile Option */}
+                <div className={`border rounded-lg p-20 ${applicationMethod === 'profile' ? 'border-primary-600 border-2' : 'border-gray-300'}`}>
+                  <label className='d-flex align-items-start gap-3' style={{ cursor: 'pointer' }}>
+                    <input
+                      type='radio'
+                      name='applicationMethod'
+                      value='profile'
+                      checked={applicationMethod === 'profile'}
+                      onChange={(e) => setApplicationMethod(e.target.value)}
+                      className='form-check-input mt-4'
+                    />
+                    <div className='flex-grow-1'>
+                      <div className='d-flex align-items-center gap-2 mb-8'>
+                        <Icon icon='heroicons:user' className='text-secondary-light' style={{ fontSize: '16px' }} />
+                        <span className='fw-semibold text-gray-900'>Use Existing Profile</span>
+                      </div>
+                      {applicationMethod === 'profile' && (
+                        <div
+                          className='mt-8 bg-neutral-50 rounded-lg'
+                          style={{ padding: '8px 12px', maxWidth: '420px' }}
+                        >
+                          <p className='fw-semibold text-gray-900 mb-2' style={{ fontSize: '15px' }}>{candidateProfile.name}</p>
+                          <p className='text-sm text-secondary-light mb-8' style={{ marginBottom: '8px' }}>{candidateProfile.role}</p>
+                          <div className='d-flex flex-wrap gap-2 mb-8' style={{ gap: '6px' }}>
+                            {candidateProfile.skills.map((skill, idx) => (
+                              <span 
+                                key={idx} 
+                                className='badge'
+                                style={{
+                                  backgroundColor: '#ffffff',
+                                  color: '#374151',
+                                  border: '1px solid #e5e7eb',
+                                  padding: '4px 8px',
+                                  fontSize: '12px',
+                                  borderRadius: '6px'
+                                }}
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                          <p className='text-sm text-secondary-light' style={{ fontSize: '13px' }}>
+                            Resume: <span className='fw-semibold text-primary-600' style={{ color: '#2563eb' }}>{candidateProfile.resume}</span>
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </label>
+                </div>
+
+                <button
+                  onClick={handleApply}
+                  disabled={applicationMethod === 'upload' && !selectedFile}
+                  className={`btn w-100 py-12 fw-semibold ${
+                    applicationMethod === 'upload' && !selectedFile 
+                      ? 'btn-secondary' 
+                      : 'btn-primary'
+                  }`}
+                >
+                  Apply Now
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -796,23 +758,25 @@ const JobSearch = () => {
             ) : (
               <div className='d-flex flex-column gap-4'>
                 {currentJobs.map(job => (
-                  <div key={job.id} className='bg-white border rounded-lg shadow-sm p-5 hover:shadow-md transition'>
-                    <div className='d-flex justify-content-between align-items-start'>
-                      <div className='d-flex gap-4'>
-                        {/* Company Logo */}
-                        <div className='w-12 h-12 bg-blue-100 rounded-lg d-flex align-items-center justify-content-center'>
-                          <span className='fw-semibold text-blue-600 fs-5'>
-                            {job.company.split(' ').map(word => word.charAt(0)).join('').substring(0, 2).toUpperCase()}
-                          </span>
+                  <div key={job.id} className='card border-0 shadow-sm hover-shadow-md transition'>
+                    <div className='card-body p-20'>
+                      <div className='row align-items-start g-3'>
+                        <div className='col-auto'>
+                          {/* Company Logo */}
+                          <div className='w-48-px h-48-px bg-primary-50 rounded-lg d-flex align-items-center justify-content-center'>
+                            <span className='fw-semibold text-primary-600 text-lg'>
+                              {job.company.split(' ').map(word => word.charAt(0)).join('').substring(0, 2).toUpperCase()}
+                            </span>
+                          </div>
                         </div>
                         
-                        {/* Job Details */}
-                        <div style={{ flex: '1', minWidth: '0' }}>
-                          <h3 className='fs-5 fw-semibold text-gray-800 mb-1'>{job.title}</h3>
-                          <p className='text-gray-600 mb-2'>{job.company}</p>
+                        <div className='col'>
+                          {/* Job Details */}
+                          <h3 className='text-lg fw-semibold text-gray-900 mb-4'>{job.title}</h3>
+                          <p className='text-gray-700 mb-12'>{job.company}</p>
                           
                           {/* Job Attributes */}
-                          <div className='d-flex gap-4 text-sm text-gray-600 mb-3'>
+                          <div className='d-flex flex-wrap gap-3 text-sm text-secondary-light mb-12'>
                             <span className='d-flex align-items-center gap-1'>
                               <Icon icon='heroicons:map-pin' style={{ fontSize: '16px' }} />
                               {job.location}
@@ -823,30 +787,30 @@ const JobSearch = () => {
                             </span>
                             <span className='d-flex align-items-center gap-1'>
                               <Icon icon='heroicons:clock' style={{ fontSize: '16px' }} />
-                              Full-Time
+                              {job.type}
                             </span>
                           </div>
                           
                           {/* Skills */}
                           <div className='d-flex gap-2 flex-wrap'>
                             {job.skills.map((skill, idx) => (
-                              <span key={idx} className='px-3 py-1 bg-gray-100 text-gray-700 rounded-pill text-xs fw-medium'>
+                              <span key={idx} className='badge bg-secondary-50 text-secondary-600 px-8 py-4 fw-medium'>
                                 {skill}
                               </span>
                             ))}
                           </div>
                         </div>
-                      </div>
-                      
-                      {/* Apply Button */}
-                      <button 
-                        onClick={() => handleJobClick(job)}
-                        className='px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 fw-medium text-sm' 
-                        style={{backgroundColor:"green", color:"white", flexShrink: 0, marginLeft: '16px' }}
                         
-                      >
-                        Apply
-                      </button>
+                        <div className='col-auto'>
+                          {/* Apply Button */}
+                          <button 
+                            onClick={() => handleJobClick(job)}
+                            className='btn btn-success px-20 py-8 fw-medium'
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
