@@ -18,6 +18,10 @@ import TimeToHire from './components/analytics/TimeToHire';
 import CandidateSourcing from './components/analytics/CandidateSourcing';
 import JobPerformance from './components/analytics/JobPerformance';
 import Settings from './components/Settings';
+import OrgInfo from './components/Settings/OrgInfo';
+import UsersRoles from './components/Settings/UsersRoles';
+import Integrations from './components/Settings/Integrations';
+import Billing from './components/Settings/Billing';
 import CandidateLogin from './components/candidateDashboard/CandidateLogin';
 import CandidateDashboard from './components/candidateDashboard/CandidateDashboard';
 import CandidateDashboardLayout from './components/candidateDashboard/CandidateDashboardLayout';
@@ -231,6 +235,40 @@ const App = () => {
             <RecruiterDashboardLayout>
               <OfferTracking />
             </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Settings Routes */}
+      <Route
+        path='/settings/org-info'
+        element={
+          <ProtectedRoute>
+            <OrgInfo />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/settings/users-roles'
+        element={
+          <ProtectedRoute>
+            <UsersRoles />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/settings/integrations'
+        element={
+          <ProtectedRoute>
+            <Integrations />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/settings/billing'
+        element={
+          <ProtectedRoute>
+            <Billing />
           </ProtectedRoute>
         }
       />

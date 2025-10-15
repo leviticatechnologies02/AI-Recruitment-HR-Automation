@@ -40,9 +40,6 @@ const Landing = () => {
               <span>Trusted by growing hiring teams</span>
             </div>
           </div>
-          <div className='col-xxl-5'>
-            <img src='assets/images/home-nine/source-icon1.png' alt='hero' className='img-fluid' />
-          </div>
         </div>
       </section>
 

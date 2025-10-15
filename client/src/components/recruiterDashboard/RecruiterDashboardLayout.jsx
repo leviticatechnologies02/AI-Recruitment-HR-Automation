@@ -210,10 +210,11 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
           </Link>
         </div>
         <div className='sidebar-menu-area'>
-          <ul className='sidebar-menu' id='sidebar-menu'>
+
+          <ul className='sidebar-menu' id='sidebar-menu' style={{ display:"flex", justifyContent:"flex-start", flexDirection:"column", alignItems:"flex-start"}}>
             {/* Recruiter Dashboard */}
             <li>
-              <LinkItem to='/dashboard' tabKey='dashboard' icon='heroicons:home' label='Recruiter Dashboard' />
+              <LinkItem to='/dashboard' tabKey='dashboard' icon='heroicons:home' label='Dashboard' />
             </li>
 
             <li className='sidebar-menu-group-title'>Recruitment</li>
@@ -232,25 +233,9 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
 
 
 
-            {/* Pipeline Dropdown */}
-            <li className='dropdown'>
-              <Link to='#'>
-                <Icon icon='heroicons:queue-list' className='menu-icon' />
-                <span>Pipeline</span>
-              </Link>
-              <ul className='sidebar-submenu'>
-                <li>
-                  <NavLink
-                    to='/pipeline/view'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
-                    Pipeline View
-                  </NavLink>
-                </li>
-              </ul>
+            {/* Pipeline Management */}
+            <li>
+              <LinkItem to='/pipeline/view' tabKey='pipeline' icon='heroicons:queue-list' label='Pipeline View' />
             </li>
 
             
@@ -355,66 +340,77 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
 
            
 
-            {/* Analytics Dropdown */}
+            
+           
+
+            {/* Recruiter Performance */}
+            <li>
+              <LinkItem to='/analytics/recruiter-performance' tabKey='recruiter-performance' icon='heroicons:chart-bar-square' label='Analytics' />
+            </li>
+
+          
+            
+
+
+           
+
+            {/* Settings Dropdown */}
             <li className='dropdown'>
               <Link to='#'>
-                <Icon icon='heroicons:chart-bar-square' className='menu-icon' />
-                <span>Analytics</span>
+                <Icon icon='icon-park-outline:setting-two' className='menu-icon' />
+                <span>Settings</span>
               </Link>
               <ul className='sidebar-submenu'>
                 <li>
                   <NavLink
-                    to='/analytics/recruiter-performance'
+                    to='/settings/org-info'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
-                    Recruiter Performance
+                    <Icon icon='heroicons:building-office' className='icon text-sm me-2' />
+                    Org Info
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
-                    to='/analytics/time-to-hire'
+                    to='/settings/users-roles'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
-                    Time To Hire
+                    <Icon icon='heroicons:users' className='icon text-sm me-2' />
+                    Users & Roles
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
-                    to='/analytics/job-performance'
+                    to='/settings/integrations'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
-                    Job Performance
+                    <Icon icon='heroicons:link' className='icon text-sm me-2' />
+                    Integrations
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
-                    to='/analytics/job-sourcing'
+                    to='/settings/billing'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:arrow-right' className='icon text-sm me-2' />
-                    Job Sourcing
+                    <Icon icon='heroicons:credit-card' className='icon text-sm me-2' />
+                    Billing
                   </NavLink>
                 </li>
               </ul>
             </li>
 
-            <li className='sidebar-menu-group-title'>Configuration</li>
+            
 
-            {/* Settings */}
-            <li>
-              <LinkItem to='/settings' tabKey='settings' icon='icon-park-outline:setting-two' label='Settings' />
-            </li>
+            
 
             <li className='sidebar-menu-group-title'>Quick Actions</li>
 

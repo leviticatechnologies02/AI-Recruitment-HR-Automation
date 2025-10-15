@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
 const CandidateDashboardLayout = ({ children }) => {
@@ -8,19 +8,97 @@ const CandidateDashboardLayout = ({ children }) => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleDropdownClick = (event) => {
+      event.preventDefault();
+      const clickedLink = event.currentTarget;
+      const clickedDropdown = clickedLink.closest(".dropdown");
+
+      if (!clickedDropdown) return;
+
+      const isActive = clickedDropdown.classList.contains("open");
+
+      // Close all dropdowns
+      const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
+      allDropdowns.forEach((dropdown) => {
+        dropdown.classList.remove("open");
+        const submenu = dropdown.querySelector(".sidebar-submenu");
+        if (submenu) {
+          submenu.style.maxHeight = "0px"; // Collapse submenu
+        }
+      });
+
+      // Toggle the clicked dropdown
+      if (!isActive) {
+        clickedDropdown.classList.add("open");
+        const submenu = clickedDropdown.querySelector(".sidebar-submenu");
+        if (submenu) {
+          submenu.style.maxHeight = `${submenu.scrollHeight}px`; // Expand submenu
+        }
+      }
+    };
+
+    const dropdownTriggers = document.querySelectorAll(
+      ".sidebar-menu .dropdown > a, .sidebar-menu .dropdown > Link"
+    );
+
+    dropdownTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", handleDropdownClick);
+    });
+
+    const openActiveDropdown = () => {
+      const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
+      allDropdowns.forEach((dropdown) => {
+        const submenuLinks = dropdown.querySelectorAll(".sidebar-submenu li a");
+        submenuLinks.forEach((link) => {
+          if (
+            link.getAttribute("href") === location.pathname ||
+            link.getAttribute("to") === location.pathname
+          ) {
+            dropdown.classList.add("open");
+            const submenu = dropdown.querySelector(".sidebar-submenu");
+            if (submenu) {
+              submenu.style.maxHeight = `${submenu.scrollHeight}px`; // Expand submenu
+            }
+          }
+        });
+      });
+    };
+
+    // Open the submenu that contains the active route
+    openActiveDropdown();
+
+    // Cleanup event listeners on unmount
+    return () => {
+      dropdownTriggers.forEach((trigger) => {
+        trigger.removeEventListener("click", handleDropdownClick);
+      });
+    };
+  }, [location.pathname]);
 
   const candidateData = {
     name: localStorage.getItem('candidateName') || 'Candidate',
     email: localStorage.getItem('userEmail') || 'candidate@example.com'
   };
 
-  const navItems = [
-    { id: 'dashboard', icon: 'heroicons:home', label: 'Dashboard', path: '/candidate/dashboard' },
-    { id: 'jobs', icon: 'heroicons:magnifying-glass', label: 'Job Search', path: '/candidate/jobs' },
-    { id: 'applications', icon: 'heroicons:document-text', label: 'Applications', path: '/candidate/applications' },
-    { id: 'profile', icon: 'heroicons:user', label: 'Profile', path: '/candidate/profile' },
-    { id: 'settings', icon: 'icon-park-outline:setting-two', label: 'Settings', path: '/candidate/settings' }
-  ];
+  const LinkItem = ({ to, icon, label, isParent = false }) => {
+    return (
+      <NavLink 
+        to={to} 
+        className={(navData) => {
+          if (isParent) {
+            return location.pathname.startsWith(to) ? "active-page" : "";
+          }
+          return navData.isActive ? "active-page" : "";
+        }}
+      >
+        <Icon icon={icon} className="menu-icon" />
+        <span>{label}</span>
+      </NavLink>
+    );
+  };
 
   const sidebarControl = () => {
     setSidebarActive(!sidebarActive);
@@ -37,8 +115,90 @@ const CandidateDashboardLayout = ({ children }) => {
     navigate('/candidate/login');
   };
 
+  // Enhanced CSS for sidebar with proper alignment and circle icons
+  const activeStyles = `
+    .sidebar-menu li > a.active-page {
+      background-color: #007bff !important;
+      color: #fff !important;
+      border-radius: 8px;
+    }
+    .sidebar-menu .sidebar-submenu li > a.active-page {
+      background-color: #6c757d !important;
+      color: #fff !important;
+      border-radius: 6px;
+    }
+    .sidebar-menu .dropdown.open > a {
+      background-color: #007bff !important;
+      color: #fff !important;
+      border-radius: 8px;
+    }
+    .sidebar-menu .dropdown > a {
+      background-color: transparent !important;
+      color: inherit !important;
+    }
+    .sidebar-menu .dropdown.has-active-submenu > a {
+      background-color: #007bff !important;
+      color: #fff !important;
+      border-radius: 8px;
+    }
+    .navbar-header.sticky-top {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1020;
+    }
+    .sidebar-submenu li {
+      list-style: none !important;
+    }
+    .sidebar-submenu li::before {
+      display: none !important;
+    }
+    .sidebar-submenu {
+      list-style-type: none !important;
+    }
+    
+    /* Enhanced dropdown icons with circle indicators */
+    .sidebar-submenu li > a .circle-icon {
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 50% !important;
+      display: inline-block !important;
+      margin-right: 8px !important;
+    }
+    
+    /* Proper spacing and alignment */
+    .sidebar-menu li > a {
+      display: flex !important;
+      align-items: center !important;
+      padding: 12px 16px !important;
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+    .sidebar-menu li > a .menu-icon {
+      margin-right: 12px !important;
+      font-size: 1.1rem !important;
+    }
+    .sidebar-submenu li > a {
+      padding: 8px 16px 8px 40px !important;
+      display: flex !important;
+      align-items: center !important;
+      font-size: 0.9rem !important;
+    }
+    
+    /* Smooth transitions */
+    .sidebar {
+      transition: width 0.3s ease !important;
+    }
+    .sidebar-menu li > a {
+      transition: all 0.3s ease !important;
+    }
+    .menu-icon {
+      transition: all 0.3s ease !important;
+    }
+  `;
+
   return (
     <>
+      <style>{activeStyles}</style>
       <section className={mobileMenu ? "overlay active" : "overlay"}>
         {/* Sidebar */}
         <aside
@@ -59,38 +219,51 @@ const CandidateDashboardLayout = ({ children }) => {
           </button>
           
           {/* Logo */}
-          <div className='p-24 border-bottom'>
-            <Link to='/candidate/dashboard' className='d-flex align-items-center gap-2'>
-              <img src='/assets/images/logo.png' alt='Logo' style={{ width: '40px' }} />
-              <div>
-                <h5 className='mb-0 text-primary-600 fw-bold'>JobPortal</h5>
-                <small className='text-secondary-light'>Candidate Portal</small>
-              </div>
+          <div>
+            <Link to='/candidate/dashboard' className='sidebar-logo'>
+              <img src='assets/images/logo1.png' alt='site logo' className='light-logo' />
+              <img src='assets/images/logo-light.png' alt='site logo' className='dark-logo' />
+              <img src='assets/images/logo-icon.png' alt='site logo' className='logo-icon' />
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav className='sidebar-menu-area p-16'>
+          <div className='sidebar-menu-area'>
             <ul className='sidebar-menu' id='sidebar-menu'>
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  <NavLink
-                    to={item.path}
-                    className={(navData) => (navData.isActive ? "active-page" : "")}
-                  >
-                    <Icon icon={item.icon} className='menu-icon' />
-                    <span>{item.label}</span>
-                  </NavLink>
-                </li>
-              ))}
+              {/* Candidate Dashboard */}
+              <li>
+                <LinkItem to='/candidate/dashboard' icon='heroicons:home' label='Dashboard' />
+              </li>
+
+              <li className='sidebar-menu-group-title'>Job Search</li>
+
+              {/* Job Search */}
+              <li>
+                <LinkItem to='/candidate/jobs' icon='heroicons:magnifying-glass' label='Find Jobs' />
+              </li>
+
+              {/* Applications */}
+              <li>
+                <LinkItem to='/candidate/applications' icon='heroicons:document-text' label='My Applications' />
+              </li>
+
+              {/* Profile */}
+              <li>
+                <LinkItem to='/candidate/profile' icon='heroicons:user' label='Profile' />
+              </li>
+
+              {/* Settings */}
+              <li>
+                <LinkItem to='/candidate/settings' icon='icon-park-outline:setting-two' label='Settings' />
+              </li>
             </ul>
-          </nav>
+          </div>
         </aside>
 
         {/* Main Content */}
-        <main className={sidebarActive ? "dashboard-main active" : "dashboard-main"}>
+        <main className={(sidebarActive ? "dashboard-main active" : "dashboard-main") + " bg-neutral-50"}>
           {/* Header/Topbar */}
-          <header className='navbar-header bg-base'>
+          <div className='navbar-header bg-base'>
             <div className='row align-items-center justify-content-between'>
               <div className='col-auto'>
                 <div className='d-flex flex-wrap align-items-center gap-4'>
@@ -262,20 +435,20 @@ const CandidateDashboardLayout = ({ children }) => {
                 </div>
               </div>
             </div>
-          </header>
+          </div>
 
           {/* Dashboard Body */}
-          <div className='dashboard-main-body'>{children}</div>
+          <div className='dashboard-main-body bg-neutral-50'>{children}</div>
 
           {/* Footer */}
-          <footer className='d-footer'>
+          <footer className='d-footer bg-neutral-50'>
             <div className='row align-items-center justify-content-between'>
               <div className='col-auto'>
                 <p className='mb-0'>© 2025 Candidate Portal. All Rights Reserved.</p>
               </div>
               <div className='col-auto'>
                 <p className='mb-0'>
-                  Need help? <Link to='/candidate/support' className='text-primary-600'>Contact Support</Link>
+                  Made by <span className='text-primary-600'>wowtheme7</span>
                 </p>
               </div>
             </div>

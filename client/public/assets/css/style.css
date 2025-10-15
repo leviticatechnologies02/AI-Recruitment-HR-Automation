@@ -15504,7 +15504,7 @@ td.fc-header-center {
 
 .sidebar-menu-area {
   height: calc(100vh - 72px);
-  padding: 0.75rem 1rem;
+  
   overflow-y: auto;
   border-inline-end: 1px solid var(--neutral-200);
 }
@@ -15702,12 +15702,12 @@ td.fc-header-center {
   }
 }
 .dashboard-main-body {
-  padding: 0.9375rem;
+  
 }
 
 @media (min-width: 1400px) {
   .dashboard-main-body {
-    padding: 1.5rem;
+    
   }
 }
 @media (min-width: 1199px) {
@@ -15718,7 +15718,7 @@ td.fc-header-center {
 /* === dashboard body css end === */
 /* === footer css start === */
 .d-footer {
-  padding: 1.375rem 1.5rem;
+  
   background-color: var(--white);
   margin-block-start: auto;
 }
