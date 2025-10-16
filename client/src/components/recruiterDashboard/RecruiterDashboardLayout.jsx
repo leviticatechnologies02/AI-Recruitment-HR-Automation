@@ -238,6 +238,11 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
               <LinkItem to='/pipeline/view' tabKey='pipeline' icon='heroicons:queue-list' label='Pipeline View' />
             </li>
 
+             {/* Recruiter Performance */}
+             <li>
+              <LinkItem to='/analytics/recruiter-performance' tabKey='recruiter-performance' icon='heroicons:chart-bar-square' label='Analytics' />
+            </li>
+
             
 
             {/* Assessment Dropdown */}
@@ -343,10 +348,84 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
             
            
 
-            {/* Recruiter Performance */}
-            <li>
-              <LinkItem to='/analytics/recruiter-performance' tabKey='recruiter-performance' icon='heroicons:chart-bar-square' label='Analytics' />
-            </li>
+           
+
+            {/*HR Suite*/}
+             
+             <li className='dropdown'>
+               <Link to='#'>
+                 <Icon icon='heroicons:building-office-2' className='menu-icon' />
+                 <span>HR Suite</span>
+               </Link>
+               <ul className='sidebar-submenu'>
+                 <li>
+                   <NavLink
+                     to='/hr/dashboard'
+                     className={(navData) =>
+                       navData.isActive ? "active-page" : ""
+                     }
+                   >
+                     <Icon icon='heroicons:chart-bar' className='icon text-sm me-2' />
+                     HR Dashboard
+                   </NavLink>
+                 </li>
+                 <li>
+                   <NavLink
+                     to='/hr/employee-directory'
+                     className={(navData) =>
+                       navData.isActive ? "active-page" : ""
+                     }
+                   >
+                     <Icon icon='heroicons:users' className='icon text-sm me-2' />
+                     Employee Directory
+                   </NavLink>
+                 </li>
+                 <li>
+                   <NavLink
+                     to='/hr/attendance'
+                     className={(navData) =>
+                       navData.isActive ? "active-page" : ""
+                     }
+                   >
+                     <Icon icon='heroicons:clock' className='icon text-sm me-2' />
+                     Attendance
+                   </NavLink>
+                 </li>
+                 <li>
+                   <NavLink
+                     to='/hr/payroll'
+                     className={(navData) =>
+                       navData.isActive ? "active-page" : ""
+                     }
+                   >
+                     <Icon icon='heroicons:banknotes' className='icon text-sm me-2' />
+                     Payroll
+                   </NavLink>
+                 </li>
+                 <li>
+                   <NavLink
+                     to='/hr/onboarding-tasks'
+                     className={(navData) =>
+                       navData.isActive ? "active-page" : ""
+                     }
+                   >
+                     <Icon icon='heroicons:clipboard-document-check' className='icon text-sm me-2' />
+                     Onboarding Tasks
+                   </NavLink>
+                 </li>
+                 <li>
+                   <NavLink
+                     to='/hr/onboarding-documents'
+                     className={(navData) =>
+                       navData.isActive ? "active-page" : ""
+                     }
+                   >
+                     <Icon icon='heroicons:document-text' className='icon text-sm me-2' />
+                     Onboarding Documents
+                   </NavLink>
+                 </li>
+               </ul>
+             </li>
 
           
             

@@ -38,6 +38,14 @@ import ReviewAIInterview from './components/recruiterDashboard/Assessment/Review
 import OfferTemplates from './components/recruiterDashboard/Assessment/OfferTemplates';
 import OfferTracking from './components/recruiterDashboard/Assessment/OfferTracking';
 
+// HR Suite Components
+import HRDashboard from './components/HRsuite/HRDashboard';
+import OnboardingDocuments from './components/HRsuite/OnboardingDocuments';
+import OnboardingTasks from './components/HRsuite/OnboardingTasks';
+import EmployeeDirectory from './components/HRsuite/EmployeeDirectory';
+import Attendance from './components/HRsuite/Attendance';
+import Payroll from './components/HRsuite/Payroll';
+
 
 const App = () => {
   return (
@@ -234,6 +242,68 @@ const App = () => {
           <ProtectedRoute>
             <RecruiterDashboardLayout>
               <OfferTracking />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* HR Suite Routes */}
+      <Route
+        path='/hr/dashboard'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <HRDashboard />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/hr/onboarding-documents'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <OnboardingDocuments />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/hr/onboarding-tasks'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <OnboardingTasks />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/hr/employee-directory'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <EmployeeDirectory />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/hr/attendance'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <Attendance />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/hr/payroll'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <Payroll />
             </RecruiterDashboardLayout>
           </ProtectedRoute>
         }

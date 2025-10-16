@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Trash2, Save, Clock, BarChart3 } from 'lucide-react';
+import { Plus, Trash2, Save, Clock, BarChart3, CheckCircle } from 'lucide-react';
 
 const ConfigureAIInterview = () => {
   const [interviewType, setInterviewType] = useState('video');
@@ -7,6 +7,8 @@ const ConfigureAIInterview = () => {
   const [timeLimit, setTimeLimit] = useState(30);
   const [difficulty, setDifficulty] = useState('medium');
   const [templateName, setTemplateName] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   const questionBank = [
     "Tell me about yourself and your experience",
@@ -34,16 +36,40 @@ const ConfigureAIInterview = () => {
     updateQuestion(id, 'text', questionText);
   };
 
-  const handleSaveTemplate = () => {
-    const template = {
-      name: templateName,
-      type: interviewType,
-      questions,
-      timeLimit,
-      difficulty
-    };
-    console.log('Saving template:', template);
-    alert('Interview template saved successfully!');
+  const handleSaveTemplate = async () => {
+    if (!templateName || questions.some(q => !q.text)) {
+      return;
+    }
+
+    setIsSaving(true);
+    
+    try {
+      const template = {
+        name: templateName,
+        type: interviewType,
+        questions,
+        timeLimit,
+        difficulty
+      };
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      console.log('Saving template:', template);
+      
+      // Show success state
+      setSaveSuccess(true);
+      setIsSaving(false);
+      
+      // Reset success state after 3 seconds
+      setTimeout(() => {
+        setSaveSuccess(false);
+      }, 3000);
+      
+    } catch (error) {
+      console.error('Error saving template:', error);
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -244,15 +270,48 @@ const ConfigureAIInterview = () => {
       {/* Save Button */}
       <div className="card border shadow-none">
         <div className="card-body">
+          {/* Success Message */}
+          {saveSuccess && (
+            <div className="alert alert-success d-flex align-items-center mb-3" role="alert">
+              <CheckCircle size={20} className="me-2" />
+              <div>
+                <strong>Success!</strong> Interview template saved successfully.
+              </div>
+            </div>
+          )}
+
           <button
-            className="btn btn-primary w-100 py-3"
+            className={`btn w-100 py-3 ${
+              saveSuccess 
+                ? 'btn-success' 
+                : isSaving 
+                  ? 'btn-secondary' 
+                  : 'btn-primary'
+            }`}
             onClick={handleSaveTemplate}
-            disabled={!templateName || questions.some(q => !q.text)}
+            disabled={!templateName || questions.some(q => !q.text) || isSaving}
           >
-            <Save size={20} className="me-2" />
-            Save Interview Template
+            {isSaving ? (
+              <>
+                <div className="spinner-border spinner-border-sm me-2" role="status">
+                  <span className="visually-hidden">Saving...</span>
+                </div>
+                Saving...
+              </>
+            ) : saveSuccess ? (
+              <>
+                <CheckCircle size={20} className="me-2" />
+                Saved Successfully!
+              </>
+            ) : (
+              <>
+                <Save size={20} className="me-2" />
+                Save Interview Template
+              </>
+            )}
           </button>
-          {(!templateName || questions.some(q => !q.text)) && (
+          
+          {(!templateName || questions.some(q => !q.text)) && !saveSuccess && (
             <p className="small text-danger text-center mt-2">
               Please fill in template name and all questions
             </p>

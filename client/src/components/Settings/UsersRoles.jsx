@@ -216,10 +216,10 @@ const UsersRoles = () => {
 
             {/* Header */}
             <div className="mb-4">
-              <h1 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
+              <h3 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                 <Icon icon="heroicons:users" className="text-primary" />
                 Users & Roles
-              </h1>
+              </h3>
               <p className="text-muted">
                 Manage team members, their roles, and permissions within your organization.
               </p>
@@ -237,39 +237,39 @@ const UsersRoles = () => {
               }}
             >
               <div className="card-body">
-                <div className="d-flex flex-wrap gap-3 align-items-center justify-content-between">
-                  <div className="d-flex flex-wrap gap-3 flex-fill">
-                    {/* Search */}
-                    <div className="position-relative flex-fill" style={{ minWidth: '250px' }}>
-                      <Icon icon="heroicons:magnifying-glass" className="position-absolute top-50 translate-middle-y text-muted ms-3" />
-                      <input
-                        type="text"
-                        placeholder="Search by name or email..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="form-control ps-5"
-                      />
-                    </div>
+                <div className="d-flex flex-wrap gap-3 align-items-center">
+                  {/* Search */}
+                  <div className="position-relative flex-fill" style={{ minWidth: '300px' }}>
+                    <Icon icon="heroicons:magnifying-glass" className="position-absolute top-50 translate-middle-y text-muted ms-3" />
+                    <input
+                      type="text"
+                      placeholder="Search by name or email..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="form-control ps-5"
+                    />
+                  </div>
 
-                    {/* Role Filter */}
+                  {/* Role Filter */}
+                  <div style={{ minWidth: '150px' }}>
                     <select
                       value={filterRole}
                       onChange={(e) => setFilterRole(e.target.value)}
                       className="form-select"
-                      style={{ minWidth: '120px' }}
                     >
                       <option value="all">All Roles</option>
                       <option value="Admin">Admin</option>
                       <option value="Recruiter">Recruiter</option>
                       <option value="Hiring Manager">Hiring Manager</option>
                     </select>
+                  </div>
 
-                    {/* Status Filter */}
+                  {/* Status Filter */}
+                  <div style={{ minWidth: '150px' }}>
                     <select
                       value={filterStatus}
                       onChange={(e) => setFilterStatus(e.target.value)}
                       className="form-select"
-                      style={{ minWidth: '120px' }}
                     >
                       <option value="all">All Statuses</option>
                       <option value="active">Active</option>
