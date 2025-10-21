@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { getUserRole } from '../../utils/auth';
  
 const PricingPage = () => {
   const navigate = useNavigate();
+  const [isYearly, setIsYearly] = useState(false);
 
   useEffect(() => {
     // Super Admins should not see pricing page, redirect them directly to Super Admin Panel
@@ -18,301 +19,195 @@ const PricingPage = () => {
     navigate('/dashboard');
   };
 
+  const pricingPlans = [
+    {
+      name: 'BASIC',
+      color: '#E8B4F8',
+      monthlyPrice: '$4.99',
+      yearlyPrice: '$49.99',
+      features: [
+        { text: '50 GB Bandwidth', included: true },
+        { text: 'Financial Analysis', included: true },
+        { text: '24 hour support', included: false },
+        { text: 'Customer Management', included: false },
+        { text: 'Advanced Analytics', included: false }
+      ]
+    },
+    {
+      name: 'STANDARD',
+      color: '#FF69B4',
+      monthlyPrice: '$9.99',
+      yearlyPrice: '$99.99',
+      features: [
+        { text: '50 GB Bandwidth', included: true },
+        { text: 'Financial Analysis', included: true },
+        { text: '24 hour support', included: true },
+        { text: 'Customer Management', included: false },
+        { text: 'Advanced Analytics', included: false }
+      ]
+    },
+    {
+      name: 'PREMIUM',
+      color: '#8B5CF6',
+      monthlyPrice: '$14.99',
+      yearlyPrice: '$149.99',
+      features: [
+        { text: '50 GB Bandwidth', included: true },
+        { text: 'Financial Analysis', included: true },
+        { text: '24 hour support', included: true },
+        { text: 'Customer Management', included: true },
+        { text: 'Advanced Analytics', included: false }
+      ]
+    },
+    {
+      name: 'SPECIAL',
+      color: '#A855F7',
+      monthlyPrice: '$99.99',
+      yearlyPrice: '$999.99',
+      features: [
+        { text: '50 GB Bandwidth', included: true },
+        { text: 'Financial Analysis', included: true },
+        { text: '24 hour support', included: false },
+        { text: 'Customer Management', included: false },
+        { text: 'Advanced Analytics', included: false }
+      ]
+    }
+  ];
+
   return (
-    <div className='card h-100 p-0 radius-12 overflow-hidden mt-24'>
-      <div className='card-header border-bottom bg-base py-16 px-24'>
-        <h6 className='mb-0 text-lg'>Simple Pricing Plan</h6>
-      </div>
-      <div className='card-body p-40'>
-        <div className='row justify-content-center'>
-          <div className='col-xxl-10'>
-            <div className='text-center'>
-              <h4 className='mb-16'>Simple, Transparent Pricing</h4>
-              <p className='mb-0 text-lg text-secondary-light'>
-                Lorem ipsum dolor sit amet consectetur adipiscing elit dolor
-                posuere vel venenatis eu sit massa volutpat.
-              </p>
-            </div>
-            <div className='pricing-tab'>
-              <div className='form-switch switch-primary d-flex align-items-center gap-3 mt-40 justify-content-center'>
-                <label
-                  className='form-check-label line-height-1 fw-medium text-secondary-light'
-                  htmlFor='yes'
-                >
-                  Monthly
-                </label>
-                <input
-                  className='form-check-input'
-                  type='checkbox'
-                  role='switch'
-                  id='yes'
-                />
-                <label
-                  className='form-check-label line-height-1 fw-medium text-secondary-light'
-                  htmlFor='yes'
-                >
-                  Annually
-                </label>
-              </div>
-            </div>
-            <div className='row gy-4'>
-              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
-                <div className='pricing-plan position-relative radius-24 overflow-hidden border bg-base h-100 d-flex flex-column'>
-                  <div className='d-flex align-items-center gap-16'>
-                    <span className='w-72-px h-72-px d-flex justify-content-center align-items-center radius-16 bg-primary-50'>
-                      <img
-                        src='assets/images/pricing/price-icon4.png'
-                        alt='WowDash React Vite'
-                      />
-                    </span>
-                    <div className=''>
-                      <span className='fw-medium text-md text-secondary-light'>
-                        For individuals
-                      </span>
-                      <h6 className='mb-0'>Basic</h6>
-                    </div>
-                  </div>
-                  <p className='mt-16 mb-0 text-secondary-light mb-28'>
-                    Lorem ipsum dolor sit amet doloroli sitiol conse ctetur
-                    adipiscing elit.{" "}
-                  </p>
-                  <h3 className='mb-24'>
-                    $99{" "}
-                    <span className='fw-medium text-md text-secondary-light'>
-                      /monthly
-                    </span>{" "}
-                  </h3>
-                  <span className='mb-20 fw-medium'>What's included</span>
-                  <ul className='flex-grow-1'>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-white text-lg '
-                        />
-                      </span>
-                      <span className='text-secondary-light text-lg'>
-                        All analytics features
-                      </span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-white text-lg '
-                        />
-                      </span>
-                      <span className='text-secondary-light text-lg'>
-                        Up to 250,000 tracked visits
-                      </span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-white text-lg '
-                        />
-                      </span>
-                      <span className='text-secondary-light text-lg'>
-                        Normal support
-                      </span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-white text-lg '
-                        />
-                      </span>
-                      <span className='text-secondary-light text-lg'>
-                        Up to 3 team members
-                      </span>
-                    </li>
-                  </ul>
-                  <div className='mt-auto'>
-                    <button 
-                      onClick={handleGetStarted}
-                      className='bg-primary-600 bg-hover-primary-700 text-white text-center border border-primary-600 text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
-                    >
-                      Get started
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
-                <div className='pricing-plan featured-item position-relative radius-24 overflow-hidden border bg-primary-600 text-white z-1 h-100 d-flex flex-column'>
-                  <img
-                    src='assets/images/pricing/pricing-shape.png'
-                    alt='WowDash React Vite'
-                    className='position-absolute end-0 top-10 z-n1'
-                  />
-                  <span className='bg-white bg-opacity-25 text-white radius-24 py-8 px-24 text-sm position-absolute end-0 top-0 z-1 rounded-start-top-0 rounded-end-bottom-0'>
-                    Popular
-                  </span>
-                  <div className='d-flex align-items-center gap-16'>
-                    <span className='w-72-px h-72-px d-flex justify-content-center align-items-center radius-16 bg-base'>
-                      <img
-                        src='assets/images/pricing/price-icon2.png'
-                        alt='WowDash React Vite'
-                      />
-                    </span>
-                    <div className=''>
-                      <span className='fw-medium text-md text-white'>
-                        For startups
-                      </span>
-                      <h6 className='mb-0 text-white'>Pro</h6>
-                    </div>
-                  </div>
-                  <p className='mt-16 mb-0 text-white mb-28'>
-                    Lorem ipsum dolor sit amet doloroli sitiol conse ctetur
-                    adipiscing elit.{" "}
-                  </p>
-                  <h3 className='mb-24 text-white'>
-                    $199{" "}
-                    <span className='fw-medium text-md text-white'>
-                      /monthly
-                    </span>{" "}
-                  </h3>
-                  <span className='mb-20 fw-medium'>What's included</span>
-                  <ul className='flex-grow-1'>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-lg   '
-                        />
-                      </span>
-                      <span className='text-white text-lg'>
-                        All analytics features
-                      </span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-lg   '
-                        />
-                      </span>
-                      <span className='text-white text-lg'>
-                        Up to 250,000 tracked visits
-                      </span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-lg   '
-                        />
-                      </span>
-                      <span className='text-white text-lg'>Normal support</span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-lg   '
-                        />
-                      </span>
-                      <span className='text-white text-lg'>
-                        Up to 3 team members
-                      </span>
-                    </li>
-                  </ul>
-                  <div className='mt-auto'>
-                    <button 
-                      onClick={handleGetStarted}
-                      className='bg-white text-primary-600 text-center border border-white text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
-                    >
-                      Get started
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
-                <div className='pricing-plan position-relative radius-24 overflow-hidden border bg-base h-100 d-flex flex-column'>
-                  <div className='d-flex align-items-center gap-16'>
-                    <span className='w-72-px h-72-px d-flex justify-content-center align-items-center radius-16 bg-primary-50'>
-                      <img
-                        src='assets/images/pricing/price-icon5.png'
-                        alt='WowDash React Vite'
-                      />
-                    </span>
-                    <div className=''>
-                      <span className='fw-medium text-md text-secondary-light'>
-                        For big companies
-                      </span>
-                      <h6 className='mb-0'>Enterprise</h6>
-                    </div>
-                  </div>
-                  <p className='mt-16 mb-0 text-secondary-light mb-28'>
-                    Lorem ipsum dolor sit amet doloroli sitiol conse ctetur
-                    adipiscing elit.{" "}
-                  </p>
-                  <h3 className='mb-24'>
-                    $399{" "}
-                    <span className='fw-medium text-md text-secondary-light'>
-                      /monthly
-                    </span>{" "}
-                  </h3>
-                  <span className='mb-20 fw-medium'>What's included</span>
-                  <ul className='flex-grow-1'>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-white text-lg '
-                        />
-                      </span>
-                      <span className='text-secondary-light text-lg'>
-                        All analytics features
-                      </span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-white text-lg '
-                        />
-                      </span>
-                      <span className='text-secondary-light text-lg'>
-                        Up to 250,000 tracked visits
-                      </span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16 mb-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-white text-lg '
-                        />
-                      </span>
-                      <span className='text-secondary-light text-lg'>
-                        Normal support
-                      </span>
-                    </li>
-                    <li className='d-flex align-items-center gap-16'>
-                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
-                        <Icon
-                          icon='iconamoon:check-light'
-                          className='text-white text-lg '
-                        />
-                      </span>
-                      <span className='text-secondary-light text-lg'>
-                        Up to 3 team members
-                      </span>
-                    </li>
-                  </ul>
-                  <div className='mt-auto'>
-                    <button 
-                      onClick={handleGetStarted}
-                      className='bg-primary-600 bg-hover-primary-700 text-white text-center border border-primary-600 text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
-                    >
-                      Get started
-                    </button>
-                  </div>
-                </div>
-              </div>
+    <div className='min-vh-100' style={{ 
+      background: 'linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%)' 
+    }}>
+      <div className='container py-5'>
+        {/* Header */}
+        <div className='text-center text-white mb-5'>
+          <h1 className='display-4 fw-bold mb-3'>Our Pricing & Plans</h1>
+          <p className='lead mb-4'>
+            Lorem ipsum dolor sit amet consectetur adipiscing elit dolor posuere vel venenatis eu sit massa volutpat.
+          </p>
+          
+          {/* Toggle Switch */}
+          <div className='d-flex justify-content-center mb-5'>
+            <div 
+              className='position-relative d-flex align-items-center'
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '25px',
+                padding: '4px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              }}
+            >
+              {/* Sliding Background */}
+              <div
+                className='position-absolute'
+                style={{
+                  backgroundColor: '#3B82F6',
+                  borderRadius: '20px',
+                  height: '36px',
+                  width: '50%',
+                  left: isYearly ? '50%' : '4px',
+                  top: '4px',
+                  transition: 'left 0.3s ease',
+                  zIndex: 1
+                }}
+              />
+              
+              {/* Monthly Option */}
+              <button
+                className={`position-relative border-0 bg-transparent px-4 py-2 fw-bold text-uppercase ${
+                  !isYearly ? 'text-white' : 'text-dark'
+                }`}
+                style={{
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  zIndex: 2,
+                  transition: 'color 0.3s ease'
+                }}
+                onClick={() => setIsYearly(false)}
+              >
+                MONTHLY
+              </button>
+              
+              {/* Yearly Option */}
+              <button
+                className={`position-relative border-0 bg-transparent px-4 py-2 fw-bold text-uppercase ${
+                  isYearly ? 'text-white' : 'text-dark'
+                }`}
+                style={{
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  zIndex: 2,
+                  transition: 'color 0.3s ease'
+                }}
+                onClick={() => setIsYearly(true)}
+              >
+                YEARLY
+              </button>
             </div>
           </div>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className='row g-4 justify-content-center'>
+          {pricingPlans.map((plan, index) => (
+            <div key={index} className='col-lg-3 col-md-6'>
+              <div className='card h-100 border-0 shadow-lg position-relative' style={{ borderRadius: '20px' }}>
+                {/* Colored Tab */}
+                <div 
+                  className='position-absolute top-0 start-0 px-3 py-2 text-white fw-bold'
+                  style={{ 
+                    backgroundColor: plan.color,
+                    borderRadius: '20px 0 20px 0',
+                    fontSize: '14px',
+                    zIndex: 1
+                  }}
+                >
+                  {plan.name}
+                </div>
+                
+                <div className='card-body p-4 pt-5'>
+                  {/* Price */}
+                  <div className='text-center mb-4'>
+                    <h2 className='display-6 fw-bold text-dark mb-0'>
+                      {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                      <span className='fs-6 text-muted'>/{isYearly ? 'year' : 'mon'}</span>
+                    </h2>
+                  </div>
+
+                  {/* Features */}
+                  <div className='mb-4'>
+                    {plan.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className='d-flex align-items-center mb-3'>
+                        <div className='me-3'>
+                          {feature.included ? (
+                            <i className='ri-check-line text-success fs-5'></i>
+                          ) : (
+                            <i className='ri-close-line text-danger fs-5'></i>
+                          )}
+                        </div>
+                        <span className='text-dark'>{feature.text}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Buy Now Button */}
+                  <div className='mt-auto'>
+                    <button 
+                      onClick={handleGetStarted}
+                      className='btn w-100 py-3 text-white fw-bold'
+                      style={{ 
+                        backgroundColor: '#8B5CF6',
+                        borderRadius: '10px',
+                        border: 'none'
+                      }}
+                    >
+                      BUY NOW
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

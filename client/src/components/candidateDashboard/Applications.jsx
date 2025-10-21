@@ -83,7 +83,7 @@ const Applications = () => {
         <div className='mb-24'>
           <div className='d-flex align-items-center gap-3 mb-8'>
             <Icon icon='heroicons:briefcase' className='text-primary-600' style={{ fontSize: '32px' }} />
-            <h1 className='text-3xl fw-bold text-gray-900 mb-0'>My Applications</h1>
+            <h3 className='text-3xl fw-bold text-gray-900 mb-0'>My Applications</h3>
           </div>
           <p className='text-secondary-light text-lg'>Track the progress of jobs you've applied for</p>
         </div>

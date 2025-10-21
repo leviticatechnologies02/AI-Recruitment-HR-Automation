@@ -122,10 +122,10 @@ export default function Profile() {
         <div className='container-fluid px-24 py-20'>
           <div className='row align-items-center justify-content-between'>
             <div className='col-12 col-md-7'>
-              <h1 className='text-3xl fw-bold text-gray-900 d-flex align-items-center gap-3 mb-8'>
+              <h3 className='text-3xl fw-bold text-gray-900 d-flex align-items-center gap-3 mb-8'>
                 <Icon icon='heroicons:user' className='text-primary-600' style={{ fontSize: '32px' }} />
                 My Profile
-              </h1>
+              </h3>
               <p className='text-secondary-light mb-0'>Update your details, skills, and resume to get matched with suitable jobs.</p>
             </div>
             <div className='col-12 col-md-5 text-md-end mt-3 mt-md-0'>

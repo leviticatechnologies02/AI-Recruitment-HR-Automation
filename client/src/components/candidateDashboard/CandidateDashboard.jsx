@@ -44,7 +44,7 @@ const CandidateDashboard = () => {
       <div className='container-fluid'>
         {/* Welcome Section */}
         <div className='mb-24'>
-          <h2 className='text-3xl fw-bold text-gray-800 mb-8'>Welcome back, {candidateData.name.split(' ')[0]}! 👋</h2>
+          <h3 className='text-3xl fw-bold text-gray-800 mb-8'>Welcome back, {candidateData.name.split(' ')[0]}!</h3>
           <p className='text-secondary-light'>Here's what's happening with your job search today.</p>
         </div>
 

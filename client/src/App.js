@@ -36,7 +36,7 @@ import AIPreScreening from './components/recruiterDashboard/Assessment/AIPreScre
 import ConfigureAIInterview from './components/recruiterDashboard/Assessment/ConfigureAIInterview';
 import ReviewAIInterview from './components/recruiterDashboard/Assessment/ReviewAIInterview';
 import OfferTemplates from './components/recruiterDashboard/Assessment/OfferTemplates';
-import OfferTracking from './components/recruiterDashboard/Assessment/OfferTracking';
+import OfferTracking from './components/recruiterDashboard/Assessment/OfferTracking'; 
 
 // HR Suite Components
 import HRDashboard from './components/HRsuite/HRDashboard';
