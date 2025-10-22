@@ -143,7 +143,7 @@ const CandidatesPage = () => {
     <div className="container-fluid py-4">
       {/* Page Header */}
       <div className="mb-4">
-        <h4 className="mb-2">👥 Candidates</h4>
+        <h5 className="mb-2"><i className='ri-group-line m-2'></i>Candidates</h5>
         <p className="text-secondary-light mb-0">View, filter, and manage all job applicants.</p>
       </div>
 
@@ -151,27 +151,27 @@ const CandidatesPage = () => {
       <div className="card border shadow-none mb-4">
         <div className="card-body d-flex">
           <div className="text-center w-25">
-            <div className="text-secondary-light small">Total Candidates</div>
-            <div className="h4 mb-0">{insights.total}</div>
+            <div className="fw-bold text-secondary-light small">Total Candidates</div>
+            <div className="h6 mb-0 text-warning">{insights.total}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="text-secondary-light small">In Interview</div>
-            <div className="h4 mb-0 text-primary">{insights.inInterview}</div>
+            <div className="fw-bold text-secondary-light small">In Interview</div>
+            <div className="h6 mb-0 text-primary">{insights.inInterview}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="text-secondary-light small">Offers Sent</div>
-            <div className="h4 mb-0 text-success">{insights.offersSent}</div>
+            <div className="fw-bold text-secondary-light small">Offers Sent</div>
+            <div className="h6 mb-0 text-success">{insights.offersSent}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="text-secondary-light small">Hired</div>
-            <div className="h4 mb-0 text-danger">{insights.hired}</div>
+            <div className="fw-bold text-secondary-light small">Hired</div>
+            <div className="h6 mb-0 text-danger">{insights.hired}</div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
       <div className="card border shadow-none mb-4">
-        <div className="card-body d-flex gap-3 align-items-center">
+        <div className="card-body d-flex gap-2 align-items-center">
           <div className="flex-grow-1">
             <div className="input-group" style={{maxWidth: '400px'}}>
               <span className="input-group-text bg-white border-end-0" style={{
@@ -183,7 +183,7 @@ const CandidatesPage = () => {
               </span>
               <input 
                 className="form-control border-start-0" 
-                placeholder="Search candid" 
+                placeholder="Search candidate" 
                 value={searchTerm} 
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{

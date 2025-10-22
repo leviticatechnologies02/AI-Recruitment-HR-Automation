@@ -45,6 +45,11 @@ import OnboardingTasks from './components/HRsuite/OnboardingTasks';
 import EmployeeDirectory from './components/HRsuite/EmployeeDirectory';
 import Attendance from './components/HRsuite/Attendance';
 import Payroll from './components/HRsuite/Payroll';
+import CandidateSignup from './components/candidateDashboard/CandidateSignup';
+import CandidateForgot from './components/candidateDashboard/CandidateForgot';
+
+
+
 
 
 const App = () => {
@@ -395,6 +400,8 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+      <Route path='/candidate/Signup' element={<CandidateSignup />} />
+      <Route path='/candidate/forgot-password' element={<CandidateForgot />} />
 
       
 

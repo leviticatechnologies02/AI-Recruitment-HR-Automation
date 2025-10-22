@@ -1,12 +1,129 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Star } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import { getUserRole } from '../utils/auth';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "remixicon/fonts/remixicon.css";
- 
+
+const testimonials = [
+    {
+      name: "Sarah Chen",
+      role: "Head of HR",
+      company: "TechCorp",
+      photo: "SC",
+      feedback: "This platform cut our hiring time by 40% and improved candidate quality significantly. Game changer!",
+      rating: 5
+    },
+    {
+      name: "Marcus Johnson",
+      role: "Talent Director",
+      company: "InnovateLabs",
+      photo: "MJ",
+      feedback: "The AI screening is incredibly accurate. We've hired 15 people in 3 months with zero regrets.",
+      rating: 5
+    },
+    {
+      name: "Emily Rodriguez",
+      role: "CEO",
+      company: "StartupHub",
+      photo: "ER",
+      feedback: "As a startup, we needed speed and quality. AI Recruiter delivered both beyond our expectations.",
+      rating: 5
+    }
+  ];
+
 const Landing = () => {
   const [openFAQ, setOpenFAQ] = React.useState(null);
+  const navigate = useNavigate();
+  const [isYearly, setIsYearly] = useState(false);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+
+  
+
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+  }, 5000);
+  return () => clearInterval(interval);
+}, [testimonials.length]);
+
+
+  useEffect(() => {
+    // Super Admins should not see pricing page, redirect them directly to Super Admin Panel
+    const userRole = getUserRole();
+    if (userRole === 'superadmin') {
+      navigate('/super-admin');
+    }
+  }, [navigate]);
+
+ 
+
+  
+
+  const handleGetStarted = () => {
+    navigate('/dashboard');
+  };
+
+  const pricingPlans = [
+    {
+      name: 'BASIC',
+      color: '#E8B4F8',
+      monthlyPrice: '$4.99',
+      yearlyPrice: '$49.99',
+      features: [
+        { text: '50 GB Bandwidth', included: true },
+        { text: 'Financial Analysis', included: true },
+        { text: '24 hour support', included: false },
+        { text: 'Customer Management', included: false },
+        { text: 'Advanced Analytics', included: false }
+      ]
+    },
+    {
+      name: 'STANDARD',
+      color: '#FF69B4',
+      monthlyPrice: '$9.99',
+      yearlyPrice: '$99.99',
+      features: [
+        { text: '50 GB Bandwidth', included: true },
+        { text: 'Financial Analysis', included: true },
+        { text: '24 hour support', included: true },
+        { text: 'Customer Management', included: false },
+        { text: 'Advanced Analytics', included: false }
+      ]
+    },
+    {
+      name: 'PREMIUM',
+      color: '#8B5CF6',
+      monthlyPrice: '$14.99',
+      yearlyPrice: '$149.99',
+      features: [
+        { text: '50 GB Bandwidth', included: true },
+        { text: 'Financial Analysis', included: true },
+        { text: '24 hour support', included: true },
+        { text: 'Customer Management', included: true },
+        { text: 'Advanced Analytics', included: false }
+      ]
+    },
+    {
+      name: 'SPECIAL',
+      color: '#A855F7',
+      monthlyPrice: '$99.99',
+      yearlyPrice: '$999.99',
+      features: [
+        { text: '50 GB Bandwidth', included: true },
+        { text: 'Financial Analysis', included: true },
+        { text: '24 hour support', included: false },
+        { text: 'Customer Management', included: false },
+        { text: 'Advanced Analytics', included: false }
+      ]
+    }
+  ];
+
  
   const carouselSettings = {
     dots: false,
@@ -30,6 +147,65 @@ const Landing = () => {
     ],
   };
 
+
+
+
+    const clients = [
+    {
+      name: 'Smart Screening',
+      icon: (
+        <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+          <path d="M5 10 L20 5 L35 10 L20 35 Z" fill="#EC4899" />
+        </svg>
+      )
+    },
+    {
+      name: 'Automated Interviewing',
+      icon: (
+        <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+          <rect x="8" y="8" width="4" height="24" fill="#1F2937" />
+          <rect x="14" y="12" width="4" height="20" fill="#1F2937" />
+          <rect x="20" y="6" width="4" height="26" fill="#1F2937" />
+          <rect x="26" y="14" width="4" height="18" fill="#1F2937" />
+        </svg>
+      )
+    },
+    {
+      name: 'HR Analytics',
+      icon: (
+        <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+          <path d="M8 12 L14 28 L20 8 L26 28 L32 12" stroke="#3B82F6" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    },
+    {
+      name: 'AI Screening',
+      icon: (
+        <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+          <circle cx="20" cy="20" r="12" stroke="#3B82F6" strokeWidth="3" fill="none" />
+          <path d="M20 12 L20 20 L26 26" stroke="#3B82F6" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+      )
+    },
+    {
+      name: 'Collaboration',
+      icon: (
+        <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+          <path d="M8 20 L15 12 L22 18 L32 8" stroke="#DC2626" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M8 28 L15 22 L22 26 L32 18" stroke="#DC2626" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    },
+    {
+      name: 'Visualy Analytics',
+      icon: (
+        <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+          <path d="M10 30 L20 10 L30 30 Z" stroke="#F59E0B" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="20" cy="22" r="3" fill="#F59E0B" />
+        </svg>
+      )
+    }
+  ];
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
@@ -38,7 +214,7 @@ const Landing = () => {
     <div className='min-vh-100 d-flex flex-column '>
  
       {/* Navbar */}
-      <header className='py-16 px-24 bg-base border-bottom bg-light'>
+      <header className='py-16 px-24 bg-base border-bottom bg-light sticky-top top-0'>
         <div className='d-flex align-items-center justify-content-between'>
           <div className='d-flex align-items-center gap-2'>
             <img src='assets/images/logo-icon.png.svg' alt='logo' className='w-32-px h-32-px' />
@@ -112,7 +288,6 @@ const Landing = () => {
       </section>
  
       {/* How it works */}
- 
       <section id='how' className='container pb-56'>
         <div className='card border shadow-none'>
           <div className='card-body p-24'>
@@ -154,6 +329,139 @@ const Landing = () => {
         </div>
       </section>
 
+
+      {/*  Testimonials */ }
+
+      <section  className='px-5'>
+      <div className='container  card border shadow-none p-56'>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-8">
+      <div className="max-w-7xl w-full">
+        <div className="d-flex flex-row align-items-center justify-content-between">
+          {/* Top Section - Title and Description */}
+          <div className="space-y-6 max-w-2xl">
+            <h1 className="text-4xl lg:text-4xl font-bold text-gray-900 leading-tight">
+              Powerful Features for Modern Hiring...
+            </h1>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              Our AI solutions have driven innovation, streamlined operations, and fueled exceptional business growth.
+            </p>
+            <button className="btn btn-primary">
+              Become a client
+            </button>
+          </div>
+
+          {/* Client Logos Grid - 3 columns */}
+          <div className= "d-flex flex-wrap grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {clients.map((client, index) => (
+              <div
+                key={index}
+                className= " d-flex flex-row align-items-center justify-content-start  bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-200 hover:border-indigo-300 flex items-center gap-4 cursor-pointer group"
+              style={{width:"40%"}}
+              >
+                <div className="flex-shrink-0 transition-transform duration-300 bg-black" style={{ width: '100px', height: '100px' }}>
+                  {client.icon}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 transition-colors duration-300" style={{
+                  fontFamily: client.name === 'Visualy' ? 'Georgia, serif' : 'inherit',
+                  fontStyle: client.name === 'Visualy' ? 'italic' : 'normal'
+                }}>
+                  {client.name}
+                </h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+        
+        
+        
+        
+      </div>
+      </section>
+
+    {/* Scrolled Testimonials */ }
+
+  <section  className='p-2 relative '>
+      <div className='container  card border shadow-none flex flex-wrap justify-center gap-6 bg-red'>
+        <div className="max-w-5xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold  mb-4">
+            Loved by HR Teams Worldwide
+          </h2>
+          <p className="text-xl text-blue-100">
+            See what our customers have to say
+          </p>
+        </div>
+
+        {/* Testimonial Cards */}
+      <div className="relative overflow-hidden">
+      <div
+        className="flex transition-transform duration-700 ease-in-out"
+        style={{
+          transform: `translateX(-${activeTestimonial * 100}%)`,
+        }}
+      >
+        {testimonials.map((testimonial, idx) => (
+          <div key={idx} className="min-w-full flex justify-center px-4">
+            <div className="bg-white text-gray-800 rounded-3xl p-10 shadow-2xl w-full md:w-[70%] lg:w-[60%]">
+              {/* Rating Stars */}
+              <div className="flex mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                  />
+                ))}
+              </div>
+
+              {/* Feedback */}
+              <p className="text-xl mb-8 italic leading-relaxed">
+                "{testimonial.feedback}"
+              </p>
+
+              {/* Author Info */}
+              <div className="flex items-center">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
+                  {testimonial.photo}
+                </div>
+                <div>
+                  <div className="font-bold text-gray-900">
+                    {testimonial.name}
+                  </div>
+                  <div className="text-gray-600">
+                    {testimonial.role} at {testimonial.company}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Dots Navigation */}
+      <div className="flex justify-center mt-8 space-x-2">
+        {testimonials.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActiveTestimonial(idx)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              idx === activeTestimonial
+                ? "bg-white w-8"
+                : "bg-white/50 hover:bg-white/70"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+      </div>
+      </div>
+  </section>
+
+
+      
+
       {/* About Us Section */}
       <section className='py-5 ' >
         <div className='container card border shadow-none p-56'>
@@ -163,7 +471,7 @@ const Landing = () => {
                 <div className='col-6 text-end'>
                   <img 
                     className='rounded-3 shadow-sm' 
-                    src='assets/images/asset/asset-img2.png' 
+                    src="assets\images\landing1.png"
                     style={{width:"250px"}} 
                     alt="Office team working"
                   />
@@ -189,7 +497,7 @@ const Landing = () => {
                   </div>
                   <img 
                     className='rounded-3 shadow-sm' 
-                    src='assets/images/asset/asset-img1.png' 
+                    src='assets\images\landing2.png' 
                     style={{width:"250px"}} 
                     alt="Team collaboration"
                   />
@@ -197,7 +505,7 @@ const Landing = () => {
               </div>
             </div>
             <div className='col-12 col-lg-6'>
-              <h6 className='text-muted mb-3'>// ABOUT US</h6>
+              
               <h2 className='display-6 fw-normal mb-3'>Satisfied customer is the best business strategy of all</h2>
               <p className='text-secondary-light mb-4'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae modi dicta ea autem harum commodi quo obcaecati accusantium
@@ -260,45 +568,72 @@ const Landing = () => {
       </section>
 
       {/* Pricing Cards  */}
-      <section className='container pb-56'>
-        <div className='row g-4'>
-          {[
-            { title: 'Basic', price: '$4.99', features: ['50 GB Bandwidth','Financial Analysis','24 hour support'], tag: 'BASIC' },
-            { title: 'Standard', price: '$9.99', features: ['50 GB Bandwidth','Financial Analysis','24 hour support'], tag: 'STANDARD' },
-            { title: 'Premium', price: '$14.99', features: ['50 GB Bandwidth','Financial Analysis','24 hour support'], tag: 'PREMIUM' },
-            { title: 'Special', price: '$99.99', features: ['50 GB Bandwidth','Financial Analysis','24 hour support'], tag: 'SPECIAL' }
-          ].map((plan, i) => (
-            <div key={i} className='col-12 col-md-6 col-lg-3'>
-              <div className='card border shadow-sm h-100 position-relative'>
-                <div className='position-absolute top-0 start-0 m-0'>
-                  <span className='badge bg-pink text-white'>{plan.tag}</span>
+      
+       <section  className='px-5'>
+      <div className='container  card border shadow-none p-56'>
+        {/* Header */}
+        <div className='text-center text-black mb-5 '>
+          <h1 className='display-4 fw-bold mb-3'> Pricing & Plans</h1>
+         
+        </div>
+
+        {/* Pricing Cards */}
+        <div className='row g-4 justify-content-center'>
+          {pricingPlans.map((plan, index) => (
+            <div key={index} className='col-lg-3 col-md-6'>
+              <div className='card h-100 border-0 shadow-lg position-relative' style={{ borderRadius: '20px' }}>
+                {/* Colored Tab */}
+                <div 
+                  className='position-absolute top-0 start-0 px-3 py-2 text-white fw-bold'
+                  style={{ 
+                    backgroundColor: plan.color,
+                    borderRadius: '20px 0 20px 0',
+                    fontSize: '14px',
+                    zIndex: 1
+                  }}
+                >
+                  {plan.name}
                 </div>
-                <div className='card-body d-flex flex-column'>
+                
+                <div className='card-body p-4 pt-5'>
+                  {/* Price */}
+                  <div className='text-center mb-4'>
+                    <h2 className='display-6 fw-bold text-dark mb-0'>
+                      {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                      <span className='fs-6 text-muted'>/{isYearly ? 'year' : 'mon'}</span>
+                    </h2>
+                  </div>
+
+                  {/* Features */}
                   <div className='mb-4'>
-                    <h4 className='display-6 fw-bold mb-0'>{plan.price}<small className='text-muted'>/mon</small></h4>
-                  </div>
-                  <ul className='list-unstyled mb-4 flex-grow-1'>
-                    {plan.features.map((f, idx) => (
-                      <li key={idx} className='d-flex align-items-center gap-2 mb-2'>
-                        <i className='ri-checkbox-circle-fill text-success'></i>
-                        <span>{f}</span>
-                      </li>
+                    {plan.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className='d-flex align-items-center mb-3'>
+                        <div className='me-3'>
+                          {feature.included ? (
+                            <i className='ri-check-line text-success fs-5'></i>
+                          ) : (
+                            <i className='ri-close-line text-danger fs-5'></i>
+                          )}
+                        </div>
+                        <span className='text-dark'>{feature.text}</span>
+                      </div>
                     ))}
-                  </ul>
-                  <div>
-                    <button className='btn btn-primary w-100'>BUY NOW</button>
                   </div>
+
+                  {/* Buy Now Button */}
+                 
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
  
  
       {/* FAQ and Video Section */}
-      <section className='container pb-56'>
-        <div className='row align-items-center g-4'>
+      <section className='container p-56'>
+        <div className='row align-items-center g-4 '>
           {/* Left side - FAQ Cards */}
           <div className='col-lg-6'>
             <div className='d-flex flex-column gap-3'>
@@ -364,10 +699,7 @@ const Landing = () => {
                 {/* Placeholder for video thumbnail */}
                 <div className='w-100 h-100 d-flex align-items-center justify-content-center bg-gradient' 
                      style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-                  <div className='text-center text-white'>
-                    <i className='ri-video-line fs-1 mb-3'></i>
-                    <p className='mb-0'>Watch our demo video</p>
-                  </div>
+                  <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop" className='w-100' alt='Video Placeholder' />
                 </div>
               </div>
             </div>

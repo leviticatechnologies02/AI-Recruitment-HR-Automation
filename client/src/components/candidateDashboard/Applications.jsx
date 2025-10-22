@@ -81,9 +81,9 @@ const Applications = () => {
       <div className='container-fluid'>
         {/* Header Section */}
         <div className='mb-24'>
-          <div className='d-flex align-items-center gap-3 mb-8'>
-            <Icon icon='heroicons:briefcase' className='text-primary-600' style={{ fontSize: '32px' }} />
-            <h3 className='text-3xl fw-bold text-gray-900 mb-0'>My Applications</h3>
+          <div className='d-flex align-items-center gap-3 mb- mt-3'>
+            <Icon icon='heroicons:briefcase'  style={{ fontSize: '32px' }} />
+            <h5 className='fw-bold text-gray-900 mb-0'>My Applications</h5>
           </div>
           <p className='text-secondary-light text-lg'>Track the progress of jobs you've applied for</p>
         </div>
@@ -91,8 +91,8 @@ const Applications = () => {
         {/* Search and Export Bar */}
         <div className='card border-0 shadow-sm mb-20'>
           <div className='card-body p-16'>
-            <div className='row g-3 align-items-center'>
-              <div className='col-12 col-md-9'>
+            <div className='row g-3 d-flex justify-content-between'>
+              <div className='col-12 col-md-5'>
                 <div className='position-relative'>
                   <Icon 
                     icon='heroicons:magnifying-glass' 
@@ -108,7 +108,7 @@ const Applications = () => {
                   />
                 </div>
               </div>
-              <div className='col-12 col-md-3'>
+              <div className='col-12 col-md-1'>
                 <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2'>
                   <Icon icon='heroicons:arrow-down-tray' style={{ fontSize: '16px' }} />
                   Export
@@ -257,4 +257,3 @@ const Applications = () => {
 };
 
 export default Applications;
-

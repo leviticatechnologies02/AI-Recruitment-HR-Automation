@@ -118,14 +118,14 @@ export default function Profile() {
       )}
 
       {/* Header */}
-      <div className='bg-white border-bottom shadow-sm mb-24'>
+      <div className='border-bottom shadow-sm mb-24'>
         <div className='container-fluid px-24 py-20'>
           <div className='row align-items-center justify-content-between'>
             <div className='col-12 col-md-7'>
-              <h3 className='text-3xl fw-bold text-gray-900 d-flex align-items-center gap-3 mb-8'>
-                <Icon icon='heroicons:user' className='text-primary-600' style={{ fontSize: '32px' }} />
+              <h5 className='fw-bold text-gray-900 d-flex align-items-center gap-3 mb-8'>
+                <Icon icon='heroicons:user'  style={{ fontSize: '32px' }} />
                 My Profile
-              </h3>
+              </h5>
               <p className='text-secondary-light mb-0'>Update your details, skills, and resume to get matched with suitable jobs.</p>
             </div>
             <div className='col-12 col-md-5 text-md-end mt-3 mt-md-0'>
@@ -134,7 +134,7 @@ export default function Profile() {
                 <div className='progress' style={{ width: '128px', height: '8px' }}>
                   <div 
                     className='progress-bar bg-gradient-primary'
-                    style={{ width: `${completeness}%` }}
+                    style={{ width: `${completeness}% `}}
                   />
                 </div>
                 <span className='text-lg fw-bold text-primary-600'>{completeness}%</span>
@@ -415,9 +415,9 @@ export default function Profile() {
             {/* Save Button */}
             <button
               onClick={handleSaveProfile}
-              className='btn btn-primary w-100 py-12 fw-semibold'
+              className='btn btn-primary py-12 fw-semibold'
             >
-              💾 Save Profile
+             Save Profile
             </button>
           </div>
 
@@ -489,5 +489,3 @@ export default function Profile() {
     </div>
   );
 }
-
-

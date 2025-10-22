@@ -1,10 +1,10 @@
-
+ 
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import JobList from '../JobList';
 import RecruiterDashboardLayout from './RecruiterDashboardLayout';
-
+ 
 const RecruiterDashboardHome = () => {
   const [searchFocused, setSearchFocused] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
@@ -12,7 +12,7 @@ const RecruiterDashboardHome = () => {
   const [showCandidates, setShowCandidates] = useState(false);
   const [showCandidateProfile, setShowCandidateProfile] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
-
+ 
   const [animatedStats, setAnimatedStats] = useState({ activeJobs: 0, applications: 0, pipeline: 0 });
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,13 +20,13 @@ const RecruiterDashboardHome = () => {
     }, 300);
     return () => clearTimeout(timer);
   }, []);
-
+ 
   const recentApplicants = [
     { id: 1, name: 'Aisha Sharma', position: 'Frontend Engineer', stage: 'Phone Screen', applied: '2 days ago', stageColor: 'success', email: 'aisha.sharma@email.com', experience: '3 years', phone: '+91 98765 43210', location: 'Bangalore, India', skills: ['React', 'JavaScript', 'TypeScript', 'Node.js', 'CSS'], education: 'B.Tech Computer Science - IIT Delhi', previousCompany: 'Tech Solutions Ltd.', salary: '₹12-15 LPA', resume: 'aisha_sharma_resume.pdf', notes: 'Strong frontend skills, good communication. Cleared initial screening.', interviewDate: '2024-09-25 at 10:00 AM', rating: 4.2 },
     { id: 2, name: 'Ravi Kumar', position: 'Product Manager', stage: 'Rejected', applied: '5 days ago', stageColor: 'danger', email: 'ravi.kumar@email.com', experience: '5 years', phone: '+91 87654 32109', location: 'Mumbai, India', skills: ['Product Strategy', 'Analytics', 'Agile', 'Roadmapping', 'Stakeholder Management'], education: 'MBA - IIM Ahmedabad, B.E. Electronics', previousCompany: 'Product Innovations Inc.', salary: '₹25-30 LPA', resume: 'ravi_kumar_resume.pdf', notes: 'Good product experience but cultural fit concerns during interview.', interviewDate: 'Completed - Not Selected', rating: 2.8 },
     { id: 3, name: 'Meera Patel', position: 'Data Scientist', stage: 'Onsite', applied: '1 day ago', stageColor: 'success', email: 'meera.patel@email.com', experience: '4 years', phone: '+91 76543 21098', location: 'Hyderabad, India', skills: ['Python', 'Machine Learning', 'TensorFlow', 'SQL', 'Statistics', 'AWS'], education: 'M.S. Data Science - ISI Kolkata, B.Tech CSE', previousCompany: 'DataTech Analytics', salary: '₹18-22 LPA', resume: 'meera_patel_resume.pdf', notes: 'Excellent technical skills, strong ML background. Ready for final round.', interviewDate: '2024-09-24 at 2:00 PM', rating: 4.7 }
   ];
-
+ 
   const AnimatedNumber = ({ value }) => {
     const [current, setCurrent] = useState(0);
     useEffect(() => {
@@ -46,21 +46,21 @@ const RecruiterDashboardHome = () => {
     }, [value]);
     return <span>{current.toLocaleString()}</span>;
   };
-
+ 
   const handleViewCandidate = (id) => {
     const c = recentApplicants.find(x => x.id === id);
     setSelectedCandidate(c);
     setShowCandidateProfile(true);
     setShowCandidates(false);
   };
-
+ 
   return (
     <div className='container-fluid py-4 bg-neutral-50'>
       <div className='mb-24'>
-        <h4 className='mb-8'>Recruiter Dashboard</h4>
+        <h5 className='mb-8'>Recruiter Dashboard</h5>
         <p className='text-secondary-light'>Track your hiring progress and manage jobs efficiently.</p>
       </div>
-
+ 
       {/* Stats */}
       <div className='row row-cols-xxxl-5 row-cols-lg-3 row-cols-sm-2 row-cols-1 gy-4 mb-24'>
         <div className='col'>
@@ -68,7 +68,7 @@ const RecruiterDashboardHome = () => {
             <div className='card-body p-20'>
               <div className='d-flex flex-wrap align-items-center justify-content-between gap-3'>
                 <div>
-                  <p className='fw-medium text-primary-light mb-1'>Active Jobs</p>
+                  <div className='fw-medium text-primary-light mb-1'>Active Jobs</div>
                   <h6 className='mb-0'><AnimatedNumber value={animatedStats.activeJobs} /></h6>
                 </div>
                 <div className='w-50-px h-50-px bg-cyan rounded-circle d-flex justify-content-center align-items-center'>
@@ -89,7 +89,7 @@ const RecruiterDashboardHome = () => {
             <div className='card-body p-20'>
               <div className='d-flex flex-wrap align-items-center justify-content-between gap-3'>
                 <div>
-                  <p className='fw-medium text-primary-light mb-1'>Applications Received</p>
+                  <div className='fw-medium text-primary-light mb-1'>Applications Received</div>
                   <h6 className='mb-0'><AnimatedNumber value={animatedStats.applications} /></h6>
                 </div>
                 <div className='w-50-px h-50-px bg-purple rounded-circle d-flex justify-content-center align-items-center'>
@@ -110,7 +110,7 @@ const RecruiterDashboardHome = () => {
             <div className='card-body p-20'>
               <div className='d-flex flex-wrap align-items-center justify-content-between gap-3'>
                 <div>
-                  <p className='fw-medium text-primary-light mb-1'>Candidates in Pipeline</p>
+                  <div className='fw-medium text-primary-light mb-1'>Candidates in Pipeline</div>
                   <h6 className='mb-0'><AnimatedNumber value={animatedStats.pipeline} /></h6>
                 </div>
                 <div className='w-50-px h-50-px bg-info rounded-circle d-flex justify-content-center align-items-center'>
@@ -119,7 +119,7 @@ const RecruiterDashboardHome = () => {
               </div>
               <p className='fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2'>
                 <span className='d-inline-flex align-items-center gap-1 text-warning-main'>
-                  <Icon icon='bxs:up-arrow' className='text-xs' /> 15
+                  <Icon icon='bxs:up-arrow' className='text-xs' /> +15
                 </span>
                 In final round
               </p>
@@ -127,12 +127,12 @@ const RecruiterDashboardHome = () => {
           </div>
         </div>
       </div>
-
+ 
       {/* Quick Actions */}
       <div className='card border shadow-none mb-24'>
         <div className='card-body'>
-          <div className='d-flex align-items-center justify-content-between flex-wrap gap-2 mb-12'>
-            <h5 className='mb-0'>Quick Actions</h5>
+          <div className='d-flex justify-content-between flex-wrap mb-12'>
+            <h6 className='mb-0'>Quick Actions</h6>
             <span className='text-secondary-light text-sm'>Need to move fast? Use these actions.</span>
           </div>
           <div className='d-flex flex-wrap justify-content-center gap-3'>
@@ -151,7 +151,7 @@ const RecruiterDashboardHome = () => {
           </div>
         </div>
       </div>
-
+ 
       {/* Job list and recent applicants */}
       <div className='card border shadow-none mb-24'>
         <div className='card-body p-0'>
@@ -161,7 +161,7 @@ const RecruiterDashboardHome = () => {
       <div className='card border shadow-none'>
         <div className='card-header bg-base border-bottom'>
           <div className='d-flex align-items-center justify-content-between'>
-            <h5 className='mb-0'>Recent Applicants</h5>
+            <h6 className='mb-0'>Recent Applicants</h6>
             <div className='d-flex align-items-center gap-3'>
               <span className='text-secondary-light text-sm'>Showing latest 3</span>
               <button onClick={() => setShowCandidates(true)} className='text-primary-600 fw-semibold text-sm border-0 bg-transparent'>View All Applicants →</button>
@@ -199,7 +199,7 @@ const RecruiterDashboardHome = () => {
           </div>
         </div>
       </div>
-
+ 
       {/* Modals (candidates, profile, import, post) remain unchanged below */}
       {showCandidates && (
         <div className='position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3'>
@@ -241,7 +241,7 @@ const RecruiterDashboardHome = () => {
           </div>
         </div>
       )}
-
+ 
       {showCandidateProfile && selectedCandidate && (
         <div className='position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3'>
           <div className='card w-100' style={{maxWidth: '840px'}}>
@@ -308,7 +308,7 @@ const RecruiterDashboardHome = () => {
           </div>
         </div>
       )}
-
+ 
       {showImportModal && (
         <div className='position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3'>
           <div className='card w-100' style={{maxWidth: '520px'}}>
@@ -323,7 +323,7 @@ const RecruiterDashboardHome = () => {
           </div>
         </div>
       )}
-
+ 
       {showPostModal && (
         <div className='position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3'>
           <div className='card w-100' style={{maxWidth: '520px'}}>
@@ -350,7 +350,7 @@ const RecruiterDashboardHome = () => {
     </div>
   );
 };
-
+ 
 const AdminPanel = () => {
   return (
     <RecruiterDashboardLayout>
@@ -358,5 +358,6 @@ const AdminPanel = () => {
     </RecruiterDashboardLayout>
   );
 };
-
+ 
 export default AdminPanel;
+ 

@@ -2,24 +2,24 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-
+ 
 const CandidateDashboardLayout = ({ children }) => {
   const [sidebarActive, setSidebarActive] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
+ 
   useEffect(() => {
     const handleDropdownClick = (event) => {
       event.preventDefault();
       const clickedLink = event.currentTarget;
       const clickedDropdown = clickedLink.closest(".dropdown");
-
+ 
       if (!clickedDropdown) return;
-
+ 
       const isActive = clickedDropdown.classList.contains("open");
-
+ 
       // Close all dropdowns
       const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
       allDropdowns.forEach((dropdown) => {
@@ -29,7 +29,7 @@ const CandidateDashboardLayout = ({ children }) => {
           submenu.style.maxHeight = "0px"; // Collapse submenu
         }
       });
-
+ 
       // Toggle the clicked dropdown
       if (!isActive) {
         clickedDropdown.classList.add("open");
@@ -39,15 +39,15 @@ const CandidateDashboardLayout = ({ children }) => {
         }
       }
     };
-
+ 
     const dropdownTriggers = document.querySelectorAll(
       ".sidebar-menu .dropdown > a, .sidebar-menu .dropdown > Link"
     );
-
+ 
     dropdownTriggers.forEach((trigger) => {
       trigger.addEventListener("click", handleDropdownClick);
     });
-
+ 
     const openActiveDropdown = () => {
       const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
       allDropdowns.forEach((dropdown) => {
@@ -60,16 +60,16 @@ const CandidateDashboardLayout = ({ children }) => {
             dropdown.classList.add("open");
             const submenu = dropdown.querySelector(".sidebar-submenu");
             if (submenu) {
-              submenu.style.maxHeight = `${submenu.scrollHeight}px`; // Expand submenu
+              submenu.style.maxHeight =` ${submenu.scrollHeight}px`; // Expand submenu
             }
           }
         });
       });
     };
-
+ 
     // Open the submenu that contains the active route
     openActiveDropdown();
-
+ 
     // Cleanup event listeners on unmount
     return () => {
       dropdownTriggers.forEach((trigger) => {
@@ -77,16 +77,16 @@ const CandidateDashboardLayout = ({ children }) => {
       });
     };
   }, [location.pathname]);
-
+ 
   const candidateData = {
     name: localStorage.getItem('candidateName') || 'Candidate',
     email: localStorage.getItem('userEmail') || 'candidate@example.com'
   };
-
+ 
   const LinkItem = ({ to, icon, label, isParent = false }) => {
     return (
-      <NavLink 
-        to={to} 
+      <NavLink
+        to={to}
         className={(navData) => {
           if (isParent) {
             return location.pathname.startsWith(to) ? "active-page" : "";
@@ -99,22 +99,22 @@ const CandidateDashboardLayout = ({ children }) => {
       </NavLink>
     );
   };
-
+ 
   const sidebarControl = () => {
     setSidebarActive(!sidebarActive);
   };
-
+ 
   const mobileMenuControl = () => {
     setMobileMenu(!mobileMenu);
   };
-
+ 
   const handleLogout = () => {
     localStorage.removeItem('userRole');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('candidateName');
     navigate('/candidate/login');
   };
-
+ 
   // Enhanced CSS for sidebar with proper alignment and circle icons
   const activeStyles = `
     .sidebar-menu li > a.active-page {
@@ -155,7 +155,7 @@ const CandidateDashboardLayout = ({ children }) => {
     .sidebar-submenu {
       list-style-type: none !important;
     }
-    
+   
     /* Enhanced dropdown icons with circle indicators */
     .sidebar-submenu li > a .circle-icon {
       width: 6px !important;
@@ -164,7 +164,7 @@ const CandidateDashboardLayout = ({ children }) => {
       display: inline-block !important;
       margin-right: 8px !important;
     }
-    
+   
     /* Proper spacing and alignment */
     .sidebar-menu li > a {
       display: flex !important;
@@ -183,7 +183,7 @@ const CandidateDashboardLayout = ({ children }) => {
       align-items: center !important;
       font-size: 0.9rem !important;
     }
-    
+   
     /* Smooth transitions */
     .sidebar {
       transition: width 0.3s ease !important;
@@ -192,10 +192,16 @@ const CandidateDashboardLayout = ({ children }) => {
       transition: all 0.3s ease !important;
     }
     .menu-icon {
-      transition: all 0.3s ease !important;
-    }
-  `;
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 1.25rem !important;
+  flex-shrink: 0 !important;
+  margin-right: 12px !important;
+  transition: color 0.3s ease !important; /* Only color should animate */
+}
 
+  `;
+ 
   return (
     <>
       <style>{activeStyles}</style>
@@ -217,7 +223,7 @@ const CandidateDashboardLayout = ({ children }) => {
           >
             <Icon icon='radix-icons:cross-2' />
           </button>
-          
+         
           {/* Logo */}
           <div>
             <Link to='/candidate/dashboard' className='sidebar-logo'>
@@ -226,7 +232,7 @@ const CandidateDashboardLayout = ({ children }) => {
               <img src='assets/images/logo-icon.png' alt='site logo' className='logo-icon' />
             </Link>
           </div>
-
+ 
           {/* Navigation */}
           <div className='sidebar-menu-area'>
             <ul className='sidebar-menu' id='sidebar-menu'>
@@ -234,24 +240,24 @@ const CandidateDashboardLayout = ({ children }) => {
               <li>
                 <LinkItem to='/candidate/dashboard' icon='heroicons:home' label='Dashboard' />
               </li>
-
+ 
               <li className='sidebar-menu-group-title'>Job Search</li>
-
+ 
               {/* Job Search */}
               <li>
                 <LinkItem to='/candidate/jobs' icon='heroicons:magnifying-glass' label='Find Jobs' />
               </li>
-
+ 
               {/* Applications */}
               <li>
                 <LinkItem to='/candidate/applications' icon='heroicons:document-text' label='My Applications' />
               </li>
-
+ 
               {/* Profile */}
               <li>
                 <LinkItem to='/candidate/profile' icon='heroicons:user' label='Profile' />
               </li>
-
+ 
               {/* Settings */}
               <li>
                 <LinkItem to='/candidate/settings' icon='icon-park-outline:setting-two' label='Settings' />
@@ -259,7 +265,7 @@ const CandidateDashboardLayout = ({ children }) => {
             </ul>
           </div>
         </aside>
-
+ 
         {/* Main Content */}
         <main className={(sidebarActive ? "dashboard-main active" : "dashboard-main") + " bg-neutral-50"}>
           {/* Header/Topbar */}
@@ -291,7 +297,7 @@ const CandidateDashboardLayout = ({ children }) => {
                   >
                     <Icon icon='heroicons:bars-3-solid' className='icon' />
                   </button>
-                  
+                 
                   {/* Search Bar */}
                   <form className='navbar-search'>
                     <input
@@ -303,7 +309,7 @@ const CandidateDashboardLayout = ({ children }) => {
                   </form>
                 </div>
               </div>
-
+ 
               <div className='col-auto'>
                 <div className='d-flex flex-wrap align-items-center gap-3'>
                   {/* Notifications */}
@@ -359,7 +365,7 @@ const CandidateDashboardLayout = ({ children }) => {
                       </div>
                     </div>
                   </div>
-
+ 
                   {/* Profile Dropdown */}
                   <div className='dropdown'>
                     <button
@@ -410,7 +416,7 @@ const CandidateDashboardLayout = ({ children }) => {
                           <Link
                             className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
                             to='/candidate/settings'
-                            
+                           
                           >
                             <Icon icon='icon-park-outline:setting-two' className='icon text-xl' />
                             Settings
@@ -436,10 +442,10 @@ const CandidateDashboardLayout = ({ children }) => {
               </div>
             </div>
           </div>
-
+ 
           {/* Dashboard Body */}
           <div className='dashboard-main-body bg-neutral-50'>{children}</div>
-
+ 
           {/* Footer */}
           <footer className='d-footer bg-neutral-50'>
             <div className='row align-items-center justify-content-between'>
@@ -458,6 +464,5 @@ const CandidateDashboardLayout = ({ children }) => {
     </>
   );
 };
-
+ 
 export default CandidateDashboardLayout;
-

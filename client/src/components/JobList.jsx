@@ -295,7 +295,7 @@ const JobsListPage = () => {
 
   const handleCloseJob = (jobId) => {
     if (window.confirm('Are you sure you want to close this job?')) {
-      alert(`Closing job: ${jobId}`);
+      alert(`closing job: ${jobId}`);
     }
   };
 
@@ -386,7 +386,7 @@ const JobsListPage = () => {
     <div className="container-fluid py-4">
       {/* Page Header */}
       <div className="mb-4">
-        <h4 className="mb-2">Jobs List</h4>
+        <h6 className="mb-2">Jobs List</h6>
         <p className="text-secondary-light mb-0">View, edit, and manage all active and archived job postings.</p>
       </div>
 
@@ -394,19 +394,19 @@ const JobsListPage = () => {
       <div className="card border shadow-none mb-4">
         <div className="card-body d-flex">
           <div className="text-center w-25">
-            <div className="text-secondary-light small">Total Jobs Posted</div>
-            <div className="h4 mb-0">{kpis.totalJobs}</div>
+            <div className="fw-bold text-secondary-light small">Total Jobs Posted</div>
+            <div className="h4 mb-0 text-primary">{kpis.totalJobs}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="text-secondary-light small">Open Jobs</div>
+            <div className="fw-bold text-secondary-light small">Open Jobs</div>
             <div className="h4 mb-0 text-success">{kpis.openJobs}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="text-secondary-light small">Closed Jobs</div>
+            <div className="fw-bold text-secondary-light small">Closed Jobs</div>
             <div className="h4 mb-0 text-danger">{kpis.closedJobs}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="text-secondary-light small">On Hold</div>
+            <div className="fw-bold text-secondary-light small">On Hold</div>
             <div className="h4 mb-0 text-warning">{kpis.onHold}</div>
           </div>
         </div>
@@ -533,7 +533,7 @@ const JobsListPage = () => {
                     </span>
                   </td>
                   <td className="text-center">
-                    <a href="#" className="text-primary">{job.applicants}</a>
+                    <a href="#" className="nav-link text-primary">{job.applicants}</a>
                   </td>
                   <td className="text-center">
                     <div className="d-flex gap-2 justify-content-center">
@@ -890,7 +890,7 @@ const JobsListPage = () => {
                           <div className="card border-0">
                             <div className="card-body text-center">
                               <div className="text-muted small mb-1">Total Applicants</div>
-                              <div className="h3 mb-0">{analyticsData.metrics.totalApplicants}</div>
+                              <div className="h4 mb-0">{analyticsData.metrics.totalApplicants}</div>
                             </div>
                           </div>
                         </div>
@@ -898,7 +898,7 @@ const JobsListPage = () => {
                           <div className="card border-0">
                             <div className="card-body text-center">
                               <div className="text-muted small mb-1">In Progress</div>
-                              <div className="h3 mb-0 text-primary">{analyticsData.metrics.inProgress}</div>
+                              <div className="h4 mb-0 text-primary">{analyticsData.metrics.inProgress}</div>
                             </div>
                           </div>
                         </div>
@@ -906,7 +906,7 @@ const JobsListPage = () => {
                           <div className="card border-0">
                             <div className="card-body text-center">
                               <div className="text-muted small mb-1">Hired</div>
-                              <div className="h3 mb-0 text-success">{analyticsData.metrics.hired}</div>
+                              <div className="h4 mb-0 text-success">{analyticsData.metrics.hired}</div>
                             </div>
                           </div>
                         </div>
@@ -914,7 +914,7 @@ const JobsListPage = () => {
                           <div className="card border-0">
                             <div className="card-body text-center">
                               <div className="text-muted small mb-1">Rejected</div>
-                              <div className="h3 mb-0 text-danger">{analyticsData.metrics.rejected}</div>
+                              <div className="h4 mb-0 text-danger">{analyticsData.metrics.rejected}</div>
                             </div>
                           </div>
                         </div>

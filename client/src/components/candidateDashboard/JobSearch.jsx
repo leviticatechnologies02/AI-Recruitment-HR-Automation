@@ -14,7 +14,7 @@ const JobSearch = () => {
       title: "Frontend Developer (React.js)",
       company: "Veritech Software Pvt. Ltd.",
       location: "Hyderabad, India",
-      salary: "₹6 LPA",
+      salary: "6 LPA",
       experience: "0-1 Year",
       skills: ["React.js", "JavaScript (ES6+)", "HTML5", "CSS3", "REST API", "Git"],
       type: "Full-Time",
@@ -42,7 +42,7 @@ const JobSearch = () => {
       title: "Full Stack Developer",
       company: "DCM Tech Pvt Ltd",
       location: "Remote",
-      salary: "₹5 – ₹8 LPA",
+      salary: "5 – 8 LPA",
       experience: "1–3 Years",
       skills: ["Node.js", "React", "MongoDB", "Express", "JavaScript"],
       type: "Remote",
@@ -70,7 +70,7 @@ const JobSearch = () => {
       title: "React Developer",
       company: "Tech Innovations",
       location: "Bangalore",
-      salary: "₹6 – ₹10 LPA",
+      salary: "6 – 10 LPA",
       experience: "2–4 Years",
       skills: ["React.js", "Redux", "TypeScript", "JavaScript", "CSS"],
       type: "Hybrid",
@@ -98,7 +98,7 @@ const JobSearch = () => {
       title: "Backend Developer",
       company: "Cloud Systems",
       location: "Pune",
-      salary: "₹7 – ₹12 LPA",
+      salary: "7 – 12 LPA",
       experience: "3–5 Years",
       skills: ["Python", "Django", "PostgreSQL", "REST API", "Docker"],
       type: "Onsite",
@@ -126,7 +126,7 @@ const JobSearch = () => {
       title: "UI/UX Designer",
       company: "Design Studio",
       location: "Remote",
-      salary: "₹4 – ₹7 LPA",
+      salary: "4 – 7 LPA",
       experience: "1–3 Years",
       skills: ["Figma", "Adobe XD", "Prototyping", "User Research", "Wireframing"],
       type: "Remote",
@@ -154,7 +154,7 @@ const JobSearch = () => {
       title: "Junior React Developer",
       company: "StartupHub",
       location: "Hyderabad",
-      salary: "₹3 – ₹5 LPA",
+      salary: "3 – 5 LPA",
       experience: "0–1 Years",
       skills: ["React.js", "JavaScript", "HTML/CSS", "Git", "Bootstrap"],
       type: "Onsite",
@@ -299,7 +299,7 @@ const JobSearch = () => {
       title: "Frontend Developer (React.js)",
       company: "Veritech Software Pvt. Ltd.",
       location: "Hyderabad, India",
-      salary: "₹6 LPA",
+      salary: "6 LPA",
       experience: "0-1 Year",
       skills: ["React.js", "JavaScript (ES6+)", "HTML5", "CSS3", "REST API", "Git"],
       type: "Full-Time",
@@ -323,18 +323,18 @@ const JobSearch = () => {
 
     if (submitted) {
       return (
-        <div className="min-h-screen flex items-center justify-center p-6" style={{ background: 'linear-gradient(135deg, #ecfdf5 0%, #dbeafe 100%)' }}>
+        <div className="min-h-screen flex items-center justify-content-center p-6" style={{marginTop:"200px",width:"600px", marginLeft:"350px"}}>
           <div className="p-12 max-w-2xl text-center" style={{ backgroundColor: '#ffffff', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
-            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: '#10b981' }}>
-              <CheckCircle className="w-12 h-12" style={{ color: '#ffffff' }} />
+            <div className="rounded-full flex items-center justify-center mx-auto mb-6 mt-4" style={{ backgroundColor: '#10b981',width:"100px",height:"40px" }}>
+              <CheckCircle className="mt-2" style={{ color: '#ffffff',}} />
             </div>
-            <h2 className="text-3xl font-bold mb-4" style={{ color: '#1f2937' }}>Application Submitted Successfully!</h2>
+            <h2 className="text-2xl font-bold mb-4" style={{ color: '#1f2937' }}>Application Submitted Successfully!</h2>
             <p className="text-lg mb-8" style={{ color: '#6b7280' }}>
               We'll notify you once {currentJob.company} reviews your profile.
             </p>
             <button 
               onClick={() => setSubmitted(false)}
-              className="px-8 py-3 rounded-lg transition"
+              className="px-8 py-2 rounded-lg transition"
               style={{ backgroundColor: '#3b82f6', color: '#ffffff' }}
               onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
               onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
@@ -350,7 +350,7 @@ const JobSearch = () => {
       <div className='dashboard-main-body bg-neutral-50'>
          <button
               onClick={onBack}
-              className='btn btn-light mb-20 d-flex align-items-center gap-2 fw-medium'
+              className='btn btn-light mb-20 mt-2 d-flex align-items-center gap-2 fw-medium'
             >
               <Icon icon='heroicons:arrow-left' style={{ fontSize: '20px' }} />
               Back to Search
@@ -364,8 +364,8 @@ const JobSearch = () => {
             {/* Main Header Content */}
             <div className='row align-items-end justify-content-between'>
               {/* Left Content */}
-              <div className='col-12 col-lg-8 mb-16 mb-lg-0'>
-                <h1 className='text-4xl fw-bold mb-12'>{currentJob.title}</h1>
+              <div className='col-12 col-lg-8' >
+                <h3 className='text-4xl fw-bold mb-12'>{currentJob.title}</h3>
                 <p className='text-xl mb-0'>{currentJob.company}</p>
               </div>
 
@@ -399,7 +399,7 @@ const JobSearch = () => {
                   </div>
                   <div className='col-12 col-md-6'>
                     <div className='d-flex align-items-center gap-2'>
-                      <Icon icon='heroicons:currency-dollar' className='text-secondary-light' style={{ fontSize: '20px' }} />
+                      <Icon icon='heroicons:currency-rupee' className='text-secondary-light' style={{ fontSize: '20px' }} />
                       <span className='text-gray-700 fw-medium'>{currentJob.salary}</span>
                     </div>
                   </div>
@@ -494,7 +494,7 @@ const JobSearch = () => {
                       value='upload'
                       checked={applicationMethod === 'upload'}
                       onChange={(e) => setApplicationMethod(e.target.value)}
-                      className='form-check-input mt-4'
+                      className='form-check-input mt-1'
                     />
                     <div className='flex-grow-1'>
                       <div className='d-flex align-items-center gap-2 mb-8'>
@@ -527,7 +527,7 @@ const JobSearch = () => {
                       value='profile'
                       checked={applicationMethod === 'profile'}
                       onChange={(e) => setApplicationMethod(e.target.value)}
-                      className='form-check-input mt-4'
+                      className='form-check-input mt-1'
                     />
                     <div className='flex-grow-1'>
                       <div className='d-flex align-items-center gap-2 mb-8'>
@@ -571,11 +571,12 @@ const JobSearch = () => {
                 <button
                   onClick={handleApply}
                   disabled={applicationMethod === 'upload' && !selectedFile}
-                  className={`btn w-100 py-12 fw-semibold ${
+                  className={`btn py-12 fw-semibold ${
                     applicationMethod === 'upload' && !selectedFile 
                       ? 'btn-secondary' 
                       : 'btn-primary'
                   }`}
+                  style={{width:"130px"}}
                 >
                   Apply Now
                 </button>
@@ -595,7 +596,7 @@ const JobSearch = () => {
   return (
     <div className='dashboard-main-body bg-neutral-50'>
       {/* Header */}
-      <div className='bg-white shadow-sm border-bottom mb-20'>
+      <div className='shadow-sm border-bottom mb-20'>
         <div className='container-fluid px-24 py-16'>
           <h1 className='text-2xl fw-bold text-gray-800 mb-4'>Find Your Dream Job</h1>
           <p className='text-secondary-light text-sm mb-0'>Discover opportunities that match your skills</p>
@@ -657,7 +658,7 @@ const JobSearch = () => {
                 {/* Salary Range */}
                 <div className='mb-20'>
                   <h6 className='fw-medium text-gray-700 mb-12 d-flex align-items-center gap-2'>
-                    <Icon icon='heroicons:currency-dollar' style={{ fontSize: '16px' }} />
+                    <Icon icon='heroicons:currency-rupee' style={{ fontSize: '16px' }} />
                     Salary Range
                   </h6>
                   <div className='d-flex flex-column gap-2'>
@@ -782,7 +783,7 @@ const JobSearch = () => {
                               {job.location}
                             </span>
                             <span className='d-flex align-items-center gap-1'>
-                              <Icon icon='heroicons:currency-dollar' style={{ fontSize: '16px' }} />
+                              <Icon icon='heroicons:currency-rupee' style={{ fontSize: '16px' }} />
                               {job.salary}
                             </span>
                             <span className='d-flex align-items-center gap-1'>

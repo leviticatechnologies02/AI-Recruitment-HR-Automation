@@ -215,7 +215,7 @@ const PipelineView = () => {
       <div className="mb-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
-            <h2 className="mb-2">Recruitment Pipeline</h2>
+            <h5 className="mb-2">Recruitment Pipeline</h5>
             <p className="text-muted mb-0">Track and manage candidates through hiring stages</p>
           </div>
           <button
@@ -236,9 +236,9 @@ const PipelineView = () => {
                   <div className="p-2 bg-primary-subtle rounded">
                     <Users size={20} className="text-primary" />
                   </div>
-                  <span className="text-muted small">Total Candidates</span>
+                  <span className="fw-bold">Total Candidates</span>
                 </div>
-                <h3 className="mb-0">{totalCandidates}</h3>
+                <h4 className="mb-0">{totalCandidates}</h4>
               </div>
             </div>
           
@@ -248,9 +248,9 @@ const PipelineView = () => {
                   <div className="p-2 bg-success-subtle rounded">
                     <TrendingUp size={20} className="text-success" />
                   </div>
-                  <span className="text-muted small">Hired This Month</span>
+                  <span className="fw-bold">Hired This Month</span>
                 </div>
-                <h3 className="mb-0">{stages.find(s => s.id === 'hired')?.candidates.length || 0}</h3>
+                <h4 className="mb-0">{stages.find(s => s.id === 'hired')?.candidates.length || 0}</h4>
               </div>
             </div>
 
@@ -260,9 +260,9 @@ const PipelineView = () => {
                   <div className="p-2 bg-warning-subtle rounded">
                     <Calendar size={20} className="text-warning" />
                   </div>
-                  <span className="text-muted small">Active Offers</span>
+                  <span className="fw-bold">Active Offers</span>
                 </div>
-                <h3 className="mb-0">{stages.find(s => s.id === 'offer')?.candidates.length || 0}</h3>
+                <h4 className="mb-0">{stages.find(s => s.id === 'offer')?.candidates.length || 0}</h4>
               </div>
             </div>
 
@@ -272,9 +272,9 @@ const PipelineView = () => {
                   <div className="p-2 bg-info-subtle rounded">
                     <ArrowRight size={20} className="text-info" />
                   </div>
-                  <span className="text-muted small">Pipeline Stages</span>
+                  <span className="fw-bold">Pipeline Stages</span>
                 </div>
-                <h3 className="mb-0">{stages.length}</h3>
+                <h4 className="mb-0">{stages.length}</h4>
               </div>
             </div>
           </div>
@@ -347,13 +347,13 @@ const PipelineView = () => {
                     <div className="position-absolute end-0 mt-2 bg-white rounded shadow border" style={{width: '200px', zIndex: 20}}>
                       <button 
                         onClick={() => handleEditStage(stage.id, stage.name)}
-                        className="w-100 px-3 py-2 btn btn-link text-start text-dark border-0 rounded-top"
+                        className="w-100 px-3 py-2 btn  text-start text-dark border-0 rounded-top"
                       >
                         Edit Stage
                       </button>
                       <button 
                         onClick={() => handleDeleteStage(stage.id)}
-                        className="w-100 px-3 py-2 btn btn-link text-start text-danger border-0 rounded-bottom"
+                        className="w-100 px-3 py-2 btn text-start text-danger border-0 rounded-bottom"
                       >
                         Delete Stage
                       </button>

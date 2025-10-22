@@ -76,7 +76,7 @@ const PricingPage = () => {
 
   return (
     <div className='min-vh-100' style={{ 
-      background: 'linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%)' 
+      background: 'linear-gradient(135deg, #7b738cff 0%, #aab6caff 100%)' 
     }}>
       <div className='container py-5'>
         {/* Header */}
@@ -168,7 +168,7 @@ const PricingPage = () => {
                 <div className='card-body p-4 pt-5'>
                   {/* Price */}
                   <div className='text-center mb-4'>
-                    <h2 className='display-6 fw-bold text-dark mb-0'>
+                    <h2 className='display-6 fw-semibold   text-dark mb-0'>
                       {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                       <span className='fs-6 text-muted'>/{isYearly ? 'year' : 'mon'}</span>
                     </h2>

@@ -204,7 +204,7 @@ export default function RecruiterPerformance() {
     const csv = parts.join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
-    const fileNameSafe = details.name ? details.name.replace(/[^a-z0-9-_\. ]/gi, '_') : 'recruiter';
+    const fileNameSafe = details.name ? details.name.replace(/[^a-z0-9-\. ]/gi, '') : 'recruiter';
     const a = document.createElement('a');
     a.href = url;
     a.download = `recruiter-${fileNameSafe}-details.csv`;
@@ -275,7 +275,7 @@ export default function RecruiterPerformance() {
   return (
     <div className="container-fluid py-4">
       <div className="mb-12">
-        <h4 className="mb-2">Recruiter Performance</h4>
+        <h5 className="mb-2">Recruiter Performance</h5>
         <p className="text-secondary-light mb-0">Track performance and efficiency of recruiters.</p>
       </div>
 
@@ -327,7 +327,7 @@ export default function RecruiterPerformance() {
             <div className="card-body p-4 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-primary fw-semibold small">Active Jobs</div>
-                <div className="h3 mb-0 text-primary fw-bold">12</div>
+                <div className="h5 mb-0 text-primary fw-bold">12</div>
               </div>
               <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style={{width: '48px', height: '48px'}}>
                 <CalendarCheck size={24} />
@@ -340,7 +340,7 @@ export default function RecruiterPerformance() {
             <div className="card-body p-4 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-success fw-semibold small">Avg. Time-to-Hire</div>
-                <div className="h3 mb-0 text-success fw-bold">18 days</div>
+                <div className="h5 mb-0 text-success fw-bold">18 days</div>
               </div>
               <div className="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style={{width: '48px', height: '48px'}}>
                 <Clock size={24} />
@@ -353,7 +353,7 @@ export default function RecruiterPerformance() {
             <div className="card-body p-4 d-flex align-items-center justify-content-between" style={{minHeight: '96px'}}>
               <div>
                 <div className="text-warning fw-semibold small">Applications This Week</div>
-                <div className="h3 mb-0 text-warning fw-bold">56</div>
+                <div className="h5 mb-0 text-warning fw-bold">56</div>
               </div>
               <div className="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style={{width: '48px', height: '48px'}}>
                 <TrendingUp size={24} />
