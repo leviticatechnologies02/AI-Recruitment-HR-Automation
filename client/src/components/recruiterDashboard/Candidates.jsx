@@ -246,14 +246,7 @@ const CandidatesPage = () => {
             <option value="hired">Hired</option>
           </select>
 
-          <select 
-            className="form-select w-auto"
-            value={filters.recruiter}
-            onChange={(e) => setFilters(prev => ({ ...prev, recruiter: e.target.value }))}
-          >
-            <option value="">All Recruiters</option>
-            <option value="AI">AI</option>
-          </select>
+         
 
           <div className="d-flex gap-2">
             <button className="btn btn-dark" onClick={handleExport}><Download size={14} className="me-2"/>Export</button>

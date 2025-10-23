@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import RecruiterDashboardLayout from '../recruiterDashboard/RecruiterDashboardLayout';
-
+ 
 const Integrations = () => {
   const [integrations, setIntegrations] = useState([
     {
@@ -43,14 +43,14 @@ const Integrations = () => {
       }
     }
   ]);
-
+ 
   const [notification, setNotification] = useState(null);
   const [showSettings, setShowSettings] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-
+ 
   const handleConnect = (id, name) => {
-    setIntegrations(integrations.map(int => 
-      int.id === id 
+    setIntegrations(integrations.map(int =>
+      int.id === id
         ? { ...int, status: 'connected', lastSync: 'Just now', settings: { default: true } }
         : int
     ));
@@ -60,10 +60,10 @@ const Integrations = () => {
     });
     setTimeout(() => setNotification(null), 3000);
   };
-
+ 
   const handleDisconnect = (id, name) => {
-    setIntegrations(integrations.map(int => 
-      int.id === id 
+    setIntegrations(integrations.map(int =>
+      int.id === id
         ? { ...int, status: 'disconnected', lastSync: null, settings: null }
         : int
     ));
@@ -73,7 +73,7 @@ const Integrations = () => {
     });
     setTimeout(() => setNotification(null), 3000);
   };
-
+ 
   const handleTestConnection = (id, name) => {
     setNotification({
       type: 'success',
@@ -81,7 +81,7 @@ const Integrations = () => {
     });
     setTimeout(() => setNotification(null), 3000);
   };
-
+ 
   const getStatusBadge = (status) => {
     switch(status) {
       case 'connected':
@@ -107,16 +107,16 @@ const Integrations = () => {
         );
     }
   };
-
+ 
   const handleDragStart = (e) => {
     setIsDragging(true);
     e.dataTransfer.effectAllowed = 'move';
   };
-
+ 
   const handleDragEnd = () => {
     setIsDragging(false);
   };
-
+ 
   return (
     <RecruiterDashboardLayout>
       <div className="container-fluid">
@@ -124,10 +124,10 @@ const Integrations = () => {
           <div className="col-12">
             {/* Header */}
             <div className="mb-4">
-              <h1 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
-                <Icon icon="heroicons:link" className="text-primary" />
+              <h5 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2 mt-3">
+                <Icon icon="heroicons:link" className="fw-bold" />
                 Integrations
-              </h1>
+              </h5>
               <p className="text-muted mb-1">
                 Connect external tools like Slack, Gmail, or Calendar to streamline your hiring process.
               </p>
@@ -135,31 +135,31 @@ const Integrations = () => {
                 Manage all connected services and enable smart automation across your recruitment platform.
               </p>
             </div>
-
+ 
             {/* Notification Banner */}
             {notification && (
               <div className={`alert alert-dismissible fade show mb-4 ${
                 notification.type === 'success' ? 'alert-success' : 'alert-info'
               }`} role="alert">
                 <span className="fw-medium">{notification.message}</span>
-                <button 
-                  type="button" 
-                  className="btn-close" 
+                <button
+                  type="button"
+                  className="btn-close"
                   onClick={() => setNotification(null)}
                 ></button>
               </div>
             )}
-
+ 
             {/* Integrations Grid */}
             <div className="row g-4">
               {integrations.map((integration) => (
                 <div key={integration.id} className="col-md-6">
-                  <div 
+                  <div
                     className="card shadow-sm border-0 h-100"
                     draggable
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
-                    style={{ 
+                    style={{
                       cursor: isDragging ? 'grabbing' : 'grab',
                       opacity: isDragging ? 0.8 : 1
                     }}
@@ -176,7 +176,7 @@ const Integrations = () => {
                             {integration.status === 'connected' && integration.settings && (
                               <button
                                 onClick={() => setShowSettings(showSettings === integration.id ? null : integration.id)}
-                                className="btn btn-link p-0 text-primary small d-flex align-items-center gap-1"
+                                className="btn  p-0 text-primary small d-flex align-items-center gap-1"
                               >
                                 <Icon icon="heroicons:cog-6-tooth" className="small" />
                                 Settings
@@ -186,30 +186,30 @@ const Integrations = () => {
                         </div>
                         {getStatusBadge(integration.status)}
                       </div>
-
+ 
                       {/* Description */}
                       <p className="text-muted small mb-3">
                         {integration.description}
                       </p>
-
+ 
                       {/* Last Sync */}
                       {integration.status === 'connected' && integration.lastSync && (
                         <div className="d-flex align-items-center gap-2 text-muted small mb-3">
-                          <Icon icon="heroicons:clock" className="small" />
+                          <Icon icon="heroicons:clock" className="fs-5" />
                           Last synced: {integration.lastSync}
                         </div>
                       )}
-
+ 
                       {/* Settings Panel */}
                       {showSettings === integration.id && integration.settings && (
                         <div className="mb-3 p-3 bg-light rounded border">
-                          <h6 className="small fw-medium text-dark mb-2">Integration Settings</h6>
+                          <h5 className="small fw-medium text-dark mb-2">Integration Settings</h5>
                           <div className="small text-muted">
                             {Object.entries(integration.settings).map(([key, value]) => (
                               <div key={key} className="d-flex justify-content-between mb-1">
                                 <span className="text-capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
                                 <span className="fw-medium">
-                                  {typeof value === 'boolean' ? (value ? 'Enabled' : 'Disabled') : 
+                                  {typeof value === 'boolean' ? (value ? 'Enabled' : 'Disabled') :
                                    Array.isArray(value) ? value.join(', ') : value}
                                 </span>
                               </div>
@@ -217,14 +217,14 @@ const Integrations = () => {
                           </div>
                         </div>
                       )}
-
+ 
                       {/* Action Buttons */}
                       <div className="d-flex gap-2">
                         {integration.status === 'connected' ? (
                           <>
                             <button
                               onClick={() => handleDisconnect(integration.id, integration.name)}
-                              className="btn btn-outline-danger btn-sm flex-fill d-flex align-items-center justify-content-center gap-1"
+                              className="btn btn-danger btn-sm  d-flex align-items-center justify-content-center gap-1"
                             >
                               <Icon icon="heroicons:link-slash" className="small" />
                               Disconnect
@@ -239,7 +239,7 @@ const Integrations = () => {
                         ) : (
                           <button
                             onClick={() => handleConnect(integration.id, integration.name)}
-                            className="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-1"
+                            className="btn btn-primary btn-sm d-flex align-items-center justify-content-center gap-1"
                           >
                             <Icon icon="heroicons:link" className="small" />
                             Connect
@@ -251,13 +251,13 @@ const Integrations = () => {
                 </div>
               ))}
             </div>
-
+ 
             {/* Info Card */}
             <div className="mt-4">
               <div className="card bg-primary bg-opacity-10 border border-primary border-opacity-20">
                 <div className="card-body">
                   <div className="d-flex align-items-start gap-3">
-                    <Icon icon="heroicons:exclamation-triangle" className="text-primary mt-1" />
+                    <Icon icon="heroicons:exclamation-triangle" className="text-primary mt-1 fs-5" />
                     <div>
                       <h6 className="fw-semibold text-primary mb-1">Need Help?</h6>
                       <p className="small text-primary mb-0">
@@ -274,5 +274,5 @@ const Integrations = () => {
     </RecruiterDashboardLayout>
   );
 };
-
+ 
 export default Integrations;

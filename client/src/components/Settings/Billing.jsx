@@ -68,8 +68,8 @@ const Billing = () => {
         <div className="row">
           <div className="col-12">
             {/* Header */}
-            <div className="mb-4">
-              <h1 className="text-3xl fw-bold text-dark mb-2">Company Settings → Billing</h1>
+            <div className="mb-4 ">
+              <h5 className=" fw-bold text-dark mb-2 mt-3">Company Settings → Billing</h5>
               <p className="text-muted">Manage your subscription, invoices, and payment methods</p>
             </div>
 
@@ -90,10 +90,10 @@ const Billing = () => {
                   <div className="card-body">
                     <div className="d-flex align-items-start justify-content-between mb-4">
                       <div>
-                        <h2 className="h4 fw-semibold text-dark mb-1">
+                        <h5 className="h5 fw-semibold text-dark mb-1">
                           {plans[selectedPlan].name} Plan
-                        </h2>
-                        <p className="display-6 fw-bold text-primary mb-0">
+                        </h5>
+                        <p className="fs-5 fw-bold text-primary mb-0">
                           ₹{plans[selectedPlan].price.toLocaleString()}
                           <span className="fs-6 text-muted fw-normal">/month</span>
                         </p>
@@ -106,7 +106,7 @@ const Billing = () => {
                     <div className="row g-3 mb-4">
                       <div className="col-6">
                         <div className="bg-light rounded p-3">
-                          <p className="small text-muted mb-1">Users Included</p>
+                          <p className=" mb-1">Users Included</p>
                           <p className="h6 fw-semibold text-dark mb-0">
                             {plans[selectedPlan].users} Recruiters
                           </p>
@@ -177,7 +177,7 @@ const Billing = () => {
               <div className="card shadow-sm border-0 mb-4">
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-center mb-4">
-                    <h3 className="h5 fw-semibold text-dark">Choose Your Plan</h3>
+                    <h5 className="h5 fw-semibold text-dark">Choose Your Plan</h5>
                     <button
                       onClick={() => setShowPlanModal(false)}
                       className="btn btn-link text-muted p-0"
@@ -197,7 +197,7 @@ const Billing = () => {
                             <h6 className="fw-semibold text-dark mb-2">{plan.name}</h6>
                             <p className="h5 fw-bold text-dark mb-3">
                               ₹{plan.price.toLocaleString()}
-                              <span className="small text-muted fw-normal">/mo</span>
+                              <span className="text-muted small">/months</span>
                             </p>
                             <ul className="list-unstyled small text-muted">
                               <li className="mb-1">✓ {plan.users} users</li>
@@ -216,8 +216,8 @@ const Billing = () => {
             <div className="card shadow-sm border-0 mb-4">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <h2 className="h5 fw-semibold text-dark">Billing History</h2>
-                  <button className="btn btn-link text-primary p-0 small">
+                  <h5 className="h5 fw-semibold text-dark">Billing History</h5>
+                  <button className="btn  text-primary p-0 small">
                     Export All
                   </button>
                 </div>
@@ -225,10 +225,10 @@ const Billing = () => {
                   <table className="table table-hover">
                     <thead className="bg-light">
                       <tr>
-                        <th className="border-0 py-3 small fw-semibold text-muted text-start">Date</th>
-                        <th className="border-0 py-3 small fw-semibold text-muted text-start">Amount</th>
-                        <th className="border-0 py-3 small fw-semibold text-muted text-start">Status</th>
-                        <th className="border-0 py-3 small fw-semibold text-muted text-end">Action</th>
+                        <th className="border-0 py-3 fw-bold text-start fs-5">Date</th>
+                        <th className="border-0 py-3 fw-bold text-start fs-5">Amount</th>
+                        <th className="border-0 py-3 fw-bold text-start fs-5">Status</th>
+                        <th className="border-0 py-3 fw-bold text-end fs-5">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -248,13 +248,13 @@ const Billing = () => {
                             {invoice.status === 'paid' ? (
                               <button
                                 onClick={() => handleDownloadInvoice(invoice.id)}
-                                className="btn btn-link text-primary p-0 small d-inline-flex align-items-center gap-1"
+                                className="btn text-primary p-0 small d-inline-flex align-items-center gap-1"
                               >
                                 <Icon icon="heroicons:arrow-down-tray" className="small" />
                                 Download
                               </button>
                             ) : invoice.status === 'failed' ? (
-                              <button className="btn btn-link text-danger p-0 small">
+                              <button className="btn  text-danger p-0 small">
                                 Retry Payment
                               </button>
                             ) : (

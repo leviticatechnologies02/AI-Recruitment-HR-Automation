@@ -71,9 +71,9 @@ const Landing = () => {
 
   const pricingPlans = [
     {
-      name: 'BASIC',
+      name: 'FREE',
       color: '#E8B4F8',
-      monthlyPrice: '$4.99',
+      monthlyPrice: '$0',
       yearlyPrice: '$49.99',
       features: [
         { text: '50 GB Bandwidth', included: true },
@@ -84,7 +84,7 @@ const Landing = () => {
       ]
     },
     {
-      name: 'STANDARD',
+      name: 'BASIC',
       color: '#FF69B4',
       monthlyPrice: '$9.99',
       yearlyPrice: '$99.99',
@@ -97,7 +97,7 @@ const Landing = () => {
       ]
     },
     {
-      name: 'PREMIUM',
+      name: 'STANDARD',
       color: '#8B5CF6',
       monthlyPrice: '$14.99',
       yearlyPrice: '$149.99',
@@ -108,20 +108,8 @@ const Landing = () => {
         { text: 'Customer Management', included: true },
         { text: 'Advanced Analytics', included: false }
       ]
-    },
-    {
-      name: 'SPECIAL',
-      color: '#A855F7',
-      monthlyPrice: '$99.99',
-      yearlyPrice: '$999.99',
-      features: [
-        { text: '50 GB Bandwidth', included: true },
-        { text: 'Financial Analysis', included: true },
-        { text: '24 hour support', included: false },
-        { text: 'Customer Management', included: false },
-        { text: 'Advanced Analytics', included: false }
-      ]
     }
+    
   ];
 
  
@@ -383,7 +371,7 @@ const Landing = () => {
     {/* Scrolled Testimonials */ }
 
   <section  className='p-2 relative '>
-      <div className='container  card border shadow-none flex flex-wrap justify-center gap-6 bg-red'>
+      <div className='container flex flex-wrap justify-center gap-6'>
         <div className="max-w-5xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -396,43 +384,39 @@ const Landing = () => {
         </div>
 
         {/* Testimonial Cards */}
-      <div className="relative overflow-hidden">
+      <div className="position-relative" style={{ overflow: "hidden" }}>
       <div
-        className="flex transition-transform duration-700 ease-in-out"
+        className="d-flex transition-transform"
         style={{
           transform: `translateX(-${activeTestimonial * 100}%)`,
         }}
       >
         {testimonials.map((testimonial, idx) => (
-          <div key={idx} className="min-w-full flex justify-center px-4">
-            <div className="bg-white text-gray-800 rounded-3xl p-10 shadow-2xl w-full md:w-[70%] lg:w-[60%]">
-              {/* Rating Stars */}
-              <div className="flex mb-4">
+          <div key={idx} className="d-flex justify-content-center px-4" style={{ minWidth: "100%" }}>
+            <div className="bg-white rounded-3 shadow p-4 p-md-5 w-100" style={{ maxWidth: "720px" }}>
+              {/* Rating Stars (top-left) */}
+              <div className="d-flex mb-3">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                  />
+                  <Star key={i} size={18} color="#FBBF24" fill="#FBBF24" className="me-1" />
                 ))}
               </div>
 
               {/* Feedback */}
-              <p className="text-xl mb-8 italic leading-relaxed">
+              <p className="fs-5 mb-4 fst-italic lh-base">
                 "{testimonial.feedback}"
               </p>
 
               {/* Author Info */}
-              <div className="flex items-center">
-                <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
+              <div className="d-flex align-items-center">
+                <div
+                  className="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold me-3"
+                  style={{ width: "56px", height: "56px", background: "linear-gradient(135deg, #3B82F6 0%, #A855F7 100%)" }}
+                >
                   {testimonial.photo}
                 </div>
                 <div>
-                  <div className="font-bold text-gray-900">
-                    {testimonial.name}
-                  </div>
-                  <div className="text-gray-600">
-                    {testimonial.role} at {testimonial.company}
-                  </div>
+                  <div className="fw-bold text-dark">{testimonial.name}</div>
+                  <div className="text-muted">{testimonial.role} at {testimonial.company}</div>
                 </div>
               </div>
             </div>
@@ -639,18 +623,22 @@ const Landing = () => {
             <div className='d-flex flex-column gap-3'>
               {[
                 {
+                  
                   question: "Where to start?",
                   answer: "Begin by creating your first job posting and setting up your company profile. Our AI will guide you through the process step by step."
                 },
                 {
+                  
                   question: "Data analytics",
                   answer: "Track your hiring metrics with comprehensive analytics including time-to-hire, candidate quality scores, and pipeline performance."
                 },
                 {
+                 
                   question: "Understanding the market",
                   answer: "Get insights into salary benchmarks, skill demand trends, and competitive analysis to make informed hiring decisions."
                 },
                 {
+                 
                   question: "What can we do to help?",
                   answer: "Our AI-powered platform automates screening, scheduling, and candidate communication, freeing you to focus on building relationships."
                 }
@@ -662,7 +650,10 @@ const Landing = () => {
                       onClick={() => toggleFAQ(index)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <h6 className='mb-0 text-dark fw-semibold'>{item.question}</h6>
+                      <div className='d-flex align-items-center gap-3'>
+                        
+                        <h6 className='mb-0 text-dark fw-semibold'>{item.question}</h6>
+                      </div>
                       <i 
                         className={`ri-arrow-down-s-line fs-5 text-secondary transition-all ${
                           openFAQ === index ? 'rotate-180' : ''
@@ -808,4 +799,3 @@ const Landing = () => {
 };
  
 export default Landing;
- 

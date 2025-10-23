@@ -223,10 +223,10 @@ const OnboardingDocuments = () => {
     {/* Header */}
     <div className="card border shadow-none mb-4">
       <div className="card-body">
-        <h1 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
-          <Icon icon="heroicons:document-text" className="text-primary" />
+        <h5 className=" fw-bold text-dark mb-2 d-flex align-items-center gap-2">
+          <Icon icon="heroicons:document-text" className="" />
           Employee Onboarding
-        </h1>
+        </h5>
         <p className="text-muted">Manage new hire documents, tasks, and contracts</p>
       </div>
     </div>
@@ -270,7 +270,7 @@ const OnboardingDocuments = () => {
         {activeTab === 'documents' && (
           <div>
             <div className="d-flex justify-content-between align-items-center mb-4">
-              <h2 className="h4 fw-semibold text-dark">Required Documents</h2>
+              <h5 className=" fw-semibold text-dark">Required Documents</h5>
               <div className="text-muted small">
                 {documents.filter(d => d.status === 'uploaded').length} of {documents.length} uploaded
               </div>
@@ -284,10 +284,10 @@ const OnboardingDocuments = () => {
                       <div className="d-flex justify-content-between align-items-start mb-4">
                         <div className="d-flex align-items-center gap-3">
                           <div className="w-40-px h-40-px bg-primary-subtle rounded d-flex align-items-center justify-content-center">
-                            <Icon icon="heroicons:document-text" className="text-primary" />
+                            <Icon icon="heroicons:document-text" className="text-primary fs-5" />
                           </div>
                           <div>
-                            <h5 className="fw-medium text-dark mb-1">{doc.name}</h5>
+                            <h6 className=" fw-bold fs-5">{doc.name}</h6>
                             {doc.uploadDate && (
                               <p className="small text-muted mb-0">Uploaded on {doc.uploadDate}</p>
                             )}
@@ -353,7 +353,7 @@ const OnboardingDocuments = () => {
           <div>
             <div className="d-flex justify-content-between align-items-center mb-4">
               <div>
-                <h2 className="h4 fw-semibold text-dark">Onboarding Tasks</h2>
+                <h5 className=" fw-semibold text-dark">Onboarding Tasks</h5>
                 <p className="text-muted small">Track and manage new hire setup tasks</p>
               </div>
               <button
@@ -379,7 +379,7 @@ const OnboardingDocuments = () => {
                 <div className="progress" style={{ height: '12px' }}>
                   <div
                     className="progress-bar bg-primary"
-                    style={{ width: `${calculateProgress()}%` }}
+                    style={{ width: `${calculateProgress()}% `}}
                   ></div>
                 </div>
               </div>
@@ -387,7 +387,7 @@ const OnboardingDocuments = () => {
 
             {/* Filter */}
             <div className="d-flex align-items-center gap-3 mb-4">
-              <Icon icon="heroicons:funnel" className="text-muted" />
+              <Icon icon="heroicons:funnel" className="fs-5" />
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
@@ -408,11 +408,11 @@ const OnboardingDocuments = () => {
                   <table className="table table-hover mb-0">
                     <thead className="bg-light">
                       <tr>
-                        <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Task Name</th>
-                        <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Assigned To</th>
-                        <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Status</th>
-                        <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Due Date</th>
-                        <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Actions</th>
+                        <th className="border-0 px-4 py-3 text-uppercase fw-bold">Task Name</th>
+                        <th className="border-0 px-4 py-3 text-uppercase fw-bold">Assigned To</th>
+                        <th className="border-0 px-4 py-3 text-uppercase fw-bold">Status</th>
+                        <th className="border-0 px-4 py-3 text-uppercase fw-bold">Due Date</th>
+                        <th className="border-0 px-4 py-3 text-uppercase fw-bold ">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -430,7 +430,7 @@ const OnboardingDocuments = () => {
                               <span className="small text-muted">{task.assignee}</span>
                             </div>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 ">
                             <button onClick={() => toggleTaskStatus(task.id)} className="btn p-0">
                               <StatusBadge status={task.status} />
                             </button>
@@ -472,7 +472,7 @@ const OnboardingDocuments = () => {
           <div className="row justify-content-center">
             <div className="col-lg-10">
               <div>
-                <h2 className="h4 fw-semibold text-dark">Employment Contract</h2>
+                <h5 className=" fw-semibold text-dark">Employment Contract</h5>
                 <p className="text-muted small">Review and electronically sign your offer letter</p>
               </div>
 
@@ -721,7 +721,7 @@ const OnboardingDocuments = () => {
                 </div>
                 <div className="col-md-6">
                   <label className="form-label fw-semibold">Status</label>
-                  <div>
+                  <div style={{width:"100px"}}>
                     <StatusBadge status={previewDocument.status} />
                   </div>
                 </div>
@@ -737,7 +737,7 @@ const OnboardingDocuments = () => {
                   {/* Simulated Document Content */}
                   <div className="bg-white border rounded p-4 text-start" style={{ maxWidth: '600px', margin: '0 auto' }}>
                     <div className="mb-3">
-                      <h6 className="fw-bold text-dark mb-2">Document Content Preview</h6>
+                      <h5 className="fw-semibold text-dark mb-2">Document Content Preview</h5>
                       <p className="small text-muted mb-0">
                         This is a preview of the uploaded document. In a real application, 
                         this would display the actual content of the PDF or image file.
@@ -756,7 +756,7 @@ const OnboardingDocuments = () => {
                         <div className="col-8">{previewDocument.uploadDate}</div>
                         
                         <div className="col-4 fw-semibold">Status:</div>
-                        <div className="col-8">
+                        <div className="col-8" style={{width:"100px"}}>
                           <StatusBadge status={previewDocument.status} />
                         </div>
                       </div>

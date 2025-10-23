@@ -211,7 +211,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
         </div>
         <div className='sidebar-menu-area'>
 
-          <ul className='sidebar-menu' id='sidebar-menu' style={{ display:"flex", justifyContent:"flex-start", flexDirection:"column", alignItems:"flex-start"}}>
+          <ul className='sidebar-menu' id='sidebar-menu'>
             {/* Recruiter Dashboard */}
             <li>
               <LinkItem to='/dashboard' tabKey='dashboard' icon='heroicons:home' label='Dashboard' />
@@ -246,7 +246,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
             
 
             {/* Assessment Dropdown */}
-            <li className='dropdown'>
+            <li className='dropdown mt-1'>
               <Link to='#'>
                 <Icon icon='heroicons:briefcase' className='menu-icon' />
                 <span>Assessment</span>

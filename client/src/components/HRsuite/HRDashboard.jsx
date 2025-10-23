@@ -76,10 +76,10 @@ const HRDashboard = () => {
     <div className="container-fluid">
         {/* Header */}
         <div className="mb-4">
-          <h1 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
-            <Icon icon="heroicons:building-office" className="text-primary" />
+          <h5 className="text-3xl fw-bold text-dark mb-2 mt-3 d-flex align-items-center gap-2">
+            <Icon icon="heroicons:building-office" />
             HR Dashboard
-          </h1>
+          </h5>
           <p className="text-muted">
             Manage your human resources, employee data, and HR processes efficiently.
           </p>
@@ -92,13 +92,13 @@ const HRDashboard = () => {
               <div className="card-body">
                 <div className="d-flex align-items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-60-px h-60-px bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center">
+                    <div className="w-50-px h-50-px bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center">
                       <Icon icon="heroicons:users" className="text-primary text-2xl" />
                     </div>
                   </div>
                   <div className="flex-grow-1 ms-3">
                     <h6 className="text-muted mb-1">Total Employees</h6>
-                    <h4 className="fw-bold mb-0">{stats.totalEmployees}</h4>
+                    <h6 className="fw-bold mb-0">{stats.totalEmployees}</h6>
                   </div>
                 </div>
               </div>
@@ -110,13 +110,13 @@ const HRDashboard = () => {
               <div className="card-body">
                 <div className="d-flex align-items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-60-px h-60-px bg-success-subtle rounded-circle d-flex align-items-center justify-content-center">
+                    <div className="w-50-px h-50-px bg-success-subtle rounded-circle d-flex align-items-center justify-content-center">
                       <Icon icon="heroicons:user-plus" className="text-success text-2xl" />
                     </div>
                   </div>
                   <div className="flex-grow-1 ms-3">
                     <h6 className="text-muted mb-1">New Hires</h6>
-                    <h4 className="fw-bold mb-0">{stats.newHires}</h4>
+                    <h6 className="fw-bold mb-0">{stats.newHires}</h6>
                   </div>
                 </div>
               </div>
@@ -128,13 +128,13 @@ const HRDashboard = () => {
               <div className="card-body">
                 <div className="d-flex align-items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-60-px h-60-px bg-warning-subtle rounded-circle d-flex align-items-center justify-content-center">
+                    <div className="w-50-px h-50-px bg-warning-subtle rounded-circle d-flex align-items-center justify-content-center">
                       <Icon icon="heroicons:clipboard-document-list" className="text-warning text-2xl" />
                     </div>
                   </div>
                   <div className="flex-grow-1 ms-3">
                     <h6 className="text-muted mb-1">Pending Tasks</h6>
-                    <h4 className="fw-bold mb-0">{stats.pendingTasks}</h4>
+                    <h6 className="fw-bold mb-0">{stats.pendingTasks}</h6>
                   </div>
                 </div>
               </div>
@@ -146,13 +146,13 @@ const HRDashboard = () => {
               <div className="card-body">
                 <div className="d-flex align-items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-60-px h-60-px bg-info-subtle rounded-circle d-flex align-items-center justify-content-center">
+                    <div className="w-50-px h-50-px bg-info-subtle rounded-circle d-flex align-items-center justify-content-center">
                       <Icon icon="heroicons:clock" className="text-info text-2xl" />
                     </div>
                   </div>
                   <div className="flex-grow-1 ms-3">
                     <h6 className="text-muted mb-1">Attendance Rate</h6>
-                    <h4 className="fw-bold mb-0">{stats.attendanceRate}%</h4>
+                    <h6 className="fw-bold mb-0">{stats.attendanceRate}%</h6>
                   </div>
                 </div>
               </div>

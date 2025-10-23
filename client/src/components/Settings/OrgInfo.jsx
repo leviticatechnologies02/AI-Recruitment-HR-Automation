@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import RecruiterDashboardLayout from '../recruiterDashboard/RecruiterDashboardLayout';
-
+ 
 const OrgInfo = () => {
   const [formData, setFormData] = useState({
     companyName: 'Veritech Software Web Development Services',
@@ -11,18 +11,18 @@ const OrgInfo = () => {
     address: 'Plot 45, Tech Park Road, Hyderabad, Telangana',
     about: 'We specialize in modern web solutions using React, Node, and Python to deliver scalable applications.'
   });
-
+ 
   const [logo, setLogo] = useState({
     file: null,
     preview: 'https://via.placeholder.com/200x200/3b82f6/ffffff?text=Veritech',
     name: 'veritech_logo.png'
   });
-
+ 
   const [errors, setErrors] = useState({});
   const [showSuccess, setShowSuccess] = useState(false);
   const [lastUpdated, setLastUpdated] = useState('Nagendra Uggirala on 08 Oct 2025');
   const [isDragging, setIsDragging] = useState(false);
-
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -30,7 +30,7 @@ const OrgInfo = () => {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
-
+ 
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -42,7 +42,7 @@ const OrgInfo = () => {
         setErrors(prev => ({ ...prev, logo: 'Only PNG, JPG, and SVG files are allowed' }));
         return;
       }
-      
+     
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogo({
@@ -55,38 +55,38 @@ const OrgInfo = () => {
       reader.readAsDataURL(file);
     }
   };
-
+ 
   const validateForm = () => {
     const newErrors = {};
-    
+   
     if (!formData.companyName.trim()) {
       newErrors.companyName = 'Company name is required';
     }
-    
+   
     if (!formData.website.trim()) {
       newErrors.website = 'Website URL is required';
     } else if (!/^https?:\/\/.+\..+/.test(formData.website)) {
       newErrors.website = 'Please enter a valid URL (e.g., https://example.com)';
     }
-    
+   
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+   
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
     }
-    
+   
     if (!formData.address.trim()) {
       newErrors.address = 'Address is required';
     }
-    
+   
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
+ 
   const handleSave = () => {
     if (validateForm()) {
       setShowSuccess(true);
@@ -94,7 +94,7 @@ const OrgInfo = () => {
       setTimeout(() => setShowSuccess(false), 3000);
     }
   };
-
+ 
   const handleReset = () => {
     // Confirm before resetting
     if (window.confirm('Are you sure you want to reset all changes? This will restore the form to its original values.')) {
@@ -107,42 +107,42 @@ const OrgInfo = () => {
         address: 'Plot 45, Tech Park Road, Hyderabad, Telangana',
         about: 'We specialize in modern web solutions using React, Node, and Python to deliver scalable applications.'
       });
-      
+     
       // Reset logo to original state
       setLogo({
         file: null,
         preview: 'https://via.placeholder.com/200x200/3b82f6/ffffff?text=Veritech',
         name: 'veritech_logo.png'
       });
-      
+     
       // Clear all errors
       setErrors({});
-      
+     
       // Hide success message
       setShowSuccess(false);
-      
+     
       // Reset drag state
       setIsDragging(false);
-      
+     
       // Reset any file input
       const fileInput = document.querySelector('input[type="file"]');
       if (fileInput) {
         fileInput.value = '';
       }
-      
+     
       console.log('Form reset successfully');
     }
   };
-
+ 
   const handleDragStart = (e) => {
     setIsDragging(true);
     e.dataTransfer.effectAllowed = 'move';
   };
-
+ 
   const handleDragEnd = () => {
     setIsDragging(false);
   };
-
+ 
   return (
     <RecruiterDashboardLayout>
       <div className="container-fluid">
@@ -151,14 +151,14 @@ const OrgInfo = () => {
             {/* Header */}
             <div className="mb-4">
               <div className="d-flex align-items-center gap-3 mb-2">
-                <Icon icon="heroicons:building-office" className="text-primary" style={{ fontSize: '2rem' }} />
-                <h1 className="text-3xl fw-bold text-dark mb-0">Company Settings</h1>
+                <Icon icon="heroicons:building-office" className="" style={{ fontSize: '2rem' }} />
+                <h5 className=" fw-bold text-dark mb-0">Company Settings</h5>
               </div>
               <p className="text-muted ms-5">
                 Manage your organization's profile and branding details. Update your company information to display across job postings, offer letters, and the career portal.
               </p>
             </div>
-
+ 
             {/* Success Message */}
             {showSuccess && (
               <div className="alert alert-success d-flex align-items-center mb-4" role="alert">
@@ -166,14 +166,14 @@ const OrgInfo = () => {
                 <span className="fw-medium">Company details updated successfully!</span>
               </div>
             )}
-
+ 
             {/* Main Form Card */}
-            <div 
+            <div
               className="card shadow-lg border-0"
               draggable
               onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}
-              style={{ 
+              style={{
                 cursor: isDragging ? 'grabbing' : 'grab',
                 opacity: isDragging ? 0.8 : 1
               }}
@@ -183,7 +183,7 @@ const OrgInfo = () => {
                   {/* Left Column - Form Fields */}
                   <div className="col-lg-8">
                     <div className="mb-4">
-                      <label className="form-label fw-semibold text-dark">
+                      <label className="form-label fw-semibold text-dark fs-5">
                         Company Name <span className="text-danger">*</span>
                       </label>
                       <input
@@ -201,10 +201,10 @@ const OrgInfo = () => {
                         </div>
                       )}
                     </div>
-
+ 
                     <div className="mb-4">
-                      <label className="form-label fw-semibold text-dark">
-                        <Icon icon="heroicons:globe-alt" className="me-1" />
+                      <label className="form-label fw-semibold text-dark fs-5">
+                        <Icon icon="heroicons:globe-alt" className="me-1" style={{ fontSize: "25px" }} />
                         Website URL <span className="text-danger">*</span>
                       </label>
                       <input
@@ -222,10 +222,10 @@ const OrgInfo = () => {
                         </div>
                       )}
                     </div>
-
+ 
                     <div className="mb-4">
-                      <label className="form-label fw-semibold text-dark">
-                        <Icon icon="heroicons:envelope" className="me-1" />
+                      <label className="form-label fw-semibold text-dark fs-5">
+                        <Icon icon="heroicons:envelope" className="me-1"style={{ fontSize: "25px" }}  />
                         Company Email <span className="text-danger">*</span>
                       </label>
                       <input
@@ -243,10 +243,10 @@ const OrgInfo = () => {
                         </div>
                       )}
                     </div>
-
+ 
                     <div className="mb-4">
-                      <label className="form-label fw-semibold text-dark">
-                        <Icon icon="heroicons:phone" className="me-1" />
+                      <label className="form-label fw-semibold text-dark fs-5">
+                        <Icon icon="heroicons:phone" className="me-1" style={{ fontSize: "25px" }} />
                         Company Phone <span className="text-danger">*</span>
                       </label>
                       <input
@@ -264,10 +264,10 @@ const OrgInfo = () => {
                         </div>
                       )}
                     </div>
-
+ 
                     <div className="mb-4">
-                      <label className="form-label fw-semibold text-dark">
-                        <Icon icon="heroicons:map-pin" className="me-1" />
+                      <label className="form-label fw-semibold text-dark fs-5">
+                        <Icon icon="heroicons:map-pin" className="me-1" style={{ fontSize: "25px" }} />
                         Address <span className="text-danger">*</span>
                       </label>
                       <textarea
@@ -285,9 +285,9 @@ const OrgInfo = () => {
                         </div>
                       )}
                     </div>
-
+ 
                     <div className="mb-4">
-                      <label className="form-label fw-semibold text-dark">
+                      <label className="form-label fw-semibold text-dark fs-5">
                         About Company <span className="text-muted small">(Optional)</span>
                       </label>
                       <textarea
@@ -300,14 +300,14 @@ const OrgInfo = () => {
                       />
                     </div>
                   </div>
-
+ 
                   {/* Right Column - Logo Upload */}
                   <div className="col-lg-4">
                     <div className="mb-4">
-                      <label className="form-label fw-semibold text-dark">
-                        Company Logo
+                      <label className="form-label text-dark">
+                       <h6>Company Logo</h6>
                       </label>
-                      
+                     
                       {/* Logo Preview */}
                       <div className="mb-3 text-center">
                         <img
@@ -317,7 +317,7 @@ const OrgInfo = () => {
                           style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'contain' }}
                         />
                       </div>
-
+ 
                       {/* Upload Button */}
                       <label className="w-100">
                         <input
@@ -332,21 +332,21 @@ const OrgInfo = () => {
                           <p className="small text-muted mb-0">PNG, JPG, SVG (Max 2MB)</p>
                         </div>
                       </label>
-
+ 
                       {errors.logo && (
                         <div className="text-danger small d-flex align-items-center mt-2">
                           <Icon icon="heroicons:exclamation-triangle" className="me-1" />
                           {errors.logo}
                         </div>
                       )}
-
+ 
                       {/* Current Logo Info */}
                       <div className="mt-3 small text-muted bg-light p-3 rounded">
-                        <p className="fw-medium mb-1">Current Logo:</p>
+                        <p className="fw-semibold mb-1">Current Logo:</p>
                         <p className="text-truncate mb-0">{logo.name}</p>
                       </div>
                     </div>
-
+ 
                     {/* Preview Note */}
                     <div className="bg-primary bg-opacity-10 border border-primary border-opacity-20 rounded p-3">
                       <p className="small fw-medium text-primary mb-1">
@@ -360,7 +360,7 @@ const OrgInfo = () => {
                   </div>
                 </div>
               </div>
-
+ 
               {/* Footer Actions */}
               <div className="card-footer bg-light d-flex justify-content-between align-items-center">
                 <div className="small text-muted">
@@ -384,14 +384,14 @@ const OrgInfo = () => {
                 </div>
               </div>
             </div>
-
+ 
             {/* Info Cards */}
             <div className="row mt-4">
               <div className="col-md-6 mb-3">
                 <div className="card border-0 shadow-sm h-100">
                   <div className="card-body">
                     <h6 className="fw-semibold text-dark mb-2 d-flex align-items-center">
-                      <Icon icon="heroicons:globe-alt" className="text-primary me-2" />
+                      <Icon icon="heroicons:globe-alt" className="text-primary me-2"style={{ fontSize: "28px" }} />
                       Career Portal Display
                     </h6>
                     <p className="small text-muted mb-0">
@@ -404,7 +404,7 @@ const OrgInfo = () => {
                 <div className="card border-0 shadow-sm h-100">
                   <div className="card-body">
                     <h6 className="fw-semibold text-dark mb-2 d-flex align-items-center">
-                      <Icon icon="heroicons:envelope" className="text-primary me-2" />
+                      <Icon icon="heroicons:envelope" className="text-primary me-2"style={{ fontSize: "28px" }} />
                       Email Templates
                     </h6>
                     <p className="small text-muted mb-0">
@@ -420,5 +420,7 @@ const OrgInfo = () => {
     </RecruiterDashboardLayout>
   );
 };
-
+ 
 export default OrgInfo;
+ 
+ 

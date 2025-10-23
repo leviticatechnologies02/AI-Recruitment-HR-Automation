@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import RecruiterDashboardLayout from '../recruiterDashboard/RecruiterDashboardLayout';
-
+ 
 const EmployeeDirectory = () => {
   const [employees, setEmployees] = useState([
     {
@@ -53,102 +53,126 @@ const EmployeeDirectory = () => {
       avatar: null
     }
   ]);
-
+ 
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDepartment, setFilterDepartment] = useState('all');
   const [showModal, setShowModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-
+ 
   const departments = ['all', 'Engineering', 'Marketing', 'HR', 'Finance', 'Sales'];
-
+ 
   const getStatusBadge = (status) => {
     const styles = {
       active: 'bg-success-subtle text-success',
       'on-leave': 'bg-warning-subtle text-warning',
       inactive: 'bg-danger-subtle text-danger'
     };
-
+ 
     return (
       <span className={`badge ${styles[status]}`}>
         {status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' ')}
       </span>
     );
   };
-
+ 
   const filteredEmployees = employees.filter(employee => {
     const matchesSearch = employee.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         employee.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         employee.department.toLowerCase().includes(searchTerm.toLowerCase());
+      employee.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      employee.department.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDepartment = filterDepartment === 'all' || employee.department === filterDepartment;
     return matchesSearch && matchesDepartment;
   });
-
+ 
   const handleEmployeeClick = (employee) => {
     setSelectedEmployee(employee);
     setShowModal(true);
   };
-
+ 
   return (
     <div className="container-fluid">
-        {/* Header */}
-        <div className="mb-4">
-          <h1 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
-            <Icon icon="heroicons:users" className="text-primary" />
-            Employee Directory
-          </h1>
-          <p className="text-muted">
-            Browse and manage your organization's employee information.
-          </p>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="row g-4 mb-4">
-          <div className="col-md-3">
-            <div className="card border shadow-none">
-              <div className="card-body text-center">
-                <div className="w-60-px h-60-px bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3">
-                  <Icon icon="heroicons:users" className="text-primary text-2xl" />
+      {/* Header */}
+      <div className="mb-4">
+        <h5 className=" fw-bold text-dark mb-2 d-flex align-items-center gap-2 mt-4">
+          <Icon icon="heroicons:users" className="fw-bold" />
+          Employee Directory
+        </h5>
+        <p className="p-2">
+          Browse and manage your organization's employee information.
+        </p>
+      </div>
+ 
+      {/* Stats Cards */}
+      <div className="row g-4 mb-4">
+ 
+        <div className="col-md-3">
+          <div className="card border shadow-none">
+            <div className="card-body text-center">
+              <div className="d-flex justify-content-center align-items-center gap-2 mb-2">
+                <div className="w-40-px h-40-px bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center">
+                  <Icon icon="heroicons:users" className="text-primary text-lg" />
                 </div>
-                <h4 className="fw-bold mb-1">{employees.length}</h4>
-                <p className="text-muted mb-0">Total Employees</p>
+                <p className="text-muted mb-0 fw-semibold">Total Employees</p>
               </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="card border shadow-none">
-              <div className="card-body text-center">
-                <div className="w-60-px h-60-px bg-success-subtle rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3">
-                  <Icon icon="heroicons:check-circle" className="text-success text-2xl" />
-                </div>
-                <h4 className="fw-bold mb-1">{employees.filter(e => e.status === 'active').length}</h4>
-                <p className="text-muted mb-0">Active</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="card border shadow-none">
-              <div className="card-body text-center">
-                <div className="w-60-px h-60-px bg-warning-subtle rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3">
-                  <Icon icon="heroicons:pause" className="text-warning text-2xl" />
-                </div>
-                <h4 className="fw-bold mb-1">{employees.filter(e => e.status === 'on-leave').length}</h4>
-                <p className="text-muted mb-0">On Leave</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="card border shadow-none">
-              <div className="card-body text-center">
-                <div className="w-60-px h-60-px bg-info-subtle rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3">
-                  <Icon icon="heroicons:building-office" className="text-info text-2xl" />
-                </div>
-                <h4 className="fw-bold mb-1">{new Set(employees.map(e => e.department)).size}</h4>
-                <p className="text-muted mb-0">Departments</p>
-              </div>
+ 
+              <h4 className="fw-bold mb-0">{employees.length}</h4>
             </div>
           </div>
         </div>
-
+ 
+ 
+        <div className="col-md-3">
+          <div className="card border shadow-none">
+            <div className="card-body text-center">
+              <div className="d-flex justify-content-center align-items-center gap-2 mb-2">
+                <div className="w-40-px h-40-px bg-success-subtle rounded-circle d-flex align-items-center justify-content-center">
+                  <Icon icon="heroicons:check-circle" className="text-success text-lg" />
+                </div>
+                <p className="text-muted mb-0 fw-semibold">Active</p>
+              </div>
+ 
+              <h4 className="fw-bold mb-0">
+                {employees.filter(e => e.status === 'active').length}
+              </h4>
+            </div>
+          </div>
+        </div>
+ 
+ 
+        <div className="col-md-3">
+          <div className="card border shadow-none">
+            <div className="card-body text-center">
+              <div className="d-flex justify-content-center align-items-center gap-2 mb-2">
+                <div className="w-40-px h-40-px bg-warning-subtle rounded-circle d-flex align-items-center justify-content-center">
+                  <Icon icon="heroicons:pause" className="text-warning text-lg" />
+                </div>
+                <p className="text-muted mb-0 fw-semibold">On Leave</p>
+              </div>
+ 
+              <h4 className="fw-bold mb-0">
+                {employees.filter(e => e.status === 'on-leave').length}
+              </h4>
+            </div>
+          </div>
+        </div>
+ 
+        <div className="col-md-3">
+          <div className="card border shadow-none">
+            <div className="card-body text-center">
+              <div className="d-flex justify-content-center align-items-center gap-2 mb-2">
+                <div className="w-40-px h-40-px bg-info-subtle rounded-circle d-flex align-items-center justify-content-center">
+                  <Icon icon="heroicons:building-office" className="text-info text-lg" />
+                </div>
+                <p className="text-muted mb-0 fw-semibold">Departments</p>
+              </div>
+ 
+              <h4 className="fw-bold mb-0">
+                {new Set(employees.map(e => e.department)).size}
+              </h4>
+            </div>
+          </div>
+        </div>
+ 
+ 
         {/* Filters */}
         <div className="card border shadow-none mb-4">
           <div className="card-body">
@@ -164,7 +188,6 @@ const EmployeeDirectory = () => {
                   className="form-control ps-5"
                 />
               </div>
-
               {/* Department Filter */}
               <div style={{ minWidth: '150px' }}>
                 <select
@@ -179,7 +202,7 @@ const EmployeeDirectory = () => {
                   ))}
                 </select>
               </div>
-
+ 
               {/* Add Employee Button */}
               <button className="btn btn-primary">
                 <Icon icon="heroicons:plus" className="me-2" />
@@ -188,12 +211,12 @@ const EmployeeDirectory = () => {
             </div>
           </div>
         </div>
-
+ 
         {/* Employees Grid */}
         <div className="row g-4">
           {filteredEmployees.map((employee) => (
             <div key={employee.id} className="col-lg-4 col-md-6">
-              <div 
+              <div
                 className="card border shadow-none h-100 cursor-pointer hover-lift"
                 onClick={() => handleEmployeeClick(employee)}
                 style={{ cursor: 'pointer' }}
@@ -203,39 +226,40 @@ const EmployeeDirectory = () => {
                     {employee.avatar ? (
                       <img src={employee.avatar} alt={employee.name} className="w-100 h-100 rounded-circle object-fit-cover" />
                     ) : (
-                      <Icon icon="heroicons:user" className="text-muted text-3xl" />
+                      <Icon icon="heroicons:user" className="fw-semibold fs-5 " />
                     )}
                   </div>
-                  
-                  <h6 className="fw-semibold mb-1">{employee.name}</h6>
+ 
+                  <h6 className="fs-5 fw-bold">{employee.name}</h6>
                   <p className="text-muted mb-2">{employee.position}</p>
                   <p className="small text-muted mb-2">{employee.department}</p>
-                  
+ 
                   <div className="d-flex align-items-center justify-content-center gap-2 mb-3">
                     <Icon icon="heroicons:map-pin" className="text-muted small" />
                     <span className="small text-muted">{employee.location}</span>
                   </div>
-                  
+ 
                   <div className="mb-3">
                     {getStatusBadge(employee.status)}
                   </div>
-
-                  <div className="d-flex gap-2">
-                    <button className="btn btn-sm btn-outline-primary flex-fill">
-                      <Icon icon="heroicons:envelope" className="me-1" />
-                      Email
+ 
+                  <div className="d-flex justify-content-center gap-2">
+                    <button className="btn btn-sm btn-outline-primary  d-flex justify-content-center align-items-center">
+                      <Icon icon="heroicons:envelope" className="me-1 fs-5" />
+                      <span className="align-self-end">Email</span>
                     </button>
-                    <button className="btn btn-sm btn-outline-secondary flex-fill">
-                      <Icon icon="heroicons:phone" className="me-1" />
-                      Call
+                    <button className="btn btn-sm btn-outline-secondary  d-flex justify-content-center align-items-center">
+                      <Icon icon="heroicons:phone" className="me-1 fs-5" />
+                      <span className="align-self-end">Call</span>
                     </button>
                   </div>
+ 
                 </div>
               </div>
             </div>
           ))}
         </div>
-
+ 
         {filteredEmployees.length === 0 && (
           <div className="text-center py-5">
             <Icon icon="heroicons:users" className="text-muted text-4xl mb-3" />
@@ -243,7 +267,7 @@ const EmployeeDirectory = () => {
             <p className="text-muted">Try adjusting your search or filter criteria.</p>
           </div>
         )}
-
+ 
         {/* Employee Details Modal */}
         {showModal && selectedEmployee && (
           <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
@@ -267,7 +291,7 @@ const EmployeeDirectory = () => {
                         {selectedEmployee.avatar ? (
                           <img src={selectedEmployee.avatar} alt={selectedEmployee.name} className="w-100 h-100 rounded-circle object-fit-cover" />
                         ) : (
-                          <Icon icon="heroicons:user" className="text-muted text-4xl" />
+                          <Icon icon="heroicons:user" className="fw-bold fs-5" />
                         )}
                       </div>
                       {getStatusBadge(selectedEmployee.status)}
@@ -275,27 +299,27 @@ const EmployeeDirectory = () => {
                     <div className="col-md-8">
                       <div className="row g-3">
                         <div className="col-12">
-                          <label className="form-label fw-semibold">Position</label>
+                          <label className="form-label fw-semibold fs-5">Position</label>
                           <p className="form-control-plaintext">{selectedEmployee.position}</p>
                         </div>
                         <div className="col-md-6">
-                          <label className="form-label fw-semibold">Department</label>
+                          <label className="form-label fw-semibold fs-5 ">Department</label>
                           <p className="form-control-plaintext">{selectedEmployee.department}</p>
                         </div>
                         <div className="col-md-6">
-                          <label className="form-label fw-semibold">Start Date</label>
+                          <label className="form-label fw-semibold fs-5">Start Date</label>
                           <p className="form-control-plaintext">{selectedEmployee.startDate}</p>
                         </div>
                         <div className="col-12">
-                          <label className="form-label fw-semibold">Email</label>
+                          <label className="form-label fw-semibold fs-5">Email</label>
                           <p className="form-control-plaintext">{selectedEmployee.email}</p>
                         </div>
                         <div className="col-md-6">
-                          <label className="form-label fw-semibold">Phone</label>
+                          <label className="form-label fw-semibold fs-5">Phone</label>
                           <p className="form-control-plaintext">{selectedEmployee.phone}</p>
                         </div>
                         <div className="col-md-6">
-                          <label className="form-label fw-semibold">Location</label>
+                          <label className="form-label fw-semibold fs-5">Location</label>
                           <p className="form-control-plaintext">{selectedEmployee.location}</p>
                         </div>
                       </div>
@@ -320,7 +344,9 @@ const EmployeeDirectory = () => {
           </div>
         )}
       </div>
+    </div>
   );
 };
-
+ 
 export default EmployeeDirectory;
+ 

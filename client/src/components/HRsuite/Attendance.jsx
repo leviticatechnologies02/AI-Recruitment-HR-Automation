@@ -161,40 +161,50 @@ const Attendance = () => {
     setSelectedLeave(null);
   };
 
-  const getStatusBadge = (status) => {
-    const styles = {
-      present: 'bg-success-subtle text-success',
-      late: 'bg-warning-subtle text-warning',
-      absent: 'bg-danger-subtle text-danger',
-      'half-day': 'bg-info-subtle text-info',
-      Present: 'bg-success-subtle text-success',
-      Absent: 'bg-danger-subtle text-danger',
-      Leave: 'bg-warning-subtle text-warning',
-      Approved: 'bg-success-subtle text-success',
-      Rejected: 'bg-danger-subtle text-danger',
-      Pending: 'bg-warning-subtle text-warning'
-    };
-
-    const icons = {
-      present: 'heroicons:check-circle',
-      late: 'heroicons:clock',
-      absent: 'heroicons:x-circle',
-      'half-day': 'heroicons:minus-circle',
-      Present: 'heroicons:check-circle',
-      Absent: 'heroicons:x-circle',
-      Leave: 'heroicons:calendar',
-      Approved: 'heroicons:check-circle',
-      Rejected: 'heroicons:x-circle',
-      Pending: 'heroicons:clock'
-    };
-
-    return (
-      <span className={`badge d-flex align-items-center ${styles[status]}`}>
-        <Icon icon={icons[status]} className="me-1" />
-        {status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' ')}
-      </span>
-    );
+const getStatusBadge = (status) => {
+  const styles = {
+    present: 'bg-success-subtle text-success',
+    late: 'bg-warning-subtle text-warning',
+    absent: 'bg-danger-subtle text-danger',
+    'half-day': 'bg-info-subtle text-info',
+    Present: 'bg-success-subtle text-success',
+    Absent: 'bg-danger-subtle text-danger',
+    Leave: 'bg-warning-subtle text-warning',
+    Approved: 'bg-success-subtle text-success',
+    Rejected: 'bg-danger-subtle text-danger',
+    Pending: 'bg-warning-subtle text-warning'
   };
+
+  const icons = {
+    present: 'heroicons:check-circle',
+    late: 'heroicons:clock',
+    absent: 'heroicons:x-circle',
+    'half-day': 'heroicons:minus-circle',
+    Present: 'heroicons:check-circle',
+    Absent: 'heroicons:x-circle',
+    Leave: 'heroicons:calendar',
+    Approved: 'heroicons:check-circle',
+    Rejected: 'heroicons:x-circle',
+    Pending: 'heroicons:clock'
+  };
+
+  return (
+    <span
+      className={`badge d-flex align-items-center justify-content-center ${styles[status]}`}
+      style={{
+        fontSize: '11px',
+        padding: '4px 6px',
+        borderRadius: '6px',
+        minWidth: '75px',
+        display: 'inline-flex',
+        gap: '3px'
+      }}
+    >
+      <Icon icon={icons[status]} style={{ fontSize: '14px' }} />
+      {status}
+    </span>
+  );
+};
 
   const filteredRecords = attendanceRecords.filter(record => {
     const matchesDate = record.date === selectedDate;
@@ -251,10 +261,10 @@ const Attendance = () => {
     <div className="container-fluid">
         {/* Header */}
         <div className="mb-4">
-          <h1 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
-            <Icon icon="heroicons:clock" className="text-primary" />
+          <h5 className="text-3xl fw-bold text-dark mb-2 mt-3 d-flex align-items-center gap-2">
+            <Icon icon="heroicons:clock" />
             Attendance & Leave Tracking
-          </h1>
+          </h5>
           <p className="text-muted">Monitor attendance and manage leave requests</p>
         </div>
 
@@ -265,11 +275,11 @@ const Attendance = () => {
               <div className="card-body">
                 <div className="d-flex align-items-center gap-3">
                   <div className="bg-success-subtle p-3 rounded-circle">
-                    <Icon icon="heroicons:check-circle" className="text-success" />
+                    <Icon icon="heroicons:check-circle" className="text-success fs-4" />
                   </div>
                   <div>
-                    <p className="small text-muted fw-medium mb-1">Present Days</p>
-                    <p className="h3 fw-bold text-dark mb-0">22</p>
+                    <h6 className="small text-muted fw-medium mb-1">Present Days</h6>
+                    <p className="h5 text-dark mb-0">22</p>
                   </div>
                 </div>
               </div>
@@ -280,11 +290,11 @@ const Attendance = () => {
               <div className="card-body">
                 <div className="d-flex align-items-center gap-3">
                   <div className="bg-danger-subtle p-3 rounded-circle">
-                    <Icon icon="heroicons:x-circle" className="text-danger" />
+                    <Icon icon="heroicons:x-circle" className="text-danger fs-4" />
                   </div>
                   <div>
-                    <p className="small text-muted fw-medium mb-1">Absent Days</p>
-                    <p className="h3 fw-bold text-dark mb-0">2</p>
+                    <h6 className="small text-muted fw-medium mb-1">Absent Days</h6>
+                    <p className="h5 text-dark mb-0">2</p>
                   </div>
                 </div>
               </div>
@@ -295,11 +305,11 @@ const Attendance = () => {
               <div className="card-body">
                 <div className="d-flex align-items-center gap-3">
                   <div className="bg-warning-subtle p-3 rounded-circle">
-                    <Icon icon="heroicons:calendar" className="text-warning" />
+                    <Icon icon="heroicons:calendar" className="text-warning fs-4" />
                   </div>
                   <div>
-                    <p className="small text-muted fw-medium mb-1">Leave Days</p>
-                    <p className="h3 fw-bold text-dark mb-0">6</p>
+                    <h6 className="small text-muted fw-medium mb-1">Leave Days</h6>
+                    <p className="h5 text-dark mb-0">6</p>
                   </div>
                 </div>
               </div>
@@ -310,11 +320,11 @@ const Attendance = () => {
               <div className="card-body">
                 <div className="d-flex align-items-center gap-3">
                   <div className="bg-primary-subtle p-3 rounded-circle">
-                    <Icon icon="heroicons:clock" className="text-primary" />
+                    <Icon icon="heroicons:clock" className="text-primary fs-4" />
                   </div>
                   <div>
-                    <p className="small text-muted fw-medium mb-1">Pending Requests</p>
-                    <p className="h3 fw-bold text-dark mb-0">1</p>
+                    <h6 className="small text-muted fw-medium mb-1">Pending Requests</h6>
+                    <p className="h5 text-dark mb-0">1</p>
                   </div>
                 </div>
               </div>
@@ -326,12 +336,12 @@ const Attendance = () => {
         <div className="card border shadow-none mb-4">
           <div className="card-body">
             <div className="d-flex justify-content-between align-items-center mb-4">
-              <h2 className="h4 fw-bold text-dark">Monthly Attendance Calendar</h2>
+              <h5 className="h5 fw-bold text-dark">Monthly Attendance Calendar</h5>
               <div className="d-flex align-items-center gap-4">
                 <button onClick={previousMonth} className="btn btn-outline-secondary">
                   <Icon icon="heroicons:chevron-left" />
                 </button>
-                <span className="fw-semibold h5">{getMonthName(currentDate)}</span>
+                <span className="fw-semibold h6 mt-1">{getMonthName(currentDate)}</span>
                 <button onClick={nextMonth} className="btn btn-outline-secondary">
                   <Icon icon="heroicons:chevron-right" />
                 </button>
@@ -365,7 +375,7 @@ const Attendance = () => {
             <div className="card border shadow-none">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-4">
-                  <h2 className="h4 fw-bold text-dark">Apply for Leave</h2>
+                  <h2 className="h5 fw-bold text-dark">Apply for Leave</h2>
                   <button 
                     onClick={() => setShowLeaveModal(true)}
                     className="btn btn-primary d-flex align-items-center gap-2"
@@ -423,13 +433,13 @@ const Attendance = () => {
           <div className="col-lg-6">
             <div className="card border shadow-none">
               <div className="card-body">
-                <h2 className="h4 fw-bold text-dark mb-4">Leave Balance Summary</h2>
+                <h2 className="h5 fw-bold text-dark mb-4">Leave Balance Summary</h2>
                 <div className="mb-4">
                   <div className="card border">
                     <div className="card-body">
                       <div className="d-flex justify-content-between align-items-center mb-2">
                         <span className="fw-medium text-muted">Casual Leave</span>
-                        <span className="h3 fw-bold text-dark">8</span>
+                        <span className="h4 fw-bold text-dark">8</span>
                       </div>
                       <div className="progress mb-2" style={{ height: '8px' }}>
                         <div className="progress-bar bg-primary" style={{width: '53%'}}></div>
@@ -447,7 +457,7 @@ const Attendance = () => {
                     <div className="card-body">
                       <div className="d-flex justify-content-between align-items-center mb-2">
                         <span className="fw-medium text-muted">Sick Leave</span>
-                        <span className="h3 fw-bold text-dark">5</span>
+                        <span className="h4 fw-bold text-dark">5</span>
                       </div>
                       <div className="progress mb-2" style={{ height: '8px' }}>
                         <div className="progress-bar bg-success" style={{width: '50%'}}></div>
@@ -460,12 +470,12 @@ const Attendance = () => {
                   </div>
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-0">
                   <div className="card border">
                     <div className="card-body">
                       <div className="d-flex justify-content-between align-items-center mb-2">
                         <span className="fw-medium text-muted">Earned Leave</span>
-                        <span className="h3 fw-bold text-dark">12</span>
+                        <span className="h4 fw-bold text-dark">12</span>
                       </div>
                       <div className="progress mb-2" style={{ height: '8px' }}>
                         <div className="progress-bar bg-warning" style={{width: '40%'}}></div>
@@ -485,7 +495,7 @@ const Attendance = () => {
         {/* Leave History Table */}
         <div className="card border shadow-none mt-4">
           <div className="card-body">
-            <h2 className="h4 fw-bold text-dark mb-4">Leave Request History</h2>
+            <h2 className="h5 fw-bold text-dark mb-4">Leave Request History</h2>
             <div className="table-responsive">
               <table className="table table-hover mb-0">
                 <thead className="bg-light">
@@ -495,7 +505,7 @@ const Attendance = () => {
                     <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">To Date</th>
                     <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Days</th>
                     <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Reason</th>
-                    <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Status</th>
+                    <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted text-center">Status</th>
                     <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Actions</th>
                   </tr>
                 </thead>
@@ -517,7 +527,7 @@ const Attendance = () => {
                       <td className="px-4 py-3">
                         <div className="text-muted">{leave.reason}</div>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3" style={{width:"30px"}}>
                         {getStatusBadge(leave.status)}
                       </td>
                       <td className="px-4 py-3">
@@ -637,10 +647,10 @@ const Attendance = () => {
             <div className="modal-dialog modal-lg">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title d-flex align-items-center gap-2">
+                  <h6 className="modal-title d-flex align-items-center gap-2">
                     <Icon icon="heroicons:document-text" className="text-primary" />
                     Leave Request Details
-                  </h5>
+                  </h6>
                   <button 
                     type="button" 
                     className="btn-close" 
@@ -664,7 +674,7 @@ const Attendance = () => {
                           </div>
                           <div className="mb-3">
                             <label className="form-label fw-medium text-muted">Status</label>
-                            <div>
+                            <div style={{width:"40px"}}>
                               {getStatusBadge(selectedLeave.status)}
                             </div>
                           </div>

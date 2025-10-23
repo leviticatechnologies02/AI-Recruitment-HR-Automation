@@ -211,7 +211,7 @@ const OnboardingTasks = () => {
     return (
       <span className={`badge d-flex align-items-center ${styles[status]}`}>
         <Icon icon={icons[status]} className="me-1" />
-        {status.replace('_', ' ').charAt(0).toUpperCase() + status.replace('_', ' ').slice(1)}
+        {status.replace('', ' ').charAt(0).toUpperCase() + status.replace('', ' ').slice(1)}
       </span>
     );
   };
@@ -269,10 +269,10 @@ const OnboardingTasks = () => {
         <div className="mb-4">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>
-              <h3 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
-                <Icon icon="heroicons:clipboard-document-check" className="text-primary" />
+              <h5 className="text-3xl fw-bold text-dark mb-2 mt-3 d-flex align-items-center gap-2">
+                <Icon icon="heroicons:clipboard-document-check"/>
                 Onboarding Tasks
-              </h3>
+              </h5>
               <p className="text-muted">Manage and track onboarding tasks for new hires</p>
             </div>
             <button
@@ -365,12 +365,12 @@ const OnboardingTasks = () => {
                           className="form-check-input"
                         />
                       </th>
-                      <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Task Name</th>
-                      <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Assigned To</th>
-                      <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Due Date</th>
-                      <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Status</th>
-                      <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Priority</th>
-                      <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Actions</th>
+                      <th className="border-0 px-4 py-3 text-uppercase fw-bold text-dark">Task Name</th>
+                      <th className="border-0 px-4 py-3 text-uppercase fw-bold text-dark">Assigned To</th>
+                      <th className="border-0 px-4 py-3 text-uppercase fw-bold text-dark">Due Date</th>
+                      <th className="border-0 px-4 py-3 text-uppercase fw-bold text-dark">Status</th>
+                      <th className="border-0 px-4 py-3 text-uppercase fw-bold text-dark">Priority</th>
+                      <th className="border-0 px-4 py-3 text-uppercase fw-bold text-dark">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -404,7 +404,7 @@ const OnboardingTasks = () => {
                             </span>
                           </div>
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-3" style={{width:"40px"}}>
                           {getStatusBadge(task.status)}
                         </td>
                         <td className="px-4 py-3">

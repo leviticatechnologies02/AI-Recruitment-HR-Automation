@@ -311,10 +311,10 @@ const Payroll = () => {
     <div className="container-fluid">
     {/* Header */}
     <div className="mb-4">
-      <h3 className="text-3xl fw-bold text-dark mb-2 d-flex align-items-center gap-2">
-        <Icon icon="heroicons:currency-dollar" className="text-primary" />
+      <h5 className="text-3xl fw-bold text-dark mb-2 mt-3 d-flex align-items-center gap-2">
+        <Icon icon="heroicons:currency-dollar" />
         Payroll Management
-      </h3>
+      </h5>
       <p className="text-muted">
         Manage employee payroll, salary calculations, and payment processing.
       </p>
@@ -331,9 +331,10 @@ const Payroll = () => {
                   </div>
                 </div>
                 <div className="flex-grow-1 ms-3">
-                  <div className="text-muted mb-1 small">Total</div>
-                  <div className="text-muted mb-1 small">Payroll</div>
-                  <div className="fw-bold text-dark fs-4">{formatCurrency(kpis.totalPayroll)}</div>
+                  <div>
+                    <h6 className="text-bold mb-1">Total Payroll</h6>
+                    </div>
+                  <div className="text-muted fs-4">{formatCurrency(kpis.totalPayroll)}</div>
                 </div>
               </div>
             </div>
@@ -347,10 +348,12 @@ const Payroll = () => {
                   </div>
                 </div>
                 <div className="flex-grow-1 ms-3">
-                  <div className="text-muted mb-1 small">Pending</div>
-                  <div className="text-muted mb-1 small">Payouts</div>
-                  <div className="fw-bold text-dark fs-4">{kpis.pendingCount}</div>
-                  <div className="text-muted small">{formatCurrency(kpis.pendingAmount)}</div>
+                  <div>
+                    <h6 className="text-bold mb-1 mt-3">Pending Payouts</h6>
+                    </div>
+                  
+                  <div className="text-muted fs-4">{kpis.pendingCount}</div>
+                  <div className="text-muted fs-4">{formatCurrency(kpis.pendingAmount)}</div>
                 </div>
               </div>
             </div>
@@ -364,9 +367,10 @@ const Payroll = () => {
                   </div>
                 </div>
                 <div className="flex-grow-1 ms-3">
-                  <div className="text-muted mb-1 small">Active</div>
-                  <div className="text-muted mb-1 small">Employees</div>
-                  <div className="fw-bold text-dark fs-4">{kpis.activeEmployees}</div>
+                  <div>
+                    <h6 className="text-bold mb-1">Active Employees</h6>
+                    </div>
+                  <div className="text-muted fs-4">{kpis.activeEmployees}</div>
                 </div>
               </div>
             </div>
@@ -380,16 +384,17 @@ const Payroll = () => {
                   </div>
                 </div>
                 <div className="flex-grow-1 ms-3">
-                  <div className="text-muted mb-1 small">Last</div>
-                  <div className="text-muted mb-1 small">Payout</div>
-                  <div className="fw-bold text-dark fs-4">
+                  <div> <h6 className="text-bold mb-1">Last Payout</h6></div>
+                  <div className='d-flex gap-2'>
+                  <div className="text-muted fs-4">
                     {kpis.lastPayout !== 'N/A' ? formatDate(kpis.lastPayout).split(' ').slice(0, 2).join(' ') : 'N/A'}
                   </div>
                   {kpis.lastPayout !== 'N/A' && (
-                    <div className="fw-bold text-dark fs-4">
+                    <div className="text-muted fs-4">
                       {formatDate(kpis.lastPayout).split(' ')[2]}
                     </div>
                   )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -419,7 +424,7 @@ const Payroll = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="form-select"
             >
-              <option value="All">All Statuses</option>
+              <option value="All">All Status</option>
               <option value="Paid">Paid</option>
               <option value="Pending">Pending</option>
               <option value="On Hold">On Hold</option>
@@ -476,7 +481,7 @@ const Payroll = () => {
             <thead className="bg-light">
               <tr>
                 <th 
-                  className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted cursor-pointer"
+                  className="border-0 px-5 py-3 text-uppercase fw-bold text-dark cursor-pointer"
                   onClick={() => handleSort('employee')}
                   style={{ cursor: 'pointer' }}
                 >
@@ -488,9 +493,9 @@ const Payroll = () => {
                     />
                   </div>
                 </th>
-                <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Department</th>
+                <th className="border-0 px-3 py-3 text-uppercase fw-bold text-dark">Department</th>
                 <th 
-                  className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted cursor-pointer"
+                  className="border-0 px-4 py-3 text-uppercase fw-bold text-dark cursor-pointer"
                   onClick={() => handleSort('netPay')}
                   style={{ cursor: 'pointer' }}
                 >
@@ -502,9 +507,9 @@ const Payroll = () => {
                     />
                   </div>
                 </th>
-                <th className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted">Status</th>
+                <th className="border-0 px-4 py-3 text-uppercase fw-bold text-dark">Status</th>
                 <th 
-                  className="border-0 px-4 py-3 text-uppercase small fw-semibold text-muted cursor-pointer"
+                  className="border-0 px-4 py-3 text-uppercase fw-bold text-dark cursor-pointer"
                   onClick={() => handleSort('payDate')}
                   style={{ cursor: 'pointer' }}
                 >
@@ -513,10 +518,11 @@ const Payroll = () => {
                     <Icon 
                       icon={`heroicons:chevron-${sortConfig.key === 'payDate' && sortConfig.direction === 'asc' ? 'up' : 'down'}`} 
                       className="small" 
-                    />
+                    /> 
+                    
                   </div>
                 </th>
-                <th className="border-0 px-4 py-3 text-center text-uppercase small fw-semibold text-muted">Actions</th>
+                <th className="border-0 px-3 py-3 text-uppercase fw-bold text-dark">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -539,7 +545,7 @@ const Payroll = () => {
                   <td className="px-4 py-3">
                     <div className="fw-semibold text-dark">{formatCurrency(record.netPay)}</div>
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3" style={{width:"40px"}}>
                     {getStatusBadge(record.status)}
                   </td>
                   <td className="px-4 py-3">
