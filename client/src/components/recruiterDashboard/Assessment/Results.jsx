@@ -137,7 +137,7 @@ const Results = () => {
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <h4 className="mb-1 d-flex align-items-center gap-2">
-                📊 Assessment Results
+                Assessment Results
               </h4>
               <p className="text-muted mb-0">Review candidate scores, performance, and detailed breakdowns.</p>
             </div>

@@ -505,7 +505,7 @@ const JobsListPage = () => {
                 </th>
                 <th className="text-start">JOB TITLE</th>
                 <th className="text-start">DEPARTMENT</th>
-                <th className="text-start">RECRUITER</th>
+                
                 <th className="text-start">POSTED ON</th>
                 <th className="text-center">STATUS</th>
                 <th className="text-center">APPLICANTS</th>
@@ -525,7 +525,7 @@ const JobsListPage = () => {
                   </td>
                   <td className="fw-medium">{job.title}</td>
                   <td className="text-muted">{job.department}</td>
-                  <td className="text-muted">{job.recruiter}</td>
+                  
                   <td className="text-muted">{job.postedOn}</td>
                   <td className="text-center">
                     <span className={`badge ${job.status === 'Open' ? 'bg-success-subtle text-success' : job.status === 'Closed' ? 'bg-danger-subtle text-danger' : job.status === 'On Hold' ? 'bg-warning-subtle text-warning' : 'bg-secondary-subtle text-secondary'}`}>

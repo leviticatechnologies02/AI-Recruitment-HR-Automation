@@ -132,7 +132,7 @@ const CandidateDashboard = () => {
           <div className='col-12 col-lg-4'>
             <div className='card border-0 shadow-sm h-100'>
               <div className='card-body p-24'>
-                <h3 className='text-xl fw-bold text-gray-800 mb-16'>❤ Saved Jobs</h3>
+                <h3 className='text-xl fw-bold text-gray-800 mb-16'><span style={{color:"red"}} >❤</span> Saved Jobs</h3>
                 <div className='d-flex flex-column gap-3'>
                   {candidateData.savedJobs.map((job) => (
                     <div key={job.id} className='p-12 border rounded-lg hover-bg-gray-50 transition'>
@@ -140,7 +140,7 @@ const CandidateDashboard = () => {
                       <p className='text-xs text-secondary-light mb-8'>{job.company}</p>
                       <div className='d-flex align-items-center justify-content-between'>
                         <p className='text-xs text-secondary-light mb-0'>{job.savedOn}</p>
-                        <button className='btn btn-link btn-sm text-primary-600 p-0'>View</button>
+                        <button className='btn  btn-sm text-primary-600 p-0'>View</button>
                       </div>
                     </div>
                   ))}

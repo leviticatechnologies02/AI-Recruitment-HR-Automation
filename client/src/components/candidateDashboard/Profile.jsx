@@ -423,18 +423,19 @@ export default function Profile() {
 
           {/* Right Column - Live Preview */}
           <div className='col-12 col-lg-4'>
-            <div className='card border-0 shadow-lg sticky-top' style={{ top: '20px' }}>
+            <div className='card border-0 shadow-lg position-sticky' style={{ top: '20px' }}>
               <div className='card-body p-24'>
                 <h3 className='text-lg fw-bold text-gray-900 mb-16'>Live Preview</h3>
                 
                 <div className='text-center mb-20'>
-                  <div className='w-96-px h-96-px bg-gradient-primary rounded-circle mx-auto mb-12 d-flex align-items-center justify-content-center text-white text-3xl fw-bold'>
+                  <div className='w-50-px h-96-px bg-gradient-primary rounded-circle mx-auto mb-12 d-flex align-items-center justify-content-center text-dark text-3xl fw-bold'>
                     {profile.name.split(' ').map(n => n[0]).join('')}
                   </div>
+
                   <h4 className='text-xl fw-bold text-gray-900 mb-4'>{profile.name}</h4>
                   <p className='text-primary-600 fw-medium mb-0'>{profile.workHistory.role}</p>
                 </div>
-
+                 
                 <div className='d-flex flex-column gap-3 text-sm'>
                   <div className='d-flex align-items-start gap-2'>
                     <Icon icon='heroicons:map-pin' className='text-secondary-light flex-shrink-0' style={{ fontSize: '16px', marginTop: '2px' }} />

@@ -259,7 +259,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:document-text' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:document-text' className='icon text-sm me-2 fs-5' />
                     Assessments Library
                   </NavLink>
                 </li>
@@ -270,7 +270,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:user-plus' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:user-plus' className='icon text-sm me-2 fs-5' />
                     Assign Assessment
                   </NavLink>
                 </li>
@@ -281,7 +281,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:chart-bar' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:chart-bar' className='icon text-sm me-2 fs-5' />
                     Results
                   </NavLink>
                 </li>
@@ -292,7 +292,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:magnifying-glass' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:magnifying-glass' className='icon text-sm me-2 fs-5' />
                     AI Prescreening
                   </NavLink>
                 </li>
@@ -303,7 +303,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:cog-6-tooth' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:cog-6-tooth' className='icon text-sm me-2 fs-5' />
                     Configure AI Interview
                   </NavLink>
                 </li>
@@ -314,7 +314,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:eye' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:eye' className='icon text-sm me-2 fs-5' />
                     Review AI Interview
                   </NavLink>
                 </li>
@@ -325,7 +325,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:document-duplicate' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:document-duplicate' className='icon text-sm me-2 fs-5' />
                     Offer Templates
                   </NavLink>
                 </li>
@@ -336,7 +336,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:clipboard-document-list' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:clipboard-document-list' className='icon text-sm me-2 fs-5' />
                     Offer Tracking
                   </NavLink>
                 </li>
@@ -365,7 +365,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                        navData.isActive ? "active-page" : ""
                      }
                    >
-                     <Icon icon='heroicons:chart-bar' className='icon text-sm me-2' />
+                     <Icon icon='heroicons:chart-bar' className='icon text-sm me-2 fs-5' />
                      HR Dashboard
                    </NavLink>
                  </li>
@@ -376,7 +376,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                        navData.isActive ? "active-page" : ""
                      }
                    >
-                     <Icon icon='heroicons:users' className='icon text-sm me-2' />
+                     <Icon icon='heroicons:users' className='icon text-sm me-2 fs-5' />
                      Employee Directory
                    </NavLink>
                  </li>
@@ -387,7 +387,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                        navData.isActive ? "active-page" : ""
                      }
                    >
-                     <Icon icon='heroicons:clock' className='icon text-sm me-2' />
+                     <Icon icon='heroicons:clock' className='icon text-sm me-2 fs-5' />
                      Attendance
                    </NavLink>
                  </li>
@@ -398,7 +398,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                        navData.isActive ? "active-page" : ""
                      }
                    >
-                     <Icon icon='heroicons:banknotes' className='icon text-sm me-2' />
+                     <Icon icon='heroicons:banknotes' className='icon text-sm me-2 fs-5' />
                      Payroll
                    </NavLink>
                  </li>
@@ -409,7 +409,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                        navData.isActive ? "active-page" : ""
                      }
                    >
-                     <Icon icon='heroicons:clipboard-document-check' className='icon text-sm me-2' />
+                     <Icon icon='heroicons:clipboard-document-check' className='icon text-sm me-2 fs-5' />
                      Onboarding Tasks
                    </NavLink>
                  </li>
@@ -420,7 +420,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                        navData.isActive ? "active-page" : ""
                      }
                    >
-                     <Icon icon='heroicons:document-text' className='icon text-sm me-2' />
+                     <Icon icon='heroicons:document-text' className='icon text-sm me-2 fs-5' />
                      Onboarding Documents
                    </NavLink>
                  </li>
@@ -447,7 +447,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:building-office' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:building-office' className='icon text-sm me-2 fs-5' />
                     Org Info
                   </NavLink>
                 </li>
@@ -458,7 +458,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:users' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:users' className='icon text-sm me-2 fs-5' />
                     Users & Roles
                   </NavLink>
                 </li>
@@ -469,7 +469,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:link' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:link' className='icon text-sm me-2 fs-5' />
                     Integrations
                   </NavLink>
                 </li>
@@ -480,7 +480,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                       navData.isActive ? "active-page" : ""
                     }
                   >
-                    <Icon icon='heroicons:credit-card' className='icon text-sm me-2' />
+                    <Icon icon='heroicons:credit-card' className='icon text-sm me-2 fs-5' />
                     Billing
                   </NavLink>
                 </li>
@@ -551,6 +551,7 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
                         <span className='text-sm text-secondary-light flex-shrink-0'>10 mins ago</span>
                       </Link>
                     </div>
+                    
                     <div className='text-center py-12 px-16'>
                       <Link to='#' className='text-primary-600 fw-semibold text-md'>See All Notifications</Link>
                     </div>

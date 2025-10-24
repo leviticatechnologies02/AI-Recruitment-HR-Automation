@@ -211,7 +211,7 @@ const CreateJob = () => {
   return (
     <div className='container-fluid py-4'>
       <div className='mb-12'>
-        <h4 className='mb-2'>Post a New Job</h4>
+        <h5 className='mb-2'>Post a New Job</h5>
         <p className='text-secondary-light mb-0'>Fill in the details below to publish your job listing.</p>
       </div>
 
@@ -381,8 +381,17 @@ const CreateJob = () => {
                     <div className='row g-2'>
                       {benefitOptions.map((benefit) => (
                         <div key={benefit} className='col-12 col-md-4'>
-                          <div className='form-check'>
-                            <input className='form-check-input' type='checkbox' checked={formData.benefits.includes(benefit)} onChange={() => handleBenefitToggle(benefit)} id={`benefit-${benefit}`} />
+                          <div className=' '>
+                            <input className='form-check-input' type='checkbox' checked={formData.benefits.includes(benefit)} onChange={() => handleBenefitToggle(benefit)} style={{
+                              width: "18px",
+                              height: "18px",
+                              cursor: "pointer",
+                              appearance: "auto",
+                              WebkitAppearance: "checkbox",
+                              MozAppearance: "checkbox",
+                              accentColor: "#2563eb",
+                              marginRight: "8px", // space between checkbox and label
+                            }} id={`benefit-${benefit}`} />
                             <label className='form-check-label' htmlFor={`benefit-${benefit}`}>{benefit}</label>
                           </div>
                         </div>

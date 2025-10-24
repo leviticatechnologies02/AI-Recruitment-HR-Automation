@@ -75,9 +75,9 @@ const ConfigureAIInterview = () => {
   return (
     <div className="container-fluid">
       {/* Header */}
-      <div className="card border shadow-none mb-4">
+      <div className="card border shadow-none mb-4 mt-3">
         <div className="card-body">
-          <h4 className="mb-1">Configure AI Interview</h4>
+          <h5 className="mb-1">Configure AI Interview</h5>
           <p className="text-muted mb-0">Set up your interview template with questions, time limits, and difficulty settings</p>
         </div>
       </div>
@@ -85,7 +85,7 @@ const ConfigureAIInterview = () => {
       {/* Template Name */}
       <div className="card border shadow-none mb-4">
         <div className="card-body">
-          <label className="form-label fw-semibold">Template Name</label>
+          <label className="form-label fw-bold fs-6">Template Name</label>
           <input
             type="text"
             className="form-control"
@@ -114,7 +114,7 @@ const ConfigureAIInterview = () => {
                   <div className="text-center">
                     <div className="fs-2 mb-2">
                       {type === 'video' && '🎥'}
-                      {type === 'text' && '✍️'}
+                      {type === 'text' && '✍'}
                       {type === 'mcq' && '📝'}
                     </div>
                     <p className="fw-semibold mb-1 text-capitalize">{type}</p>
@@ -150,7 +150,7 @@ const ConfigureAIInterview = () => {
               <div key={question.id} className="card border">
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-start mb-3">
-                    <label className="fw-semibold">
+                    <label className="fw-bold">
                       Question {index + 1}
                     </label>
                     {questions.length > 1 && (
@@ -281,7 +281,7 @@ const ConfigureAIInterview = () => {
           )}
 
           <button
-            className={`btn w-100 py-3 ${
+            className={`btn py-3 ${
               saveSuccess 
                 ? 'btn-success' 
                 : isSaving 
@@ -290,6 +290,7 @@ const ConfigureAIInterview = () => {
             }`}
             onClick={handleSaveTemplate}
             disabled={!templateName || questions.some(q => !q.text) || isSaving}
+            style={{marginLeft:"640px"}}
           >
             {isSaving ? (
               <>
@@ -323,4 +324,3 @@ const ConfigureAIInterview = () => {
 };
 
 export default ConfigureAIInterview;
-

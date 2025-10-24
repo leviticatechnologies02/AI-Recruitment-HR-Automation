@@ -148,7 +148,7 @@ const Billing = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="col-lg-4">
+             <div className="col-lg-2" style={{marginTop: "100px",marginLeft:"95px"}}>
                 <div className="d-grid gap-3">
                   <button
                     onClick={() => setShowPlanModal(!showPlanModal)}

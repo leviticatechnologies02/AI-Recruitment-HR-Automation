@@ -60,7 +60,7 @@ const CandidateDashboardLayout = ({ children }) => {
             dropdown.classList.add("open");
             const submenu = dropdown.querySelector(".sidebar-submenu");
             if (submenu) {
-              submenu.style.maxHeight =` ${submenu.scrollHeight}px`; // Expand submenu
+              submenu.style.maxHeight = `${submenu.scrollHeight}px`; // Expand submenu
             }
           }
         });
@@ -329,20 +329,19 @@ const CandidateDashboardLayout = ({ children }) => {
                           </h6>
                         </div>
                         <span className='text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center'>
-                          3
+                          5
                         </span>
                       </div>
                       <div className='max-h-400-px overflow-y-auto scroll-sm pe-4'>
-                        <Link
-                          to='#'
-                          className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                        <div
+                          className='container px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
                         >
                           <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
                             <span className='w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
                               <Icon icon='bitcoin-icons:verify-outline' className='icon text-xxl' />
                             </span>
                             <div>
-                              <h6 className='text-md fw-semibold mb-4'>
+                              <h6 className='text-md fw-semibold'>
                                 Application Update
                               </h6>
                               <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
@@ -353,7 +352,88 @@ const CandidateDashboardLayout = ({ children }) => {
                           <span className='text-sm text-secondary-light flex-shrink-0'>
                             10 mins ago
                           </span>
-                        </Link>
+                        </div>
+                      </div>
+                      <div
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
+                            RR
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold'>
+                              Ronald Richards
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              You can stitch between artboards
+                            </p>
+                          </div>
+                        </div>
+                        <span className='text-sm text-secondary-light flex-shrink-0'>
+                          23 Mins ago
+                        </span>
+                      </div>
+                      <div
+                        to='#'
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-44-px h-44-px bg-info-subtle text-info-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
+                            AM
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold'>
+                              Arlene McCoy
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              Invite you to prototyping
+                            </p>
+                          </div>
+                        </div>
+                        <span className='text-sm text-secondary-light flex-shrink-0'>
+                          23 Mins ago
+                        </span>
+                      </div>
+                      <div
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
+                            AB
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold'>
+                              Annette Black
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              Invite you to prototyping
+                            </p>
+                          </div>
+                        </div>
+                        <span className='text-sm text-secondary-light flex-shrink-0'>
+                          23 Mins ago
+                        </span>
+                      </div>
+                      <div
+                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                      >
+                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
+                          <span className='w-44-px h-44-px bg-info-subtle text-info-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
+                            DR
+                          </span>
+                          <div>
+                            <h6 className='text-md fw-semibold'>
+                              Darlene Robertson
+                            </h6>
+                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
+                              Invite you to prototyping
+                            </p>
+                          </div>
+                        </div>
+                        <span className='text-sm text-secondary-light flex-shrink-0'>
+                          23 Mins ago
+                        </span>
                       </div>
                       <div className='text-center py-12 px-16'>
                         <Link
@@ -378,10 +458,8 @@ const CandidateDashboardLayout = ({ children }) => {
                         <div className='w-40-px h-40-px bg-primary-600 rounded-circle d-flex align-items-center justify-content-center text-white fw-semibold'>
                           {candidateData.name.charAt(0).toUpperCase()}
                         </div>
-                        <span className='fw-medium text-gray-700 d-none d-md-inline'>
-                          {candidateData.name.split(' ')[0]}
-                        </span>
-                        <Icon icon='heroicons:chevron-down' className='text-gray-500' />
+                       
+                       
                       </div>
                     </button>
                     <div className='dropdown-menu to-top dropdown-menu-sm'>

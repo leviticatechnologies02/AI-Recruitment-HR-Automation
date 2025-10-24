@@ -113,13 +113,13 @@ const AIPreScreening = () => {
   return (
     <div className="container-fluid">
       {/* Header */}
-      <div className="card border shadow-none mb-4">
+      <div className="card border shadow-none mb-4 mt-3">
         <div className="card-body">
           <div className="d-flex align-items-center gap-3 mb-2">
             <div className="p-2 bg-primary-subtle rounded">
               <Users size={24} className="text-primary" />
             </div>
-            <h4 className="mb-0">🤖 AI Prescreening Results</h4>
+            <h5 className="mb-0"> AI Prescreening Results</h5>
           </div>
           <p className="text-muted mb-0">View candidate fit scores, strengths, and areas for improvement powered by AI.</p>
         </div>

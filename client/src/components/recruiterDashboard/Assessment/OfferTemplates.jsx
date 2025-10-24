@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Plus, Search, Edit2, Trash2, Eye, X, Save, Bold, Italic, Underline, List, ListOrdered } from 'lucide-react';
 
 const OfferTemplates = () => {
@@ -163,11 +164,12 @@ Warm regards,
       )}
 
       {/* Header */}
-      <div className="card border shadow-none mb-4">
+      <div className="card border shadow-none mb-4 mt-3">
         <div className="card-body">
           <div className="d-flex align-items-start justify-content-between mb-3">
             <div>
-              <h4 className="mb-1">📄 Offer Templates</h4>
+              <h5 className="mb-1">
+                <Icon icon="heroicons:document-text"/> Offer Templates</h5>
               <p className="text-muted mb-0">Manage all your offer letter templates in one place.</p>
             </div>
             <button
@@ -416,4 +418,3 @@ Warm regards,
 };
 
 export default OfferTemplates;
-

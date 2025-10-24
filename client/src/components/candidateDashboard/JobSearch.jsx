@@ -220,21 +220,21 @@ const JobSearch = () => {
   // Filter and search logic
   const filteredJobs = useMemo(() => {
     return jobs.filter(job => {
-      const matchesKeyword = !searchKeyword || 
+      const matchesKeyword = !searchKeyword ||
         job.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
         job.company.toLowerCase().includes(searchKeyword.toLowerCase()) ||
         job.skills.some(skill => skill.toLowerCase().includes(searchKeyword.toLowerCase()));
 
-      const matchesLocation = !searchLocation || 
+      const matchesLocation = !searchLocation ||
         job.location.toLowerCase().includes(searchLocation.toLowerCase());
 
-      const matchesSalary = filters.salary.length === 0 || 
+      const matchesSalary = filters.salary.length === 0 ||
         filters.salary.includes(job.salaryRange);
 
-      const matchesRole = filters.roleType.length === 0 || 
+      const matchesRole = filters.roleType.length === 0 ||
         filters.roleType.includes(job.roleType);
 
-      const matchesWorkMode = filters.workMode.length === 0 || 
+      const matchesWorkMode = filters.workMode.length === 0 ||
         filters.workMode.includes(job.type);
 
       return matchesKeyword && matchesLocation && matchesSalary && matchesRole && matchesWorkMode;
@@ -249,8 +249,8 @@ const JobSearch = () => {
 
   // Toggle save job
   const toggleSaveJob = (jobId) => {
-    setSavedJobs(prev => 
-      prev.includes(jobId) 
+    setSavedJobs(prev =>
+      prev.includes(jobId)
         ? prev.filter(id => id !== jobId)
         : [...prev, jobId]
     );
@@ -323,16 +323,19 @@ const JobSearch = () => {
 
     if (submitted) {
       return (
-        <div className="min-h-screen flex items-center justify-content-center p-6" style={{marginTop:"200px",width:"600px", marginLeft:"350px"}}>
+        <div className="min-h-screen flex items-center justify-content-center p-6" style={{ marginTop: "200px", width: "600px", marginLeft: "350px" }}>
           <div className="p-12 max-w-2xl text-center" style={{ backgroundColor: '#ffffff', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
-            <div className="rounded-full flex items-center justify-center mx-auto mb-6 mt-4" style={{ backgroundColor: '#10b981',width:"100px",height:"40px" }}>
+            {/* <div className="rounded-full flex items-center justify-center mx-auto mb-6 mt-4" style={{ backgroundColor: '#10b981',width:"100px",height:"40px" }}>
               <CheckCircle className="mt-2" style={{ color: '#ffffff',}} />
+            </div> */}
+            <div className='w-64-px h-64-px bg-success-600 rounded-circle mx-auto mb-12 d-flex align-items-center justify-content-center'>
+              <Icon icon='heroicons:check' className='text-white' style={{ fontSize: '24px' }} />
             </div>
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#1f2937' }}>Application Submitted Successfully!</h2>
             <p className="text-lg mb-8" style={{ color: '#6b7280' }}>
               We'll notify you once {currentJob.company} reviews your profile.
             </p>
-            <button 
+            <button
               onClick={() => setSubmitted(false)}
               className="px-8 py-2 rounded-lg transition"
               style={{ backgroundColor: '#3b82f6', color: '#ffffff' }}
@@ -348,30 +351,30 @@ const JobSearch = () => {
 
     return (
       <div className='dashboard-main-body bg-neutral-50'>
-         <button
-              onClick={onBack}
-              className='btn btn-light mb-20 mt-2 d-flex align-items-center gap-2 fw-medium'
-            >
-              <Icon icon='heroicons:arrow-left' style={{ fontSize: '20px' }} />
-              Back to Search
-            </button>
+        <button
+          onClick={onBack}
+          className='btn btn-light mb-20 mt-2 d-flex align-items-center gap-2 fw-medium'
+        >
+          <Icon icon='heroicons:arrow-left' style={{ fontSize: '20px' }} />
+          Back to Search
+        </button>
         {/* Header Section */}
-        <div className='bg-gradient-primary text-white py-40'>
+        <div className='bg-gradient-primary text-dark py-40' style={{ maxWidth: "97%", marginLeft: "25px" }}>
           <div className='container-fluid px-24'>
             {/* Back Button */}
-           
+
 
             {/* Main Header Content */}
             <div className='row align-items-end justify-content-between'>
               {/* Left Content */}
               <div className='col-12 col-lg-8' >
-                <h3 className='text-4xl fw-bold mb-12'>{currentJob.title}</h3>
+                <h4 className='text-4xl fw-bold mb-12'>{currentJob.title}</h4>
                 <p className='text-xl mb-0'>{currentJob.company}</p>
               </div>
 
               {/* Right Content - Apply Button */}
               <div className='col-12 col-lg-4 text-lg-end'>
-                <button 
+                <button
                   onClick={() => document.getElementById('apply-section').scrollIntoView({ behavior: 'smooth' })}
                   className='btn btn-light btn-lg fw-semibold px-24 py-12'
                 >
@@ -387,7 +390,7 @@ const JobSearch = () => {
           {/* Single Large Content Card */}
           <div className='card border-0 shadow-sm mb-24'>
             <div className='card-body p-24'>
-              
+
               {/* Job Overview */}
               <div className='mb-24'>
                 <div className='row g-3'>
@@ -443,8 +446,8 @@ const JobSearch = () => {
                 <h2 className='text-xl fw-bold text-gray-900 mb-12'>Required Skills</h2>
                 <div className='d-flex flex-wrap gap-2 mb-16'>
                   {(currentJob.skills || []).map((skill, idx) => (
-                    <span 
-                      key={idx} 
+                    <span
+                      key={idx}
                       className='badge bg-primary-50 text-primary-600 px-12 py-6 fw-medium'
                     >
                       {skill}
@@ -543,8 +546,8 @@ const JobSearch = () => {
                           <p className='text-sm text-secondary-light mb-8' style={{ marginBottom: '8px' }}>{candidateProfile.role}</p>
                           <div className='d-flex flex-wrap gap-2 mb-8' style={{ gap: '6px' }}>
                             {candidateProfile.skills.map((skill, idx) => (
-                              <span 
-                                key={idx} 
+                              <span
+                                key={idx}
                                 className='badge'
                                 style={{
                                   backgroundColor: '#ffffff',
@@ -571,12 +574,11 @@ const JobSearch = () => {
                 <button
                   onClick={handleApply}
                   disabled={applicationMethod === 'upload' && !selectedFile}
-                  className={`btn py-12 fw-semibold ${
-                    applicationMethod === 'upload' && !selectedFile 
-                      ? 'btn-secondary' 
+                  className={`btn py-12 fw-semibold ${applicationMethod === 'upload' && !selectedFile
+                      ? 'btn-secondary'
                       : 'btn-primary'
-                  }`}
-                  style={{width:"130px"}}
+                    }`}
+                  style={{ width: "130px" }}
                 >
                   Apply Now
                 </button>
@@ -604,8 +606,8 @@ const JobSearch = () => {
       </div>
 
       {/* Search Bar */}
-      <div className='bg-white shadow-sm border-bottom mb-24'>
-        <div className='container-fluid px-24 py-20'>
+      <div className='bg-white shadow-sm border-bottom mb-24' style={{ maxWidth: '97%', marginLeft: '1.5%' }}>
+        <div className='container-fluid px-24 py-20' >
           <div className='row g-3'>
             <div className='col-12 col-md-5'>
               <div className='position-relative'>
@@ -649,10 +651,10 @@ const JobSearch = () => {
               <div className='card-body p-20'>
                 <div className='d-flex justify-content-between align-items-center mb-16'>
                   <h5 className='fw-semibold text-gray-800 mb-0'>Filters</h5>
-                  <button onClick={clearFilters} className='btn btn-link btn-sm text-primary-600 p-0'>
+                  <button onClick={clearFilters} className='btn  btn-sm text-primary-600 p-0'>
                     Clear All
-                  </button>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                  </button>
+
                 </div>
 
                 {/* Salary Range */}
@@ -770,12 +772,12 @@ const JobSearch = () => {
                             </span>
                           </div>
                         </div>
-                        
+
                         <div className='col'>
                           {/* Job Details */}
                           <h3 className='text-lg fw-semibold text-gray-900 mb-4'>{job.title}</h3>
                           <p className='text-gray-700 mb-12'>{job.company}</p>
-                          
+
                           {/* Job Attributes */}
                           <div className='d-flex flex-wrap gap-3 text-sm text-secondary-light mb-12'>
                             <span className='d-flex align-items-center gap-1'>
@@ -791,7 +793,7 @@ const JobSearch = () => {
                               {job.type}
                             </span>
                           </div>
-                          
+
                           {/* Skills */}
                           <div className='d-flex gap-2 flex-wrap'>
                             {job.skills.map((skill, idx) => (
@@ -801,10 +803,10 @@ const JobSearch = () => {
                             ))}
                           </div>
                         </div>
-                        
+
                         <div className='col-auto'>
                           {/* Apply Button */}
-                          <button 
+                          <button
                             onClick={() => handleJobClick(job)}
                             className='btn btn-success px-20 py-8 fw-medium'
                           >
@@ -834,11 +836,10 @@ const JobSearch = () => {
                   <button
                     key={idx}
                     onClick={() => setCurrentPage(idx + 1)}
-                    className={`btn px-16 py-8 fw-medium ${
-                      currentPage === idx + 1
+                    className={`btn px-16 py-8 fw-medium ${currentPage === idx + 1
                         ? 'btn-primary'
                         : 'btn-outline-secondary'
-                    }`}
+                      }`}
                   >
                     {idx + 1}
                   </button>

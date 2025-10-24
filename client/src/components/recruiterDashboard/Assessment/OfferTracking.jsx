@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Search, Plus, X, Send, Eye, FileText, Trash2, Download, Bell, Clock, CheckCircle, XCircle, Mail } from 'lucide-react';
 
 const OfferTracking = () => {
@@ -243,11 +244,12 @@ HR Team – Veritech Software`;
   return (
     <div className="container-fluid">
       {/* Header */}
-      <div className="card border shadow-none mb-4">
+      <div className="card border shadow-none mb-4 mt-3">
         <div className="card-body">
           <div className="d-flex align-items-center justify-content-between mb-3">
             <div>
-              <h4 className="mb-1">📄 Offer Management</h4>
+              <h5 className="mb-1">
+                <Icon icon="heroicons:document-text"/> Offer Tracking</h5>
               <p className="text-muted small mb-0">Generate, send, and track all candidate offers in one place</p>
             </div>
             <button
@@ -644,4 +646,3 @@ HR Team – Veritech Software`;
 };
 
 export default OfferTracking;
-

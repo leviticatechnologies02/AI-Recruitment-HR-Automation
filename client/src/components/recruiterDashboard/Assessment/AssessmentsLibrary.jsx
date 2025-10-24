@@ -1,5 +1,19 @@
 import React, { useState } from 'react';
 import { Search, Plus, Edit, Eye, Trash2, Filter } from 'lucide-react';
+import { Icon } from '@iconify/react';
+import {
+  IconBrandReact,
+  IconFileTypeHtml,
+  IconBrandPython,
+  IconBrandJavascript,
+  IconMessageCircle,
+  IconBrain,
+  IconBrandNodejs,
+  IconCloud,
+  IconFileTypeJs,
+  IconSql,
+  IconBrandAws,
+} from '@tabler/icons-react';
 
 const AssessmentsLibrary = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,7 +29,7 @@ const AssessmentsLibrary = () => {
       questions: 20,
       difficulty: 'Medium',
       lastUpdated: '06 Oct 2025',
-      icon: '⚛'
+      icon:  <IconBrandReact size={36} color="#61DAFB"  />
     },
     {
       id: 2,
@@ -25,7 +39,7 @@ const AssessmentsLibrary = () => {
       questions: 10,
       difficulty: 'Easy',
       lastUpdated: '03 Oct 2025',
-      icon: '🎨'
+      icon: <IconFileTypeHtml size={36} color="#E34C26" />,
     },
     {
       id: 3,
@@ -35,7 +49,7 @@ const AssessmentsLibrary = () => {
       questions: 15,
       difficulty: 'Hard',
       lastUpdated: '05 Oct 2025',
-      icon: '⚛'
+      icon: <IconBrandReact size={36} color="#61DAFB" />,
     },
     {
       id: 4,
@@ -45,7 +59,7 @@ const AssessmentsLibrary = () => {
       questions: 8,
       difficulty: 'Easy',
       lastUpdated: '02 Oct 2025',
-      icon: '💬'
+      icon: <IconMessageCircle size={36} color="#4C6EF5" />,
     },
     {
       id: 5,
@@ -55,7 +69,7 @@ const AssessmentsLibrary = () => {
       questions: 15,
       difficulty: 'Easy',
       lastUpdated: '01 Oct 2025',
-      icon: '🐍'
+      icon: <IconBrandPython size={36} color="#3776AB" />,
     },
     {
       id: 6,
@@ -65,7 +79,7 @@ const AssessmentsLibrary = () => {
       questions: 25,
       difficulty: 'Medium',
       lastUpdated: '29 Sep 2025',
-      icon: '🧠'
+      icon: <IconBrain size={36} color="#9B59B6" />,
     }
   ]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -113,16 +127,16 @@ const AssessmentsLibrary = () => {
       }).replace(/ /g, ' ');
 
       const iconMap = {
-        'React.js': '⚛',
-        'HTML/CSS': '🎨',
-        'Python': '🐍',
-        'JavaScript': '📜',
-        'Communication': '💬',
-        'Logical Reasoning': '🧠',
-        'Java': '☕',
-        'Node.js': '🟢',
-        'SQL': '🗃️',
-        'AWS': '☁️'
+        'React.js':<IconBrandReact size={36} color="#61DAFB" />,
+        'HTML/CSS':  <IconFileTypeHtml size={36} color="#E34C26" />,
+        'Python': <IconBrandPython size={36} color="#3776AB" />,
+        'JavaScript': <IconBrandJavascript size={36} color="#F7DF1E" />,
+        'Communication':  <IconMessageCircle size={36} color="#4C6EF5" />,
+        'Logical Reasoning':  <IconBrain size={36} color="#9B59B6" />,
+        'Java': <IconFileTypeJs size={36} color="#E76F00" />,
+        'Node.js':  <IconBrandNodejs size={36} color="#68A063" />,
+        'SQL':  <IconSql size={36} color="#68A063" />,
+        'AWS': <IconBrandAws size={36} color="#FF9900" />,
       };
 
       const newAssessmentData = {
@@ -262,9 +276,9 @@ const AssessmentsLibrary = () => {
       {/* Header Section */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h4 className="mb-1 d-flex align-items-center gap-2">
-            📘 Assessments Library
-          </h4>
+          <h5 className="mb-1 d-flex align-items-center gap-2">
+            <Icon icon="heroicons:book-open" /> Assessments Library
+          </h5>
           <p className="text-muted mb-0">Manage all your hiring assessments</p>
         </div>
         <button className="btn btn-primary" onClick={handleCreateAssessment}>
@@ -356,7 +370,7 @@ const AssessmentsLibrary = () => {
                 {/* Assessment Header */}
                 <div className="d-flex align-items-start justify-content-between mb-3">
                   <div className="d-flex align-items-center gap-3">
-                    <span style={{ fontSize: '2rem' }}>{assessment.icon}</span>
+                    <span>{assessment.icon}</span>
                     <div>
                       <h6 className="mb-1">{assessment.name}</h6>
                       <span className={`badge ${getTypeColor(assessment.type)} small`}>
@@ -390,15 +404,15 @@ const AssessmentsLibrary = () => {
 
                 {/* Action Buttons */}
                 <div className="d-flex gap-2">
-                  <button className="btn btn-sm btn-outline-primary flex-grow-1" onClick={() => handleEdit(assessment.id)}>
+                  <button className="btn btn-sm btn-primary flex-grow-1" onClick={() => handleEdit(assessment.id)}>
                     <Edit size={14} className="me-1" />
                     Edit
                   </button>
-                  <button className="btn btn-sm btn-outline-success flex-grow-1" onClick={() => handlePreview(assessment.id)}>
+                  <button className="btn btn-sm btn-success flex-grow-1" onClick={() => handlePreview(assessment.id)}>
                     <Eye size={14} className="me-1" />
                     Preview
                   </button>
-                  <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(assessment.id)}>
+                  <button className="btn btn-sm btn-danger" onClick={() => handleDelete(assessment.id)}>
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -665,7 +679,6 @@ const AssessmentsLibrary = () => {
           </div>
         </div>
       )}
-
       {/* Preview Assessment Modal */}
       {showPreviewModal && previewingAssessment && (
         <div className="modal fade show d-block" style={{backgroundColor: 'rgba(0,0,0,0.5)'}} tabIndex="-1">
@@ -683,7 +696,7 @@ const AssessmentsLibrary = () => {
                       <div className="d-flex align-items-center gap-3">
                         <span className="fs-1">{previewingAssessment.icon}</span>
                         <div>
-                          <h4 className="mb-1">{previewingAssessment.name}</h4>
+                          <h6 className="mb-1">{previewingAssessment.name}</h6>
                           <span className={`badge ${getTypeColor(previewingAssessment.type)}`}>
                             {previewingAssessment.type}
                           </span>
@@ -695,19 +708,20 @@ const AssessmentsLibrary = () => {
                     <div className="row g-3 mb-3">
                       <div className="col-md-6">
                         <div className="d-flex justify-content-between">
-                          <span className="text-muted">Skill:</span>
-                          <span className="fw-medium">{previewingAssessment.skill}</span>
+                          <span className="fw-bold">Skill:</span>
+                          <span className="fw-normal">{previewingAssessment.skill}</span>
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="d-flex justify-content-between">
-                          <span className="text-muted">Questions:</span>
-                          <span className="fw-medium">{previewingAssessment.questions}</span>
+                          <span className="fw-bold">Questions:</span>
+                          <span className="fw-normal">{previewingAssessment.questions}</span>
                         </div>
                       </div>
+                      
                       <div className="col-md-6">
                         <div className="d-flex justify-content-between">
-                          <span className="text-muted">Difficulty:</span>
+                          <span className="fw-bold">Difficulty:</span>
                           <span className={`badge ${getDifficultyColor(previewingAssessment.difficulty)}`}>
                             {previewingAssessment.difficulty}
                           </span>
@@ -715,7 +729,7 @@ const AssessmentsLibrary = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="d-flex justify-content-between">
-                          <span className="text-muted">Last Updated:</span>
+                          <span className="fw-bold">Last Updated:</span>
                           <span className="text-muted small">{previewingAssessment.lastUpdated}</span>
                         </div>
                       </div>
@@ -731,7 +745,7 @@ const AssessmentsLibrary = () => {
 
                     {/* Sample Questions Preview */}
                     <div className="border-top pt-3">
-                      <h6 className="mb-3">Sample Questions Preview</h6>
+                      <p className="fs-5 fw-bold">Sample Questions Preview</p>
                       <div className="bg-light p-3 rounded">
                         <p className="mb-2"><strong>Question 1:</strong> What is the main purpose of {previewingAssessment.skill}?</p>
                         <p className="mb-2"><strong>Question 2:</strong> Explain the key concepts in {previewingAssessment.skill}.</p>
@@ -786,4 +800,3 @@ const AssessmentsLibrary = () => {
 };
 
 export default AssessmentsLibrary;
-

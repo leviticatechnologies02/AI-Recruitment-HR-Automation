@@ -78,11 +78,11 @@ const AssignAssessment = () => {
   return (
     <div className="container-fluid">
       {/* Header */}
-      <div className="card border shadow-none mb-4">
+      <div className="card border shadow-none mb-4 mt-3">
         <div className="card-body">
           <div className="d-flex align-items-center justify-content-between">
             <div>
-              <h4 className="mb-1">Assign Assessment</h4>
+              <h5 className="mb-1">Assign Assessment</h5>
               <p className="text-muted mb-0">Select candidates and assign them an assessment test</p>
             </div>
             <div className="d-flex align-items-center gap-2 px-3 py-2 bg-primary-subtle text-primary rounded">
@@ -191,7 +191,7 @@ const AssignAssessment = () => {
                   style={{cursor: 'pointer'}}
                 >
                   <div className="d-flex align-items-center gap-3">
-                    <div className="form-check">
+                    <div>
                       <input
                         className="form-check-input"
                         type="checkbox"
