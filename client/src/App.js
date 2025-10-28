@@ -6,6 +6,7 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import ForgotPassword from './components/auth/ForgotPassword';
 import PricingPage from './components/auth/PricingPage';
+import Subscription from './components/auth/Subscription';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminPanel from './components/recruiterDashboard/AdminPanel';
 import Candidates from './components/recruiterDashboard/Candidates';
@@ -60,6 +61,7 @@ const App = () => {
       <Route path='/login' element={<Login />} />
       <Route path='/ForgotPassword' element={<ForgotPassword />} />
       <Route path='/pricing' element={<PricingPage />} />
+      <Route path='/subscription' element={<Subscription />} />
 
       <Route
         path='/dashboard'

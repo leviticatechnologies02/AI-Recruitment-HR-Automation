@@ -227,15 +227,15 @@ const CandidateDashboardLayout = ({ children }) => {
           {/* Logo */}
           <div>
             <Link to='/candidate/dashboard' className='sidebar-logo'>
-              <img src='assets/images/logo1.png' alt='site logo' className='light-logo' />
+              <img src='/assets/images/logo2.png' alt='site logo' className='light-logo' />
               <img src='assets/images/logo-light.png' alt='site logo' className='dark-logo' />
-              <img src='assets/images/logo-icon.png' alt='site logo' className='logo-icon' />
+              <img src='/assets/images/logo2.png' alt='site logo' className='logo-icon' />
             </Link>
           </div>
  
           {/* Navigation */}
           <div className='sidebar-menu-area'>
-            <ul className='sidebar-menu' id='sidebar-menu'>
+            <ul className='sidebar-menu ps-2' id='sidebar-menu'>
               {/* Candidate Dashboard */}
               <li>
                 <LinkItem to='/candidate/dashboard' icon='heroicons:home' label='Dashboard' />

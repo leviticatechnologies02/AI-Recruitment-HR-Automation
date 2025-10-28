@@ -47,17 +47,81 @@ const Applications = () => {
       company: "CloudSystems Ltd",
       dateApplied: "2025-09-10",
       status: "Interview Scheduled"
+    },
+    {
+      id: 7,
+      jobTitle: "DevOps Engineer",
+      company: "CloudTech Solutions",
+      dateApplied: "2025-10-08",
+      status: "Applied"
+    },
+    {
+      id: 8,
+      jobTitle: "Python Developer",
+      company: "DataPro Analytics",
+      dateApplied: "2025-10-06",
+      status: "Applied"
+    },
+    {
+      id: 9,
+      jobTitle: "Node.js Developer",
+      company: "ServerStack Inc",
+      dateApplied: "2025-10-04",
+      status: "Applied"
+    },
+    {
+      id: 10,
+      jobTitle: "Mobile App Developer",
+      company: "AppCraft Mobile",
+      dateApplied: "2025-10-02",
+      status: "Applied"
+    },
+    {
+      id: 11,
+      jobTitle: "Angular Developer",
+      company: "CodeNest Technologies",
+      dateApplied: "2025-09-30",
+      status: "Applied"
+    },
+    {
+      id: 12,
+      jobTitle: "MongoDB Developer",
+      company: "Database Experts",
+      dateApplied: "2025-09-25",
+      status: "Applied"
+    },
+    {
+      id: 13,
+      jobTitle: "JavaScript Engineer",
+      company: "ScriptMasters",
+      dateApplied: "2025-09-18",
+      status: "Applied"
+    },
+    {
+      id: 14,
+      jobTitle: "Vue.js Developer",
+      company: "VueTech Solutions",
+      dateApplied: "2025-09-12",
+      status: "Applied"
+    },
+    {
+      id: 15,
+      jobTitle: "TypeScript Developer",
+      company: "TypeCode Inc",
+      dateApplied: "2025-09-05",
+      status: "Applied"
     }
   ];
 
   const statusConfig = {
+    "Applied": { color: "bg-info-50 text-info-600 border-info-200", icon: "📝" },
     "In Review": { color: "bg-primary-50 text-primary-600 border-primary-200", icon: "🔵" },
     "Interview Scheduled": { color: "bg-warning-50 text-warning-600 border-warning-200", icon: "🟡" },
     "Offer": { color: "bg-success-50 text-success-600 border-success-200", icon: "🟢" },
     "Rejected": { color: "bg-danger-50 text-danger-600 border-danger-200", icon: "🔴" }
   };
 
-  const filterOptions = ["All", "In Review", "Interview Scheduled", "Offer", "Rejected"];
+  const filterOptions = ["All", "Application Applied", "In Review", "Interview Scheduled", "Offer", "Rejected"];
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -65,7 +129,14 @@ const Applications = () => {
   };
 
   const filteredApplications = applicationsData.filter(app => {
-    const matchesFilter = activeFilter === 'All' || app.status === activeFilter;
+    let matchesFilter;
+    if (activeFilter === 'All') {
+      matchesFilter = true;
+    } else if (activeFilter === 'Application Applied') {
+      matchesFilter = app.status === 'Applied';
+    } else {
+      matchesFilter = app.status === activeFilter;
+    }
     const matchesSearch = app.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          app.company.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
@@ -73,6 +144,7 @@ const Applications = () => {
 
   const getStatusCount = (status) => {
     if (status === 'All') return applicationsData.length;
+    if (status === 'Application Applied') return applicationsData.filter(app => app.status === 'Applied').length;
     return applicationsData.filter(app => app.status === status).length;
   };
 

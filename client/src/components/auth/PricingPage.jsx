@@ -17,16 +17,16 @@ const PricingPage = () => {
     }
   }, [navigate]);
 
-  const handleGetStarted = () => {
-    navigate('/dashboard');
+  const handleGetStarted = (plan) => {
+    navigate('/subscription', { state: { plan: plan, isYearly: isYearly } });
   };
 
   const pricingPlans = [
     {
       name: 'FREE',
       color: '#E8B4F8',
-      monthlyPrice: '$0',
-      yearlyPrice: '$0',
+      monthlyPrice: '₹0',
+      yearlyPrice: '₹0',
       features: [
         { text: '50 GB Bandwidth', included: true },
         { text: 'Financial Analysis', included: true },
@@ -38,8 +38,8 @@ const PricingPage = () => {
     {
       name: 'BASIC',
       color: '#FF69B4',
-      monthlyPrice: '$9.99',
-      yearlyPrice: '$99.99',
+      monthlyPrice: '₹799',
+      yearlyPrice: '₹7,990',
       features: [
         { text: '50 GB Bandwidth', included: true },
         { text: 'Financial Analysis', included: true },
@@ -51,8 +51,8 @@ const PricingPage = () => {
     {
       name: 'STANDARD',
       color: '#8B5CF6',
-      monthlyPrice: '$14.9',
-      yearlyPrice: '$149.9',
+      monthlyPrice: '₹1,199',
+      yearlyPrice: '₹11,990',
       features: [
         { text: '50 GB Bandwidth', included: true },
         { text: 'Financial Analysis', included: true },
@@ -176,9 +176,9 @@ const PricingPage = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className='row g-4 justify-content-center'>
+        <div className='row g-4 justify-content-center px-3'>
           {pricingPlans.map((plan, index) => (
-            <div key={index} className='col-lg-3 col-md-6'>
+            <div key={index} className='col-12 col-sm-6 col-lg-3'>
               <div className='card h-100 border-0 shadow-lg position-relative' style={{ borderRadius: '20px' }}>
                 {/* Colored Tab */}
                 <div 
@@ -196,10 +196,10 @@ const PricingPage = () => {
                 <div className='card-body p-4 pt-5'>
                   {/* Price */}
                   <div className='text-center mb-4'>
-                    <h2 className='display-6 fw-semibold   text-dark mb-0'>
+                    <h4 className='display-6 fw-semibold text-dark mb-0'>
                       {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                       <span className='fs-6 text-muted'>/{isYearly ? 'year' : 'mon'}</span>
-                    </h2>
+                    </h4>
                   </div>
 
                   {/* Features */}
@@ -223,7 +223,7 @@ const PricingPage = () => {
                   {/* Buy Now Button */}
                   <div className='mt-auto'>
                     <button 
-                      onClick={handleGetStarted}
+                      onClick={() => handleGetStarted(plan)}
                       className='btn w-100 py-3 text-white fw-bold'
                       style={{ 
                         backgroundColor: '#8B5CF6',
@@ -242,7 +242,7 @@ const PricingPage = () => {
       </div>
 
         {/* Comparison Table */}
-        <div className="container pb-5">
+        <div className="container pb-5 px-3">
           <h2 className="h2 fw-bold text-white text-center mb-5">
             Compare Plans
           </h2>
@@ -291,7 +291,7 @@ const PricingPage = () => {
         </div>
 
       {/* FAQ Section */}
-      <div className="container pb-5" style={{ maxWidth: '960px' }}>
+      <div className="container pb-5 px-3">
         <h2 className="h2 fw-bold text-white text-center mb-5">
           Frequently Asked Questions
         </h2>
@@ -333,8 +333,8 @@ const PricingPage = () => {
       </div>
 
       {/* Final CTA */}
-      <div className="container pb-5 text-center" style={{ maxWidth: '960px' }}>
-        <div className="bg-primary bg-opacity-20 rounded-3 border border-primary border-opacity-30 p-5" style={{ backdropFilter: 'blur(4px)' }}>
+      <div className="container pb-5 text-center px-3">
+        <div className="bg-primary bg-opacity-20 rounded-3 border border-primary border-opacity-30 p-4 p-md-5" style={{ backdropFilter: 'blur(4px)' }}>
           <h2 className="h3 fw-bold text-white mb-3">
             Ready to get started?
           </h2>

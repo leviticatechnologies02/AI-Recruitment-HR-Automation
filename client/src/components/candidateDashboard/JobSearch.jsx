@@ -1,11 +1,25 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Icon } from '@iconify/react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, MapPin, DollarSign, Briefcase, Clock, Building2, Globe, Users, Award, FileText, User, CheckCircle, Upload, Mail } from 'lucide-react';
 
 const JobSearch = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   // Navigation state
   const [currentView, setCurrentView] = useState('search');
   const [selectedJob, setSelectedJob] = useState(null);
+
+  // Check if coming from Applications page
+  useEffect(() => {
+    if (location.state?.selectedJob) {
+      // Show a message or highlight the job in the list
+      const jobTitle = location.state.selectedJob.title;
+      console.log(`Looking for job: ${jobTitle}`);
+      // You can add search functionality here to highlight the job
+    }
+  }, [location.state]);
 
   // Sample job data
   const [jobs] = useState([
@@ -287,10 +301,11 @@ const JobSearch = () => {
 
     const handleApply = () => {
       setSubmitted(true);
-      // Simulate API call
+      // Show success message and auto-navigate after 5 seconds
       setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 100);
+        alert('Application submitted successfully! Navigating to your applications...');
+        navigate('/candidate/applications');
+      }, 5000);
     };
 
     // Use default job data if no job is selected (fallback)
@@ -323,27 +338,29 @@ const JobSearch = () => {
 
     if (submitted) {
       return (
-        <div className="min-h-screen flex items-center justify-content-center p-6" style={{ marginTop: "200px", width: "600px", marginLeft: "350px" }}>
-          <div className="p-12 max-w-2xl text-center" style={{ backgroundColor: '#ffffff', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
-            {/* <div className="rounded-full flex items-center justify-center mx-auto mb-6 mt-4" style={{ backgroundColor: '#10b981',width:"100px",height:"40px" }}>
-              <CheckCircle className="mt-2" style={{ color: '#ffffff',}} />
-            </div> */}
+        <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999 }}>
+          <div className="bg-white rounded shadow-lg p-24 text-center" style={{ maxWidth: '500px', width: '90%' }}>
             <div className='w-64-px h-64-px bg-success-600 rounded-circle mx-auto mb-12 d-flex align-items-center justify-content-center'>
               <Icon icon='heroicons:check' className='text-white' style={{ fontSize: '24px' }} />
             </div>
-            <h2 className="text-2xl font-bold mb-4" style={{ color: '#1f2937' }}>Application Submitted Successfully!</h2>
-            <p className="text-lg mb-8" style={{ color: '#6b7280' }}>
+            <h3 className='text-xl fw-bold text-gray-900 mb-8'>Application Submitted Successfully!</h3>
+            <p className='text-secondary-light mb-24'>
               We'll notify you once {currentJob.company} reviews your profile.
             </p>
-            <button
-              onClick={() => setSubmitted(false)}
-              className="px-8 py-2 rounded-lg transition"
-              style={{ backgroundColor: '#3b82f6', color: '#ffffff' }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
-              onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
-            >
-              Back to Job Details
-            </button>
+            <div className="d-flex gap-3 justify-content-center flex-column flex-sm-row">
+              <button
+                onClick={() => navigate('/candidate/applications')}
+                className="btn btn-success px-20 py-10 fw-semibold"
+              >
+                View My Applications
+              </button>
+              <button
+                onClick={onBack}
+                className="btn btn-primary px-20 py-10 fw-semibold"
+              >
+                Browse More Jobs
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -805,13 +822,33 @@ const JobSearch = () => {
                         </div>
 
                         <div className='col-auto'>
-                          {/* Apply Button */}
-                          <button
-                            onClick={() => handleJobClick(job)}
-                            className='btn btn-success px-20 py-8 fw-medium'
-                          >
-                            Apply
-                          </button>
+                          <div className='d-flex flex-column gap-2 align-items-end'>
+                            {/* Save Button */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleSaveJob(job.id);
+                              }}
+                              className='btn btn-link text-danger p-0 border-0'
+                              style={{ minWidth: '40px' }}
+                            >
+                              <Icon 
+                                icon={savedJobs.includes(job.id) ? 'heroicons:heart-solid' : 'heroicons:heart'} 
+                                style={{ 
+                                  fontSize: '24px',
+                                  color: savedJobs.includes(job.id) ? '#dc3545' : '#6c757d'
+                                }} 
+                              />
+                            </button>
+                            
+                            {/* Apply Button */}
+                            <button
+                              onClick={() => handleJobClick(job)}
+                              className='btn btn-success px-20 py-8 fw-medium'
+                            >
+                              Apply
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>

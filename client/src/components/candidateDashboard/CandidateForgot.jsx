@@ -134,7 +134,7 @@ const CandidateForgot = () => {
         <div className='auth-left d-lg-block d-none'>
           <div className='d-flex align-items-center flex-column h-100 justify-content-center'>
             <img
-              src='assets/images/auth/forgot-pass-img.png'
+              src='/assets/images/auth/forgot-pass-img1.png'
               alt='WowDash React Vite'
             />
           </div>

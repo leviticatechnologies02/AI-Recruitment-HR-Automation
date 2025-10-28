@@ -206,12 +206,12 @@ const RecruiterDashboardLayout = ({ children, internalNav = false, activeTab, on
           <Link to='/dashboard' className='sidebar-logo'>
             <img src='assets/images/logo1.png' alt='site logo' className='light-logo' />
             <img src='assets/images/logo-light.png' alt='site logo' className='dark-logo' />
-            <img src='assets/images/logo-icon.png' alt='site logo' className='logo-icon' />
+            <img src='assets/images/logo1.png' alt='site logo' className='logo-icon' />
           </Link>
         </div>
         <div className='sidebar-menu-area'>
 
-          <ul className='sidebar-menu' id='sidebar-menu'>
+          <ul className='sidebar-menu ps-2' id='sidebar-menu'>
             {/* Recruiter Dashboard */}
             <li>
               <LinkItem to='/dashboard' tabKey='dashboard' icon='heroicons:home' label='Dashboard' />

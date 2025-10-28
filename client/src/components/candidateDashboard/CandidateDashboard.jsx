@@ -1,8 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
  
 const CandidateDashboard = () => {
+  const navigate = useNavigate();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const handleApplyNow = () => {
+    navigate('/candidate/jobs');
+  };
+
+  const handleViewAllApplications = () => {
+    navigate('/candidate/applications');
+  };
+
+  const handleViewSavedJob = () => {
+    navigate('/candidate/jobs');
+  };
  
   // Sample data
   const candidateData = {
@@ -121,7 +135,10 @@ const CandidateDashboard = () => {
                     </div>
                   ))}
                 </div>
-                <button className='btn btn-outline-primary w-100 mt-16'>
+                <button 
+                  onClick={handleViewAllApplications}
+                  className='btn btn-outline-primary w-100 mt-16'
+                >
                   View All Applications →
                 </button>
               </div>
@@ -140,14 +157,16 @@ const CandidateDashboard = () => {
                       <p className='text-xs text-secondary-light mb-8'>{job.company}</p>
                       <div className='d-flex align-items-center justify-content-between'>
                         <p className='text-xs text-secondary-light mb-0'>{job.savedOn}</p>
-                        <button className='btn  btn-sm text-primary-600 p-0'>View</button>
+                        <button 
+                          onClick={handleViewSavedJob}
+                          className='btn btn-sm text-primary-600 p-0'
+                        >
+                          View
+                        </button>
                       </div>
                     </div>
                   ))}
                 </div>
-                <button className='btn btn-outline-primary w-100 mt-16 text-sm'>
-                  View All Saved →
-                </button>
               </div>
             </div>
           </div>
@@ -206,11 +225,10 @@ const CandidateDashboard = () => {
                     </div>
                    
                     <div className='d-flex align-items-center justify-content-between pt-12 border-top'>
-                      <button className='btn btn-link text-sm text-secondary-light p-0 d-flex align-items-center gap-2'>
-                        <span className='w-8-px h-8-px bg-secondary-400 rounded-circle'></span>
-                        Did Not Apply
-                      </button>
-                      <button className='btn btn-primary px-20 py-8 text-sm fw-medium'>
+                      <button 
+                        onClick={handleApplyNow}
+                        className='btn btn-primary px-20 py-8 text-sm fw-medium'
+                      >
                         Apply Now
                       </button>
                     </div>
