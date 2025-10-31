@@ -290,7 +290,7 @@ const ConfigureAIInterview = () => {
             }`}
             onClick={handleSaveTemplate}
             disabled={!templateName || questions.some(q => !q.text) || isSaving}
-            style={{marginLeft:"640px"}}
+            style={{marginLeft:"370px"}}
           >
             {isSaving ? (
               <>

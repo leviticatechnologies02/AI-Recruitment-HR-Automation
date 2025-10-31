@@ -132,13 +132,13 @@ const ReviewAIInterview = () => {
   return (
     <div className="container-fluid">
       {/* Header */}
-      <div className="card border shadow-none mb-4">
+      <div className="card border shadow-none mb-4 mt-3">
         <div className="card-body">
           <div className="d-flex align-items-center gap-3 mb-2">
             <div className="p-2 bg-primary-subtle rounded">
               <FileText size={24} className="text-primary" />
             </div>
-            <h4 className="mb-0"> AI Interview Review</h4>
+            <h5 className="mb-0"> AI Interview Review</h5>
           </div>
           <p className="text-muted mb-0">Review candidate interview responses with AI feedback, sentiment, and notes</p>
         </div>

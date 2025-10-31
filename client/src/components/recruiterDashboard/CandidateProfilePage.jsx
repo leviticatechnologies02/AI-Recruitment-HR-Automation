@@ -128,7 +128,7 @@ const CandidateProfilePage = ({ candidate, onClose }) => {
                   <button type="button" className="btn-close" onClick={() => setActionMessage(null)}></button>
                 </div>
               )}
-
+ 
               {/* Profile Header */}
               <div className="card border shadow-sm mb-4">
                 <div className="card-body p-4">
@@ -138,7 +138,7 @@ const CandidateProfilePage = ({ candidate, onClose }) => {
                         {candidateData.avatar}
                       </div>
                       <div>
-                        <h2 className="mb-2">{candidateData.name}</h2>
+                        <h4 className="mb-2">{candidateData.name}</h4>
                         <p className="text-muted fs-5 mb-3">{candidateData.role}</p>
                         <div className="d-flex flex-wrap gap-3 mb-2">
                           <div className="d-flex align-items-center gap-2 text-muted small">
@@ -160,12 +160,7 @@ const CandidateProfilePage = ({ candidate, onClose }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="text-end">
-                      <button className="btn btn-primary d-flex align-items-center gap-2 mb-3">
-                        <Download size={16} />
-                        Download Resume
-                      </button>
-                      <div className="d-flex flex-column gap-2 align-items-end">
+                      <div className="d-flex flex-column gap-2 align-items-end mt-4">
                         <span className={`badge ${getStageColor(currentStage)}`}>
                           {currentStage}
                         </span>
@@ -173,11 +168,18 @@ const CandidateProfilePage = ({ candidate, onClose }) => {
                           <Calendar size={14} />
                           Applied: {candidateData.appliedDate}
                         </span>
+                         <div className="text-end">
+                      <button className="btn btn-primary d-flex align-items-center gap-2 mb-3">
+                        <Download size={16} />
+                        Download Resume
+                      </button>
+                   
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+ 
 
               {/* Action Buttons */}
               <div className="d-flex gap-3 mb-4 flex-wrap">
@@ -292,7 +294,7 @@ const CandidateProfilePage = ({ candidate, onClose }) => {
                         <div className="col-md-6 col-lg-3">
                           <div className="card border-0" style={{backgroundColor: '#f3e8ff'}}>
                             <div className="card-body">
-                              <div className="d-flex align-items-center gap-2 mb-2" style={{color: '#7c3aed'}}>
+                              <div className="d-flex align-items-center gap-2 mb-2" style={{color: '#7c3aed',height:"105px"}}>
                                 <Clock size={16} />
                                 <span className="fw-semibold small">Availability</span>
                               </div>

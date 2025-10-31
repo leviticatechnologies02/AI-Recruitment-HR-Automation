@@ -150,7 +150,7 @@ const OrgInfo = () => {
           <div className="col-12">
             {/* Header */}
             <div className="mb-4">
-              <div className="d-flex align-items-center gap-3 mb-2">
+              <div className="d-flex align-items-center gap-3 mb-2 mt-3">
                 <Icon icon="heroicons:building-office" className="" style={{ fontSize: '2rem' }} />
                 <h5 className=" fw-bold text-dark mb-0">Company Settings</h5>
               </div>

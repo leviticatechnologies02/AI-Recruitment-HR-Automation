@@ -206,10 +206,42 @@ const HowItWorksSection = () => {
   const [ref, isVisible] = useIntersectionObserver(true);
 
   const steps = [
-    { num: 1, title: '📝 Create Job', icon: '1', color: 'bg-primary', delay: 0 },
-    { num: 2, title: '👥 Import Candidates', icon: '2', color: 'bg-success', delay: 150 },
-    { num: 3, title: '📊 Track Pipeline', icon: '3', color: 'bg-warning', delay: 300 },
-    { num: 4, title: '🎯 Hire & Report', icon: '4', color: 'bg-pink', delay: 450 }
+    { 
+      num: 1, 
+      title: '📝 Create Job', 
+      icon: '1', 
+      color: 'bg-primary', 
+      bgColor: '#EFF6FF', 
+      accentColor: '#3B82F6',
+      delay: 0 
+    },
+    { 
+      num: 2, 
+      title: '👥 Import Candidates', 
+      icon: '2', 
+      color: 'bg-success', 
+      bgColor: '#ECFDF5', 
+      accentColor: '#10B981',
+      delay: 150 
+    },
+    { 
+      num: 3, 
+      title: '📊 Track Pipeline', 
+      icon: '3', 
+      color: 'bg-warning', 
+      bgColor: '#FFFBEB', 
+      accentColor: '#F59E0B',
+      delay: 300 
+    },
+    { 
+      num: 4, 
+      title: '🎯 Hire & Report', 
+      icon: '4', 
+      color: 'bg-pink', 
+      bgColor: '#FDF2F8', 
+      accentColor: '#EC4899',
+      delay: 450 
+    }
   ];
 
   return (
@@ -234,17 +266,45 @@ const HowItWorksSection = () => {
               {steps.map((step, idx) => (
                 <div key={idx} className='col'>
                   <ScrollAnimatedCard delay={step.delay} isVisible={isVisible}>
-                    <div className='border rounded p-3 p-md-4 text-center h-100 session-block' style={{
-                      borderRadius: '12px',
-                      transition: 'all 0.3s ease'
-                    }}>
-                      <div className={`badge ${step.color} text-white border mb-2 mb-md-3`} style={{
-                        fontSize: '0.875rem',
-                        padding: '0.375rem 0.5rem'
-                      }}>
+                    <div 
+                      className='border-0 rounded p-3 p-md-4 text-center h-100 session-block shadow-sm' 
+                      style={{
+                        borderRadius: '12px',
+                        transition: 'all 0.3s ease',
+                        backgroundColor: step.bgColor,
+                        borderTop: `4px solid ${step.accentColor}`
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                        e.currentTarget.style.boxShadow = `0 8px 20px ${step.accentColor}30`;
+                        e.currentTarget.style.borderTop = `4px solid ${step.accentColor}`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                        e.currentTarget.style.borderTop = `4px solid ${step.accentColor}`;
+                      }}
+                    >
+                      <div 
+                        className={`badge ${step.color} text-white border-0 mb-2 mb-md-3`} 
+                        style={{
+                          fontSize: '0.875rem',
+                          padding: '0.375rem 0.5rem',
+                          backgroundColor: step.accentColor
+                        }}
+                      >
                         {step.num}
                       </div>
-                      <div className='fw-medium small' style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>{step.title}</div>
+                      <div 
+                        className='fw-medium small' 
+                        style={{ 
+                          marginTop: '0.5rem', 
+                          fontSize: '0.875rem',
+                          color: '#1F2937'
+                        }}
+                      >
+                        {step.title}
+                      </div>
                     </div>
                   </ScrollAnimatedCard>
                 </div>
@@ -935,7 +995,7 @@ const Landing = () => {
       name: 'STANDARD',
       color: '#8B5CF6',
       monthlyPrice: '₹1,199',
-      yearlyPrice: '₹1,1990',
+      yearlyPrice: '₹11,990',
       features: [
         { text: '50 GB Bandwidth', included: true },
         { text: 'Financial Analysis', included: true },
@@ -1046,14 +1106,116 @@ const Landing = () => {
               <span className='fw-semibold'>AI Recruitment</span>
             </div>
             <nav className='d-none d-md-flex align-items-center gap-3'>
-              <a href='#features' className='nav-link text-success'>Features</a>
-              <a href='#how' className='nav-link text-success'>How it works</a>
-              <Link to='/pricing' className='nav-link text-success'>Pricing</Link>
+              <a 
+                href='#features' 
+                className='nav-link text-success'
+                style={{
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  paddingBottom: '4px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#198754';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#198754';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Features
+              </a>
+              <a 
+                href='#how' 
+                className='nav-link text-success'
+                style={{
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  paddingBottom: '4px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#198754';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#198754';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                How it works
+              </a>
+              <Link 
+                to='/pricing' 
+                className='nav-link text-success'
+                style={{
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  paddingBottom: '4px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#198754';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#198754';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Pricing
+              </Link>
             </nav>
             <div className='d-flex align-items-center gap-2 flex-wrap'>
-              <Link to='/candidate/login' className='btn btn-outline-success btn-sm'>Candidate</Link>
-              <Link to='/login' className='btn btn-outline-primary btn-sm d-none d-sm-inline-block'>Sign In</Link>
-              <Link to='/signup' className='btn btn-primary btn-sm'>Sign Up</Link>
+              <Link 
+                to='/candidate/login' 
+                className='btn btn-outline-success btn-sm'
+                style={{
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(25, 135, 84, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                Candidate
+              </Link>
+              <Link 
+                to='/login' 
+                className='btn btn-outline-primary btn-sm d-none d-sm-inline-block'
+                style={{
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(13, 110, 253, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                Sign In
+              </Link>
+              <Link 
+                to='/signup' 
+                className='btn btn-primary btn-sm'
+                style={{
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(13, 110, 253, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                Sign Up
+              </Link>
             </div>
           </div>
         </div>
@@ -1092,7 +1254,23 @@ const Landing = () => {
               {/* Badge - Appears First (0ms) */}
               <AnimatedSection delay={0}>
                 <div className='mb-4'>
-                  <span className='badge bg-primary-50 text-primary-600 border px-3 py-2'>✨ AI Talent Platform</span>
+                  <span 
+                    className='badge bg-primary-50 text-primary-600 border px-3 py-2'
+                    style={{
+                      transition: 'all 0.3s ease',
+                      cursor: 'default'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)';
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    ✨ AI Talent Platform
+                  </span>
                 </div>
               </AnimatedSection>
 
@@ -1388,32 +1566,60 @@ const Landing = () => {
       <section className='container px-3 pb-5'>
        <h3 className='display-6 display-md-5 fw-bold mb-3 mb-md-4 text-primary text-center'>HR Automation</h3>
 
+       
+
         <Slider {...carouselSettings}>
           {[
             {
               name: "TechNova HR",
               text: "AI Recruitment helped us cut screening time by 60%.",
-
+              color: '#3B82F6',
+              bgColor: '#EFF6FF'
             },
             {
               name: "FutureHire",
               text: "The unified dashboard keeps our team perfectly aligned.",
-
+              color: '#10B981',
+              bgColor: '#ECFDF5'
             },
             {
               name: "SmartWorks",
               text: "We posted jobs to multiple boards in seconds fantastic tool.",
+              color: '#F59E0B',
+              bgColor: '#FFFBEB'
             },
             {
               name: "Innova Talent",
               text: "Super intuitive interface and great automation features.",
+              color: '#EC4899',
+              bgColor: '#FDF2F8'
             },
           ].map((card, i) => (
             <div key={i} className='px-2'>
-              <div className='card border shadow-sm text-center' style={{ minHeight: '200px', height: '100%' }}>
+              <div 
+                className='card border-0 shadow-sm text-center position-relative' 
+                style={{
+                  minHeight: '200px', 
+                  height: '100%',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  backgroundColor: card.bgColor,
+                  borderTop: `4px solid ${card.color}`
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = `0 12px 30px ${card.color}40`;
+                  e.currentTarget.style.borderTop = `4px solid ${card.color}`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.borderTop = `4px solid ${card.color}`;
+                }}
+              >
                 <div className='card-body p-3 p-md-5 d-flex flex-column justify-content-between'>
-                  <p className='text-secondary-light mb-4 mb-md-3 fw-bold fs-6'>{card.text}</p>
-                  <h6 className='mb-0' style={{ color: "#e7a050d0" }}>{card.name}</h6>
+                  <p className='mb-4 mb-md-3 fw-bold fs-6' style={{ color: '#1F2937' }}>{card.text}</p>
+                  <h6 className='mb-0 fw-bold' style={{ color: card.color }}>{card.name}</h6>
                 </div>
               </div>
             </div>
@@ -1421,19 +1627,191 @@ const Landing = () => {
         </Slider>
       </section>
 
+      {/* Benefits Infographic */}
+      <div className='container px-3'>
+        <ScrollAnimatedCard delay={0} isVisible={true}>
+          <div className='card border-0 shadow-lg mb-4 mb-md-5 mx-auto' style={{
+            borderRadius: '20px',
+            overflow: 'hidden',
+            animation: `fadeInUp 0.8s ease-out 0ms forwards`,
+            opacity: 0,
+            maxWidth: '100%'
+          }}>
+            <div className='row g-0 h-100'>
+              {/* Left Section - Dark Purple with Title and Robot */}
+              <div className='col-12 col-md-4 position-relative' style={{
+                backgroundColor: '#7C3AED',
+                padding: '3rem 2rem',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                minHeight: '400px'
+              }}>
+                <div>
+                  <h2 className='text-white fw-bold mb-0' style={{ fontSize: '2rem', lineHeight: '1.2' }}>
+                    <span style={{ fontSize: '1.9rem' }}>5 KEY</span><br />
+                    <span>BENEFITS OF </span><br />
+                    <span>AI IN</span><br/>
+                    <span style={{ fontSize: '3.0rem' }}>RECRUITMENT</span>
+                  </h2>
+                </div>
+                
+                {/* Robot Icon/Illustration */}
+                <div className='d-flex justify-content-center align-items-center' style={{ flex: 1 }}>
+                  <IconRobot size={120} color="white" style={{ opacity: 0.9 }} />
+                </div>
+
+                {/* Footer URL */}
+                <div className='mt-3'>
+                  <p className='text-white small mb-0' style={{ fontSize: '0.875rem' }}>recruitcrm.io</p>
+                </div>
+              </div>
+
+              {/* Right Section - Light Purple with Benefits List */}
+              <div className='col-12 col-md-8 position-relative' style={{
+                backgroundColor: '#F3E8FF',
+                padding: '3rem 2.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                gap: '1.5rem',
+                minHeight: '400px'
+              }}>
+                {/* Curved decorative element */}
+                <div className='position-absolute' style={{
+                  top: '-50px',
+                  left: '-50px',
+                  width: '200px',
+                  height: '200px',
+                  backgroundColor: '#7C3AED',
+                  borderRadius: '50%',
+                  opacity: 0.3
+                }}></div>
+                <div className='position-absolute' style={{
+                  bottom: '-30px',
+                  left: '-30px',
+                  width: '150px',
+                  height: '150px',
+                  backgroundColor: '#7C3AED',
+                  borderRadius: '50%',
+                  opacity: 0.2
+                }}></div>
+
+                {[
+                  { text: 'Increases efficiency' },
+                  { text: 'Boosts candidate experience' },
+                  { text: 'Reduces hiring bias' },
+                  { text: 'Enhances data analysis' },
+                  { text: 'Improves candidate matching' }
+                ].map((benefit, idx) => (
+                  <div
+                    key={idx}
+                    className='d-flex align-items-center bg-white rounded-pill p-3 shadow-sm position-relative'
+                    style={{
+                      transition: 'all 0.3s ease',
+                      animation: `fadeInUp 0.6s ease-out ${(idx * 100) + 200}ms forwards`,
+                      opacity: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateX(10px)';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateX(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                    }}
+                  >
+                    <div className='rounded-circle d-flex align-items-center justify-content-center me-3' style={{
+                      width: '40px',
+                      height: '40px',
+                      backgroundColor: '#8B5CF6',
+                      flexShrink: 0
+                    }}>
+                      <i className='ri-check-line text-white fs-5'></i>
+                    </div>
+                    <span className='fw-semibold text-dark' style={{ fontSize: '1rem' }}>{benefit.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ScrollAnimatedCard>
+      </div>
 
       {/* Pricing Cards  */}
 
-      <section className='px-3 px-md-5'>
+     <section className='px-3 px-md-5'>
         <div className='container card border shadow-none p-3 p-md-5'>
           {/* Header */}
           <div className='text-center text-black mb-4 mb-md-5'>
-            <h3 className='display-6 display-md-5 fw-bold mb-3 text-primary text-center'> Pricing & Plans</h3>
-
+            <h3 className='display-6 display-md-5 fw-bold text-primary text-center'> Pricing & Plans</h3>
+ 
           </div>
+ 
+            {/* Toggle Switch */}
+          <div className='d-flex justify-content-center mb-5'>
+            <div
+              className='position-relative d-flex align-items-center'
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '25px',
+                padding: '4px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              }}
+            >
+              {/* Sliding Background */}
+              <div
+                className='position-absolute'
+                style={{
+                  backgroundColor: '#3B82F6',
+                  borderRadius: '20px',
+                  height: '36px',
+                  width: '50%',
+                  left: isYearly ? '50%' : '4px',
+                  top: '4px',
+                  transition: 'left 0.3s ease',
+                  zIndex: 1
+                }}
+              />
+             
+              {/* Monthly Option */}
+              <button
+                className={`position-relative border-0 bg-transparent px-4 py-2 fw-bold text-uppercase ${
+                  !isYearly ? 'text-white' : 'text-dark'
+                }`}
+                style={{
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  zIndex: 2,
+                  transition: 'color 0.3s ease'
+                }}
+                onClick={() => setIsYearly(false)}
+              >
+                MONTHLY
+              </button>
+             
+              {/* Yearly Option */}
+              <button
+                className={`position-relative border-0 bg-transparent px-4 py-2 fw-bold text-uppercase ${
+                  isYearly ? 'text-white' : 'text-dark'
+                }`}
+                style={{
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  zIndex: 2,
+                  transition: 'color 0.3s ease'
+                }}
+                onClick={() => setIsYearly(true)}
+              >
+                YEARLY
+              </button>
+        </div>
+        </div>
+
+       
 
           {/* Pricing Cards */}
-          <div className='row g-3 g-md-4 justify-content-center'>
+          <div className='row g-3 g-md-4 justify-content-center mb-5'>
             {pricingPlans.map((plan, index) => (
               <div key={index} className='col-12 col-sm-6 col-lg-3'>
                 <ScrollAnimatedCard delay={index * 200} isVisible={true}>
@@ -1468,11 +1846,11 @@ const Landing = () => {
                     >
                       {plan.name}
                     </div>
-
+ 
                     <div className='card-body p-3 p-md-4 pt-4 pt-md-5'>
                       {/* Price */}
                       <div className='text-center mb-3 mb-md-4'>
-                        <h3
+                        <h4
                           className='display-6 fw-bold text-dark mb-0 pricing-price'
                           style={{
                             transition: 'all 0.3s ease',
@@ -1481,9 +1859,9 @@ const Landing = () => {
                         >
                           {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                           <span className='fs-6 text-black'>/{isYearly ? 'year' : 'mon'}</span>
-                        </h3>
+                        </h4>
                       </div>
-
+ 
                       {/* Features */}
                       <div className='mb-4'>
                         {plan.features.map((feature, featureIndex) => (
@@ -1508,7 +1886,7 @@ const Landing = () => {
                           </div>
                         ))}
                       </div>
-
+ 
                       {/* Buy Now Button */}
                       <div className='text-center'>
                         <Link to='/pricing' >
@@ -1546,6 +1924,115 @@ const Landing = () => {
               </div>
             ))}
           </div>
+
+          
+           {/* Pricing Benefits Infographic */}
+        <ScrollAnimatedCard delay={200} isVisible={true}>
+          <div className='card border-0 shadow-lg mb-5 mx-auto' style={{
+            borderRadius: '20px',
+            overflow: 'hidden',
+            animation: `fadeInUp 0.8s ease-out 200ms forwards`,
+            opacity: 0,
+            maxWidth: '100%'
+          }}>
+            <div className='row g-0 h-100'>
+              {/* Left Section - Dark Teal with Title */}
+              <div className='col-12 col-md-4 position-relative' style={{
+                backgroundColor: '#0891B2',
+                padding: '3rem 2rem',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                minHeight: '350px'
+              }}>
+                <div>
+                  <h2 className='text-white fw-bold mb-0' style={{ fontSize: '2rem', lineHeight: '1.2' }}>
+                    <span style={{ fontSize: '2.5rem' }}>WHY CHOOSE</span><br />
+                    <span>OUR PRICING</span><br />
+                    <span>PLANS?</span>
+                  </h2>
+                </div>
+                
+                {/* Icon Illustration */}
+                <div className='d-flex justify-content-center align-items-center' style={{ flex: 1 }}>
+                  <IconChartBarPopular size={100} color="white" style={{ opacity: 0.9 }} />
+                </div>
+
+                {/* Footer */}
+                <div className='mt-3'>
+                  <p className='text-white small mb-0' style={{ fontSize: '0.875rem' }}>AI Recruitment</p>
+                </div>
+              </div>
+
+              {/* Right Section - Light Cyan with Benefits */}
+              <div className='col-12 col-md-8 position-relative' style={{
+                backgroundColor: '#CFFAFE',
+                padding: '3rem 2.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                gap: '1.5rem',
+                minHeight: '350px'
+              }}>
+                {/* Curved decorative elements */}
+                <div className='position-absolute' style={{
+                  top: '-50px',
+                  left: '-50px',
+                  width: '200px',
+                  height: '200px',
+                  backgroundColor: '#0891B2',
+                  borderRadius: '50%',
+                  opacity: 0.3
+                }}></div>
+                <div className='position-absolute' style={{
+                  bottom: '-30px',
+                  left: '-30px',
+                  width: '150px',
+                  height: '150px',
+                  backgroundColor: '#0891B2',
+                  borderRadius: '50%',
+                  opacity: 0.2
+                }}></div>
+
+                {[
+                  { text: 'Transparent pricing' },
+                  { text: 'No hidden fees' },
+                  { text: 'Cancel anytime' },
+                  { text: 'All features included' },
+                  { text: '24/7 customer support' }
+                ].map((benefit, idx) => (
+                  <div
+                    key={idx}
+                    className='d-flex align-items-center bg-white rounded-pill p-3 shadow-sm position-relative'
+                    style={{
+                      transition: 'all 0.3s ease',
+                      animation: `fadeInUp 0.6s ease-out ${(idx * 100) + 400}ms forwards`,
+                      opacity: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateX(10px)';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateX(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                    }}
+                  >
+                    <div className='rounded-circle d-flex align-items-center justify-content-center me-3' style={{
+                      width: '40px',
+                      height: '40px',
+                      backgroundColor: '#06B6D4',
+                      flexShrink: 0
+                    }}>
+                      <i className='ri-check-line text-white fs-5'></i>
+                    </div>
+                    <span className='fw-semibold text-dark' style={{ fontSize: '1rem' }}>{benefit.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ScrollAnimatedCard>
         </div>
       </section>
 
@@ -1578,7 +2065,24 @@ const Landing = () => {
                   answer: "Our AI-powered platform automates screening, scheduling, and candidate communication, freeing you to focus on building relationships."
                 }
               ].map((item, index) => (
-                <div key={index} className='card border-0 shadow-sm rounded-3 bg-white'>
+                <div 
+                  key={index} 
+                  className='card border-0 shadow-sm rounded-3 bg-white'
+                  style={{
+                    transition: 'all 0.3s ease',
+                    transform: 'translateY(0)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-5px) scale(1.01)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.12)';
+                    e.currentTarget.style.border = '1px solid #3B82F6';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                    e.currentTarget.style.border = 'none';
+                  }}
+                >
                   <div className='card-body p-4'>
                     <div
                       className='d-flex justify-content-between align-items-center cursor-pointer'
@@ -1699,19 +2203,69 @@ const Landing = () => {
 
       {/* CTA */}
       <section className='container pb-5 px-3'>
-        <div className='card bg-primary text-white border-0'>
+        <div 
+          className='card bg-primary text-white border-0'
+          style={{
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-5px)';
+            e.currentTarget.style.boxShadow = '0 15px 40px rgba(13, 110, 253, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+        >
           <div className='card-body p-4 p-md-5 d-flex flex-column flex-md-row align-items-center justify-content-between gap-3'>
             <div className='text-center text-md-start'>
               <h5 className='mb-2 mb-md-3 text-white'>Ready to accelerate hiring?</h5>
               <p className='mb-0 text-white small'>Start free, then choose a plan that scales with your team.</p>
             </div>
             <div className='d-flex align-items-center gap-2 w-100 w-md-auto justify-content-center'>
-              <Link to='/login' className='btn btn-light btn-sm'>Get Started</Link>
-              <Link to='/pricing' className='btn btn-outline-light btn-sm'>View Pricing</Link>
+              <Link 
+                to='/login' 
+                className='btn btn-light btn-sm'
+                style={{
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 255, 255, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                Get Started
+              </Link>
+              <Link 
+                to='/pricing' 
+                className='btn btn-outline-light btn-sm'
+                style={{
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                View Pricing
+              </Link>
             </div>
           </div>
         </div>
       </section>
+
+      {/* New CTA Section - AI Business Transformation */}
+      
 
       {/* Footer */}
       <footer className='py-4 py-md-5 border-top text-white px-3' style={{ background: '#1a1a1a' }}>
@@ -1734,7 +2288,22 @@ const Landing = () => {
                   placeholder='Enter your email'
                   style={{ backgroundColor: 'rgba(255,255,255,0.1)', border: 'none', color: 'white' }}
                 />
-                <button className='btn btn-primary btn-sm'>Subscribe</button>
+                <button 
+                  className='btn btn-primary btn-sm'
+                  style={{
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(13, 110, 253, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  Subscribe
+                </button>
               </div>
             </div>
 
@@ -1742,12 +2311,28 @@ const Landing = () => {
             <div className='col-lg-2 col-md-6'>
               <h6 className='fw-bold text-white mb-3'>Discover</h6>
               <ul className='list-unstyled'>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Products</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Trials</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Services</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Industries</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Case studies</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Financing</a></li>
+                {['Products', 'Trials', 'Services', 'Industries', 'Case studies', 'Financing'].map((item, idx) => (
+                  <li key={idx} className='mb-2'>
+                    <a 
+                      href='#' 
+                      className='text-white text-decoration-none small'
+                      style={{
+                        transition: 'all 0.3s ease',
+                        display: 'inline-block'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#3B82F6';
+                        e.currentTarget.style.transform = 'translateX(5px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'white';
+                        e.currentTarget.style.transform = 'translateX(0)';
+                      }}
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -1755,11 +2340,28 @@ const Landing = () => {
             <div className='col-lg-2 col-md-6'>
               <h6 className='fw-bold text-white mb-3'>Connect with us</h6>
               <ul className='list-unstyled'>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Engage Consulting</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Support</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Find a partner</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Developers</a></li>
-                <li className='mb-2'><a href='#' className='text-white text-decoration-none small'>Business Partners</a></li>
+                {['Engage Consulting', 'Support', 'Find a partner', 'Developers', 'Business Partners'].map((item, idx) => (
+                  <li key={idx} className='mb-2'>
+                    <a 
+                      href='#' 
+                      className='text-white text-decoration-none small'
+                      style={{
+                        transition: 'all 0.3s ease',
+                        display: 'inline-block'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#3B82F6';
+                        e.currentTarget.style.transform = 'translateX(5px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'white';
+                        e.currentTarget.style.transform = 'translateX(0)';
+                      }}
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 

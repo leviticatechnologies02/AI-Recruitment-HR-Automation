@@ -8,6 +8,7 @@ const PricingPage = () => {
   const navigate = useNavigate();
   const [isYearly, setIsYearly] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Super Admins should not see pricing page, redirect them directly to Super Admin Panel
@@ -15,6 +16,8 @@ const PricingPage = () => {
     if (userRole === 'superadmin') {
       navigate('/super-admin');
     }
+    // Trigger animations on mount
+    setIsLoaded(true);
   }, [navigate]);
 
   const handleGetStarted = (plan) => {
@@ -103,12 +106,83 @@ const PricingPage = () => {
 
 
   return (
-    <div className='min-vh-100' style={{ 
-      background: 'linear-gradient(135deg, #28197bff 0%, #eff1f4ff 100%)' 
-    }}>
+    <>
+      <style>
+        {`
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          @keyframes slideInLeft {
+            from {
+              opacity: 0;
+              transform: translateX(-30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          @keyframes slideInRight {
+            from {
+              opacity: 0;
+              transform: translateX(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          @keyframes scaleIn {
+            from {
+              opacity: 0;
+              transform: scale(0.9);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+          .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+          }
+          .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+          }
+          .slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+          }
+          .slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+          }
+          .scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+          }
+        `}
+      </style>
+      <div className='min-vh-100' style={{ 
+        background: 'linear-gradient(135deg, #28197bff 0%, #eff1f4ff 100%)' 
+      }}>
       <div className='container py-5'>
         {/* Header */}
-        <div className='text-center text-white mb-5'>
+        <div 
+          className={`text-center text-white mb-5 ${isLoaded ? 'fade-in-up' : ''}`}
+          style={{ opacity: isLoaded ? 1 : 0 }}
+        >
           <h1 className='display-4 fw-bold mb-3'>Our Pricing & Plans</h1>
           <p className='lead mb-4'>
             Lorem ipsum dolor sit amet consectetur adipiscing elit dolor posuere vel venenatis eu sit massa volutpat.
@@ -122,7 +196,17 @@ const PricingPage = () => {
                 backgroundColor: 'white',
                 borderRadius: '25px',
                 padding: '4px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
+                e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                e.currentTarget.style.transform = 'scale(1)';
               }}
             >
               {/* Sliding Background */}
@@ -178,8 +262,33 @@ const PricingPage = () => {
         {/* Pricing Cards */}
         <div className='row g-4 justify-content-center px-3'>
           {pricingPlans.map((plan, index) => (
-            <div key={index} className='col-12 col-sm-6 col-lg-3'>
-              <div className='card h-100 border-0 shadow-lg position-relative' style={{ borderRadius: '20px' }}>
+            <div 
+              key={index} 
+              className='col-12 col-sm-6 col-lg-3'
+              style={{
+                opacity: isLoaded ? 1 : 0,
+                animation: isLoaded ? `fadeInUp 0.6s ease-out ${index * 0.15}s forwards` : 'none'
+              }}
+            >
+              <div 
+                className='card h-100 border-0 shadow-lg position-relative' 
+                style={{ 
+                  borderRadius: '20px',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  transform: 'translateY(0)',
+                  overflow: 'hidden',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+                }}
+              >
                 {/* Colored Tab */}
                 <div 
                   className='position-absolute top-0 start-0 px-3 py-2 text-white fw-bold'
@@ -228,7 +337,19 @@ const PricingPage = () => {
                       style={{ 
                         backgroundColor: '#8B5CF6',
                         borderRadius: '10px',
-                        border: 'none'
+                        border: 'none',
+                        transition: 'all 0.3s ease',
+                        transform: 'scale(1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#7C3AED';
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.boxShadow = '0 8px 16px rgba(139, 92, 246, 0.4)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#8B5CF6';
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.boxShadow = 'none';
                       }}
                     >
                       BUY NOW
@@ -242,13 +363,19 @@ const PricingPage = () => {
       </div>
 
         {/* Comparison Table */}
-        <div className="container pb-5 px-3">
+        <div 
+          className="container pb-5 px-3"
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            animation: isLoaded ? 'fadeInUp 0.6s ease-out 0.5s forwards' : 'none'
+          }}
+        >
           <h2 className="h2 fw-bold text-white text-center mb-5">
             Compare Plans
           </h2>
           <div className="bg-white bg-opacity-5 rounded-3 border border-white-10" style={{ backdropFilter: 'blur(4px)' }}>
             <div className="table-responsive">
-              <table className="table align-middle mb-0">
+              <table className="table table-bordered align-middle mb-0">
                 <thead>
                   <tr className="border-bottom border-white-10">
                     <th className="text-start p-4 text-black fw-semibold">Features</th>
@@ -259,7 +386,22 @@ const PricingPage = () => {
                 </thead>
                 <tbody>
                   {comparisonFeatures.map((feature, idx) => (
-                    <tr key={idx} className="border-bottom border-black-5">
+                    <tr 
+                      key={idx} 
+                      className="border-bottom border-black-5"
+                      style={{
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        e.currentTarget.style.transform = 'scale(1.01)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.transform = 'scale(1)';
+                      }}
+                    >
                       <td className="p-4 text-black-50">{feature.name}</td>
                       <td className="p-4 text-center text-black-50">
                         {typeof feature.free === 'boolean' ? (
@@ -291,7 +433,13 @@ const PricingPage = () => {
         </div>
 
       {/* FAQ Section */}
-      <div className="container pb-5 px-3">
+      <div 
+        className="container pb-5 px-3"
+        style={{
+          opacity: isLoaded ? 1 : 0,
+          animation: isLoaded ? 'fadeInUp 0.6s ease-out 0.7s forwards' : 'none'
+        }}
+      >
         <h2 className="h2 fw-bold text-white text-center mb-5">
           Frequently Asked Questions
         </h2>
@@ -304,7 +452,21 @@ const PricingPage = () => {
                 backgroundColor: 'rgba(11, 9, 9, 0.08)',
                 backdropFilter: 'blur(10px)',
                 borderColor: 'rgba(255, 255, 255, 0.15)',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                transform: 'scale(1)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(11, 9, 9, 0.15)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.transform = 'scale(1.02)';
+                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(11, 9, 9, 0.08)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
               }}
             >
               <button
@@ -312,7 +474,7 @@ const PricingPage = () => {
                 className="w-100 p-4 text-start d-flex justify-content-between align-items-center border-0 bg-transparent"
                 style={{ borderRadius: '12px' }}
               >
-                <span className="fs-5 fw-semibold text-white">{faq.q}</span>
+                <span className="fs-5 fw-semibold text-dark">{faq.q}</span>
                 <ChevronDown
                   size={20}
                   color="#ffffff"
@@ -323,7 +485,14 @@ const PricingPage = () => {
                 />
               </button>
               {openFaq === idx && (
-                <div className="px-4 pb-4 text-white-50" style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                <div 
+                  className="px-4 pb-4 text-white" 
+                  style={{ 
+                    fontSize: '18px', 
+                    lineHeight: '1.6',
+                    animation: 'fadeIn 0.3s ease-out'
+                  }}
+                >
                   {faq.a}
                 </div>
               )}
@@ -333,8 +502,28 @@ const PricingPage = () => {
       </div>
 
       {/* Final CTA */}
-      <div className="container pb-5 text-center px-3">
-        <div className="bg-primary bg-opacity-20 rounded-3 border border-primary border-opacity-30 p-4 p-md-5" style={{ backdropFilter: 'blur(4px)' }}>
+      <div 
+        className="container pb-5 text-center px-3"
+        style={{
+          opacity: isLoaded ? 1 : 0,
+          animation: isLoaded ? 'fadeInUp 0.6s ease-out 0.9s forwards' : 'none'
+        }}
+      >
+        <div 
+          className="bg-primary bg-opacity-20 rounded-3 border border-primary border-opacity-30 p-4 p-md-5" 
+          style={{ 
+            backdropFilter: 'blur(4px)',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(147, 51, 234, 0.3)';
+            e.currentTarget.style.borderColor = 'rgba(147, 51, 234, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(147, 51, 234, 0.2)';
+            e.currentTarget.style.borderColor = 'rgba(147, 51, 234, 0.3)';
+          }}
+        >
           <h2 className="h3 fw-bold text-white mb-3">
             Ready to get started?
           </h2>
@@ -342,16 +531,47 @@ const PricingPage = () => {
             Join thousands of teams already using CloudFlow to streamline their workflow.
           </p>
           <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-            <button className="btn btn-primary px-4 py-3 rounded-3 fw-semibold" style={{ background: 'linear-gradient(90deg, #9333ea, #ec4899)' }}>
+            <button 
+              className="btn btn-primary px-4 py-3 rounded-3 fw-semibold" 
+              style={{ 
+                background: 'linear-gradient(90deg, #9333ea, #ec4899)',
+                border: 'none',
+                transition: 'all 0.3s ease',
+                transform: 'scale(1)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = '0 8px 20px rgba(147, 51, 234, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
               Start Free Trial
             </button>
-            <button className="btn btn-outline-light px-4 py-3 rounded-3 fw-semibold">
+            <button 
+              className="btn btn-outline-light px-4 py-3 rounded-3 fw-semibold"
+              style={{
+                transition: 'all 0.3s ease',
+                transform: 'scale(1)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            >
               Contact Sales
             </button>
           </div>
         </div>
       </div>
     </div>
+    </>
   );
 };
  
