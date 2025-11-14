@@ -1,14 +1,105 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Icon } from "@iconify/react/dist/iconify.js";
-
 import { Link, useNavigate } from "react-router-dom";
+import { BASE_URL, API_ENDPOINTS } from '../../config/api.config';
 
 const Signup = () => {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    username: '',
+    email: '',
+    companyName: '',
+    companyWebsite: '',
+    companyId: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [agreed, setAgreed] = useState(false);
 
-  const handleSignup = (e) =>{
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (error) setError('');
+  };
+
+  const handleSignup = async (e) => {
     e.preventDefault();
-    navigate('/login');
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    // Validation
+    if (!formData.name || !formData.email || !formData.password || !formData.companyName) {
+      setError('Please fill in all required fields');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      setLoading(false);
+      return;
+    }
+
+    if (!agreed) {
+      setError('Please agree to the Terms & Conditions');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Call backend API
+      const response = await fetch(`${BASE_URL}${API_ENDPOINTS.AUTH.SIGNUP}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          username: formData.username || formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: 'recruiter', // Default role for company signup
+          company_name: formData.companyName,
+          company_website: formData.companyWebsite || null,
+          company_id: formData.companyId || null
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Signup successful
+        setSuccess('Account created successfully! Redirecting to login...');
+        console.log('Signup successful:', data);
+        
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      } else {
+        // Handle error response
+        setError(data.detail || 'Signup failed. Please try again.');
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('Network error. Please check if backend is running.');
+    } finally {
+      setLoading(false);
+    }
   };
   return(
     <section className='auth bg-base d-flex'>
@@ -25,25 +116,47 @@ const Signup = () => {
               Register your company! please enter your details
             </p>
           </div>
-          <form action='#'>
-            <div className='icon-field mb-16'>
-              <span className='icon top-50 translate-middle-y'>
-                <Icon icon='mdi:office-building' />
-              </span>
-              <input
-                type='text'
-                className='form-control bg-neutral-50 radius-12 w-100'
-                placeholder='Enter your company name'
-              />
-            </div>
+          <form onSubmit={handleSignup}>
+            {error && (
+              <div className='alert alert-danger mb-16' role='alert'>
+                <Icon icon='heroicons:exclamation-circle' className='me-2' />
+                {error}
+              </div>
+            )}
+            
+            {success && (
+              <div className='alert alert-success mb-16' role='alert'>
+                <Icon icon='heroicons:check-circle' className='me-2' />
+                {success}
+              </div>
+            )}
+
             <div className='icon-field mb-16'>
               <span className='icon top-50 translate-middle-y'>
                 <Icon icon='f7:person' />
               </span>
               <input
                 type='text'
+                name='name'
+                value={formData.name}
+                onChange={handleInputChange}
                 className='form-control bg-neutral-50 radius-12 w-100'
-                placeholder='Choose a username'
+                placeholder='Enter your full name*'
+                required
+              />
+            </div>
+            <div className='icon-field mb-16'>
+              <span className='icon top-50 translate-middle-y'>
+                <Icon icon='mdi:office-building' />
+              </span>
+              <input
+                type='text'
+                name='companyName'
+                value={formData.companyName}
+                onChange={handleInputChange}
+                className='form-control bg-neutral-50 radius-12 w-100'
+                placeholder='Enter your company name*'
+                required
               />
             </div>
             <div className='icon-field mb-16'>
@@ -52,8 +165,25 @@ const Signup = () => {
               </span>
               <input
                 type='email'
+                name='email'
+                value={formData.email}
+                onChange={handleInputChange}
                 className='form-control bg-neutral-50 radius-12 w-100'
-                placeholder='Enter company email'
+                placeholder='Enter company email*'
+                required
+              />
+            </div>
+            <div className='icon-field mb-16'>
+              <span className='icon top-50 translate-middle-y'>
+                <Icon icon='heroicons:globe-alt' />
+              </span>
+              <input
+                type='text'
+                name='companyWebsite'
+                value={formData.companyWebsite}
+                onChange={handleInputChange}
+                className='form-control bg-neutral-50 radius-12 w-100'
+                placeholder='Company website (optional)'
               />
             </div>
             <div className='icon-field mb-16'>
@@ -62,8 +192,11 @@ const Signup = () => {
               </span>
               <input
                 type='text'
+                name='companyId'
+                value={formData.companyId}
+                onChange={handleInputChange}
                 className='form-control bg-neutral-50 radius-12 w-100'
-                placeholder='Enter company ID'
+                placeholder='Company ID (optional)'
               />
             </div>
             <div className='mb-16'>
@@ -74,9 +207,13 @@ const Signup = () => {
                   </span>
                   <input
                     type='password'
+                    name='password'
+                    value={formData.password}
+                    onChange={handleInputChange}
                     className='form-control bg-neutral-50 radius-12 w-100'
                     id='your-password'
-                    placeholder='Enter password'
+                    placeholder='Enter password*'
+                    required
                   />
                 </div>
                 <span
@@ -93,9 +230,13 @@ const Signup = () => {
                   </span>
                   <input
                     type='password'
+                    name='confirmPassword'
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
                     className='form-control bg-neutral-50 radius-12 w-100'
                     id='confirm-password'
-                    placeholder='Re-enter password'
+                    placeholder='Re-enter password*'
+                    required
                   />
                 </div>
                 <span
@@ -109,7 +250,8 @@ const Signup = () => {
                   <input
                     className='form-check-input border border-neutral-300 mt-4'
                     type='checkbox'
-                    defaultValue=''
+                    checked={agreed}
+                    onChange={(e) => setAgreed(e.target.checked)}
                     id='condition'
                   />
                   <label
@@ -118,11 +260,11 @@ const Signup = () => {
                   >
                     By creating an account means you agree to the
                     <Link to='#' className='text-primary-600 fw-semibold'>
-                      Terms &amp; Conditions
-                    </Link>{" "}
+                      {" "}Terms &amp; Conditions{" "}
+                    </Link>
                     and our
                     <Link to='#' className='text-primary-600 fw-semibold'>
-                      Privacy Policy
+                      {" "}Privacy Policy
                     </Link>
                   </label>
                 </div>
@@ -130,10 +272,16 @@ const Signup = () => {
             <button
               type='submit'
               className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-16'
-            onClick={handleSignup}
+              disabled={loading}
             >
-              {" "}
-              Signup
+              {loading ? (
+                <>
+                  <span className='spinner-border spinner-border-sm me-2' role='status' aria-hidden='true'></span>
+                  Creating account...
+                </>
+              ) : (
+                'Sign Up'
+              )}
             </button>
             <div className='mt-32 center-border-horizontal text-center'>
               <span className='bg-base z-1 px-4'>Or sign up with</span>

@@ -1,210 +1,44 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
- 
+
 const CandidateDashboardLayout = ({ children }) => {
   const [sidebarActive, setSidebarActive] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
- 
-  useEffect(() => {
-    const handleDropdownClick = (event) => {
-      event.preventDefault();
-      const clickedLink = event.currentTarget;
-      const clickedDropdown = clickedLink.closest(".dropdown");
- 
-      if (!clickedDropdown) return;
- 
-      const isActive = clickedDropdown.classList.contains("open");
- 
-      // Close all dropdowns
-      const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
-      allDropdowns.forEach((dropdown) => {
-        dropdown.classList.remove("open");
-        const submenu = dropdown.querySelector(".sidebar-submenu");
-        if (submenu) {
-          submenu.style.maxHeight = "0px"; // Collapse submenu
-        }
-      });
- 
-      // Toggle the clicked dropdown
-      if (!isActive) {
-        clickedDropdown.classList.add("open");
-        const submenu = clickedDropdown.querySelector(".sidebar-submenu");
-        if (submenu) {
-          submenu.style.maxHeight = `${submenu.scrollHeight}px`; // Expand submenu
-        }
-      }
-    };
- 
-    const dropdownTriggers = document.querySelectorAll(
-      ".sidebar-menu .dropdown > a, .sidebar-menu .dropdown > Link"
-    );
- 
-    dropdownTriggers.forEach((trigger) => {
-      trigger.addEventListener("click", handleDropdownClick);
-    });
- 
-    const openActiveDropdown = () => {
-      const allDropdowns = document.querySelectorAll(".sidebar-menu .dropdown");
-      allDropdowns.forEach((dropdown) => {
-        const submenuLinks = dropdown.querySelectorAll(".sidebar-submenu li a");
-        submenuLinks.forEach((link) => {
-          if (
-            link.getAttribute("href") === location.pathname ||
-            link.getAttribute("to") === location.pathname
-          ) {
-            dropdown.classList.add("open");
-            const submenu = dropdown.querySelector(".sidebar-submenu");
-            if (submenu) {
-              submenu.style.maxHeight = `${submenu.scrollHeight}px`; // Expand submenu
-            }
-          }
-        });
-      });
-    };
- 
-    // Open the submenu that contains the active route
-    openActiveDropdown();
- 
-    // Cleanup event listeners on unmount
-    return () => {
-      dropdownTriggers.forEach((trigger) => {
-        trigger.removeEventListener("click", handleDropdownClick);
-      });
-    };
-  }, [location.pathname]);
- 
+
   const candidateData = {
     name: localStorage.getItem('candidateName') || 'Candidate',
     email: localStorage.getItem('userEmail') || 'candidate@example.com'
   };
- 
-  const LinkItem = ({ to, icon, label, isParent = false }) => {
-    return (
-      <NavLink
-        to={to}
-        className={(navData) => {
-          if (isParent) {
-            return location.pathname.startsWith(to) ? "active-page" : "";
-          }
-          return navData.isActive ? "active-page" : "";
-        }}
-      >
-        <Icon icon={icon} className="menu-icon" />
-        <span>{label}</span>
-      </NavLink>
-    );
-  };
- 
+
+  const navItems = [
+    { id: 'dashboard', icon: 'heroicons:home', label: 'Dashboard', path: '/candidate/dashboard' },
+    { id: 'jobs', icon: 'heroicons:magnifying-glass', label: 'Job Search', path: '/candidate/jobs' },
+    { id: 'applications', icon: 'heroicons:document-text', label: 'Applications', path: '/candidate/applications' },
+    { id: 'profile', icon: 'heroicons:user', label: 'Profile', path: '/candidate/profile' },
+    { id: 'settings', icon: 'icon-park-outline:setting-two', label: 'Settings', path: '/candidate/settings' }
+  ];
+
   const sidebarControl = () => {
     setSidebarActive(!sidebarActive);
   };
- 
+
   const mobileMenuControl = () => {
     setMobileMenu(!mobileMenu);
   };
- 
+
   const handleLogout = () => {
     localStorage.removeItem('userRole');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('candidateName');
     navigate('/candidate/login');
   };
- 
-  // Enhanced CSS for sidebar with proper alignment and circle icons
-  const activeStyles = `
-    .sidebar-menu li > a.active-page {
-      background-color: #007bff !important;
-      color: #fff !important;
-      border-radius: 8px;
-    }
-    .sidebar-menu .sidebar-submenu li > a.active-page {
-      background-color: #6c757d !important;
-      color: #fff !important;
-      border-radius: 6px;
-    }
-    .sidebar-menu .dropdown.open > a {
-      background-color: #007bff !important;
-      color: #fff !important;
-      border-radius: 8px;
-    }
-    .sidebar-menu .dropdown > a {
-      background-color: transparent !important;
-      color: inherit !important;
-    }
-    .sidebar-menu .dropdown.has-active-submenu > a {
-      background-color: #007bff !important;
-      color: #fff !important;
-      border-radius: 8px;
-    }
-    .navbar-header.sticky-top {
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      z-index: 1020;
-    }
-    .sidebar-submenu li {
-      list-style: none !important;
-    }
-    .sidebar-submenu li::before {
-      display: none !important;
-    }
-    .sidebar-submenu {
-      list-style-type: none !important;
-    }
-   
-    /* Enhanced dropdown icons with circle indicators */
-    .sidebar-submenu li > a .circle-icon {
-      width: 6px !important;
-      height: 6px !important;
-      border-radius: 50% !important;
-      display: inline-block !important;
-      margin-right: 8px !important;
-    }
-   
-    /* Proper spacing and alignment */
-    .sidebar-menu li > a {
-      display: flex !important;
-      align-items: center !important;
-      padding: 12px 16px !important;
-      text-decoration: none !important;
-      color: inherit !important;
-    }
-    .sidebar-menu li > a .menu-icon {
-      margin-right: 12px !important;
-      font-size: 1.1rem !important;
-    }
-    .sidebar-submenu li > a {
-      padding: 8px 16px 8px 40px !important;
-      display: flex !important;
-      align-items: center !important;
-      font-size: 0.9rem !important;
-    }
-   
-    /* Smooth transitions */
-    .sidebar {
-      transition: width 0.3s ease !important;
-    }
-    .sidebar-menu li > a {
-      transition: all 0.3s ease !important;
-    }
-    .menu-icon {
-  width: 22px !important;
-  height: 22px !important;
-  font-size: 1.25rem !important;
-  flex-shrink: 0 !important;
-  margin-right: 12px !important;
-  transition: color 0.3s ease !important; /* Only color should animate */
-}
 
-  `;
- 
   return (
     <>
-      <style>{activeStyles}</style>
       <section className={mobileMenu ? "overlay active" : "overlay"}>
         {/* Sidebar */}
         <aside
@@ -223,53 +57,40 @@ const CandidateDashboardLayout = ({ children }) => {
           >
             <Icon icon='radix-icons:cross-2' />
           </button>
-         
+          
           {/* Logo */}
-          <div>
-            <Link to='/candidate/dashboard' className='sidebar-logo'>
-              <img src='/assets/images/logo2.png' alt='site logo' className='light-logo' />
-              <img src='assets/images/logo-light.png' alt='site logo' className='dark-logo' />
-              <img src='/assets/images/logo2.png' alt='site logo' className='logo-icon' />
+          <div className='p-24 border-bottom'>
+            <Link to='/candidate/dashboard' className='d-flex align-items-center gap-2'>
+              <img src='/assets/images/logo.png' alt='Logo' style={{ width: '40px' }} />
+              <div>
+                <h5 className='mb-0 text-primary-600 fw-bold'>JobPortal</h5>
+                <small className='text-secondary-light'>Candidate Portal</small>
+              </div>
             </Link>
           </div>
- 
+
           {/* Navigation */}
-          <div className='sidebar-menu-area'>
-            <ul className='sidebar-menu ps-2' id='sidebar-menu'>
-              {/* Candidate Dashboard */}
-              <li>
-                <LinkItem to='/candidate/dashboard' icon='heroicons:home' label='Dashboard' />
-              </li>
- 
-              <li className='sidebar-menu-group-title'>Job Search</li>
- 
-              {/* Job Search */}
-              <li>
-                <LinkItem to='/candidate/jobs' icon='heroicons:magnifying-glass' label='Find Jobs' />
-              </li>
- 
-              {/* Applications */}
-              <li>
-                <LinkItem to='/candidate/applications' icon='heroicons:document-text' label='My Applications' />
-              </li>
- 
-              {/* Profile */}
-              <li>
-                <LinkItem to='/candidate/profile' icon='heroicons:user' label='Profile' />
-              </li>
- 
-              {/* Settings */}
-              <li>
-                <LinkItem to='/candidate/settings' icon='icon-park-outline:setting-two' label='Settings' />
-              </li>
+          <nav className='sidebar-menu-area p-16'>
+            <ul className='sidebar-menu' id='sidebar-menu'>
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <NavLink
+                    to={item.path}
+                    className={(navData) => (navData.isActive ? "active-page" : "")}
+                  >
+                    <Icon icon={item.icon} className='menu-icon' />
+                    <span>{item.label}</span>
+                  </NavLink>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
         </aside>
- 
+
         {/* Main Content */}
-        <main className={(sidebarActive ? "dashboard-main active" : "dashboard-main") + " bg-neutral-50"}>
+        <main className={sidebarActive ? "dashboard-main active" : "dashboard-main"}>
           {/* Header/Topbar */}
-          <div className='navbar-header bg-base'>
+          <header className='navbar-header bg-base'>
             <div className='row align-items-center justify-content-between'>
               <div className='col-auto'>
                 <div className='d-flex flex-wrap align-items-center gap-4'>
@@ -297,7 +118,7 @@ const CandidateDashboardLayout = ({ children }) => {
                   >
                     <Icon icon='heroicons:bars-3-solid' className='icon' />
                   </button>
-                 
+                  
                   {/* Search Bar */}
                   <form className='navbar-search'>
                     <input
@@ -309,7 +130,7 @@ const CandidateDashboardLayout = ({ children }) => {
                   </form>
                 </div>
               </div>
- 
+
               <div className='col-auto'>
                 <div className='d-flex flex-wrap align-items-center gap-3'>
                   {/* Notifications */}
@@ -329,19 +150,20 @@ const CandidateDashboardLayout = ({ children }) => {
                           </h6>
                         </div>
                         <span className='text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center'>
-                          5
+                          3
                         </span>
                       </div>
                       <div className='max-h-400-px overflow-y-auto scroll-sm pe-4'>
-                        <div
-                          className='container px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
+                        <Link
+                          to='#'
+                          className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
                         >
                           <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
                             <span className='w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
                               <Icon icon='bitcoin-icons:verify-outline' className='icon text-xxl' />
                             </span>
                             <div>
-                              <h6 className='text-md fw-semibold'>
+                              <h6 className='text-md fw-semibold mb-4'>
                                 Application Update
                               </h6>
                               <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
@@ -352,88 +174,7 @@ const CandidateDashboardLayout = ({ children }) => {
                           <span className='text-sm text-secondary-light flex-shrink-0'>
                             10 mins ago
                           </span>
-                        </div>
-                      </div>
-                      <div
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
-                            RR
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold'>
-                              Ronald Richards
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
-                              You can stitch between artboards
-                            </p>
-                          </div>
-                        </div>
-                        <span className='text-sm text-secondary-light flex-shrink-0'>
-                          23 Mins ago
-                        </span>
-                      </div>
-                      <div
-                        to='#'
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-44-px h-44-px bg-info-subtle text-info-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
-                            AM
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold'>
-                              Arlene McCoy
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
-                              Invite you to prototyping
-                            </p>
-                          </div>
-                        </div>
-                        <span className='text-sm text-secondary-light flex-shrink-0'>
-                          23 Mins ago
-                        </span>
-                      </div>
-                      <div
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-44-px h-44-px bg-success-subtle text-success-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
-                            AB
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold'>
-                              Annette Black
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
-                              Invite you to prototyping
-                            </p>
-                          </div>
-                        </div>
-                        <span className='text-sm text-secondary-light flex-shrink-0'>
-                          23 Mins ago
-                        </span>
-                      </div>
-                      <div
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-44-px h-44-px bg-info-subtle text-info-main rounded-circle d-flex justify-content-center align-items-center flex-shrink-0'>
-                            DR
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold'>
-                              Darlene Robertson
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-200-px'>
-                              Invite you to prototyping
-                            </p>
-                          </div>
-                        </div>
-                        <span className='text-sm text-secondary-light flex-shrink-0'>
-                          23 Mins ago
-                        </span>
+                        </Link>
                       </div>
                       <div className='text-center py-12 px-16'>
                         <Link
@@ -445,7 +186,7 @@ const CandidateDashboardLayout = ({ children }) => {
                       </div>
                     </div>
                   </div>
- 
+
                   {/* Profile Dropdown */}
                   <div className='dropdown'>
                     <button
@@ -458,8 +199,10 @@ const CandidateDashboardLayout = ({ children }) => {
                         <div className='w-40-px h-40-px bg-primary-600 rounded-circle d-flex align-items-center justify-content-center text-white fw-semibold'>
                           {candidateData.name.charAt(0).toUpperCase()}
                         </div>
-                       
-                       
+                        <span className='fw-medium text-gray-700 d-none d-md-inline'>
+                          {candidateData.name.split(' ')[0]}
+                        </span>
+                        <Icon icon='heroicons:chevron-down' className='text-gray-500' />
                       </div>
                     </button>
                     <div className='dropdown-menu to-top dropdown-menu-sm'>
@@ -494,7 +237,7 @@ const CandidateDashboardLayout = ({ children }) => {
                           <Link
                             className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
                             to='/candidate/settings'
-                           
+                            
                           >
                             <Icon icon='icon-park-outline:setting-two' className='icon text-xl' />
                             Settings
@@ -519,20 +262,20 @@ const CandidateDashboardLayout = ({ children }) => {
                 </div>
               </div>
             </div>
-          </div>
- 
+          </header>
+
           {/* Dashboard Body */}
-          <div className='dashboard-main-body bg-neutral-50'>{children}</div>
- 
+          <div className='dashboard-main-body'>{children}</div>
+
           {/* Footer */}
-          <footer className='d-footer bg-neutral-50'>
+          <footer className='d-footer'>
             <div className='row align-items-center justify-content-between'>
               <div className='col-auto'>
                 <p className='mb-0'>© 2025 Candidate Portal. All Rights Reserved.</p>
               </div>
               <div className='col-auto'>
                 <p className='mb-0'>
-                  Made by <span className='text-primary-600'>wowtheme7</span>
+                  Need help? <Link to='/candidate/support' className='text-primary-600'>Contact Support</Link>
                 </p>
               </div>
             </div>
@@ -542,5 +285,6 @@ const CandidateDashboardLayout = ({ children }) => {
     </>
   );
 };
- 
+
 export default CandidateDashboardLayout;
+

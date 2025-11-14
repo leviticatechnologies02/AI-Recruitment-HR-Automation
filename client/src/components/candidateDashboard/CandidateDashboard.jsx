@@ -1,23 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
- 
+
 const CandidateDashboard = () => {
-  const navigate = useNavigate();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-  const handleApplyNow = () => {
-    navigate('/candidate/jobs');
-  };
-
-  const handleViewAllApplications = () => {
-    navigate('/candidate/applications');
-  };
-
-  const handleViewSavedJob = () => {
-    navigate('/candidate/jobs');
-  };
- 
   // Sample data
   const candidateData = {
     name: "Nagendra Uggirala",
@@ -40,7 +26,7 @@ const CandidateDashboard = () => {
       { id: 3, title: "UI Developer", company: "Pixel Labs", skills: ["HTML", "CSS", "Figma"], location: "Bangalore", type: "Full-time" }
     ]
   };
- 
+
   const getStatusColor = (status) => {
     const colors = {
       Interview: 'bg-primary-50 text-primary-600',
@@ -52,65 +38,63 @@ const CandidateDashboard = () => {
     };
     return colors[status] || 'bg-secondary-50 text-secondary-600';
   };
- 
+
   return (
     <div className='dashboard-main-body'>
-      <div className='container-fluid m-2'>
+      <div className='container-fluid'>
         {/* Welcome Section */}
         <div className='mb-24'>
-          <h6 className='text-3xl fw-bold text-gray-800 mb-8'>Welcome back, {candidateData.name.split(' ')[0]}! 👋</h6>
+          <h2 className='text-3xl fw-bold text-gray-800 mb-8'>Welcome back, {candidateData.name.split(' ')[0]}! 👋</h2>
           <p className='text-secondary-light'>Here's what's happening with your job search today.</p>
         </div>
- 
+
         {/* Stats Cards - Column Format */}
         <div className='card border-0 shadow-sm mb-24'>
           <div className='card-body p-24'>
             <div className='row g-4'>
               <div className='col-12 col-md-6 col-lg-3'>
                 <div className='d-flex align-items-center gap-3'>
-                  <Icon icon='heroicons:document-text' className='text-primary-600' style={{ fontSize: '30px' }} />
-                    <p className='text-secondary-light text-sm fw-medium fs-4 mb-2'>Total Applications</p>
-                 </div>
-                  <div style={{marginLeft:"50px"}}>
+                  <Icon icon='heroicons:document-text' className='text-primary-600' style={{ fontSize: '24px' }} />
+                  <div>
+                    <p className='text-secondary-light text-sm mb-2'>Total Applications</p>
                     <p className='text-2xl fw-bold text-gray-800 mb-0'>{candidateData.recentApplications.length}</p>
                   </div>
-                
+                </div>
               </div>
               
               <div className='col-12 col-md-6 col-lg-3'>
                 <div className='d-flex align-items-center gap-3'>
-                  <Icon icon='heroicons:heart' className='text-danger-600' style={{ fontSize: '30px' }} />
-                    <p className='text-secondary-light text-sm fw-medium fs-4 mb-2'>Saved Jobs</p>
-                    </div>
-                  <div style={{marginLeft:"50px"}}>
-                   <p className='text-2xl fw-bold text-gray-800 mb-0'>{candidateData.savedJobs.length}</p>
+                  <Icon icon='heroicons:heart' className='text-danger-600' style={{ fontSize: '24px' }} />
+                  <div>
+                    <p className='text-secondary-light text-sm mb-2'>Saved Jobs</p>
+                    <p className='text-2xl fw-bold text-gray-800 mb-0'>{candidateData.savedJobs.length}</p>
                   </div>
+                </div>
               </div>
               
               <div className='col-12 col-md-6 col-lg-3'>
                 <div className='d-flex align-items-center gap-3'>
-                  <Icon icon='heroicons:arrow-trending-up' className='text-warning-600' style={{ fontSize: '30px' }} />
-                    <p className='text-secondary-light text-sm fw-medium fs-4 mb-2'>In Progress</p>
-                    </div>
-                  <div style={{marginLeft:"50px"}}>
+                  <Icon icon='heroicons:arrow-trending-up' className='text-warning-600' style={{ fontSize: '24px' }} />
+                  <div>
+                    <p className='text-secondary-light text-sm mb-2'>In Progress</p>
                     <p className='text-2xl fw-bold text-gray-800 mb-0'>2</p>
                   </div>
                 </div>
-            
+              </div>
               
               <div className='col-12 col-md-6 col-lg-3'>
                 <div className='d-flex align-items-center gap-3'>
-                  <Icon icon='heroicons:user' className='text-success-600' style={{ fontSize: '30px' }} />
-                    <p className='text-secondary-light text-sm fw-medium fs-4 mb-2'>Profile Completion</p>
-                    </div>
-                  <div style={{marginLeft:"50px"}}>
+                  <Icon icon='heroicons:user' className='text-success-600' style={{ fontSize: '24px' }} />
+                  <div>
+                    <p className='text-secondary-light text-sm mb-2'>Profile Completion</p>
                     <p className='text-2xl fw-bold text-gray-800 mb-0'>{candidateData.profileCompletion}%</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
- 
+        </div>
+
         {/* Main Grid */}
         <div className='row g-4 mb-24'>
           {/* Recent Applications */}
@@ -122,7 +106,7 @@ const CandidateDashboard = () => {
                   {candidateData.recentApplications.map((app) => (
                     <div key={app.id} className='d-flex align-items-center justify-content-between p-16 border rounded-lg hover-shadow-sm transition'>
                       <div className='flex-grow-1'>
-                        <h5 className='fw-semibold text-gray-800 mb-4'>{app.title}</h5>
+                        <h4 className='fw-semibold text-gray-800 mb-4'>{app.title}</h4>
                         <p className='text-sm text-secondary-light mb-4'>{app.company}</p>
                         <p className='text-xs text-secondary-light d-flex align-items-center gap-1'>
                           <Icon icon='heroicons:calendar' style={{ fontSize: '12px' }} />
@@ -135,21 +119,18 @@ const CandidateDashboard = () => {
                     </div>
                   ))}
                 </div>
-                <button 
-                  onClick={handleViewAllApplications}
-                  className='btn btn-outline-primary w-100 mt-16'
-                >
+                <button className='btn btn-outline-primary w-100 mt-16'>
                   View All Applications →
                 </button>
               </div>
             </div>
           </div>
- 
+
           {/* Saved Jobs */}
           <div className='col-12 col-lg-4'>
             <div className='card border-0 shadow-sm h-100'>
               <div className='card-body p-24'>
-                <h3 className='text-xl fw-bold text-gray-800 mb-16'><span style={{color:"red"}} >❤</span> Saved Jobs</h3>
+                <h3 className='text-xl fw-bold text-gray-800 mb-16'>❤️ Saved Jobs</h3>
                 <div className='d-flex flex-column gap-3'>
                   {candidateData.savedJobs.map((job) => (
                     <div key={job.id} className='p-12 border rounded-lg hover-bg-gray-50 transition'>
@@ -157,21 +138,19 @@ const CandidateDashboard = () => {
                       <p className='text-xs text-secondary-light mb-8'>{job.company}</p>
                       <div className='d-flex align-items-center justify-content-between'>
                         <p className='text-xs text-secondary-light mb-0'>{job.savedOn}</p>
-                        <button 
-                          onClick={handleViewSavedJob}
-                          className='btn btn-sm text-primary-600 p-0'
-                        >
-                          View
-                        </button>
+                        <button className='btn btn-link btn-sm text-primary-600 p-0'>View</button>
                       </div>
                     </div>
                   ))}
                 </div>
+                <button className='btn btn-outline-primary w-100 mt-16 text-sm'>
+                  View All Saved →
+                </button>
               </div>
             </div>
           </div>
         </div>
- 
+
         {/* Recommended Jobs */}
         <div className='card border-0 shadow-sm'>
           <div className='card-body p-24'>
@@ -189,7 +168,7 @@ const CandidateDashboard = () => {
                         <Icon icon='heroicons:briefcase' className='text-primary-600' style={{ fontSize: '20px' }} />
                       </div>
                     </div>
-                   
+                    
                     <div className='row g-3 mb-16'>
                       <div className='col-4'>
                         <div className='d-flex align-items-center gap-1 text-secondary-light text-xs mb-4'>
@@ -198,7 +177,7 @@ const CandidateDashboard = () => {
                         </div>
                         <p className='text-sm fw-medium text-gray-800 mb-0'>{job.location}</p>
                       </div>
-                     
+                      
                       <div className='col-4'>
                         <div className='d-flex align-items-center gap-1 text-secondary-light text-xs mb-4'>
                           <Icon icon='heroicons:briefcase' style={{ fontSize: '12px' }} />
@@ -206,7 +185,7 @@ const CandidateDashboard = () => {
                         </div>
                         <p className='text-sm fw-medium text-gray-800 mb-0'>{job.type}</p>
                       </div>
-                     
+                      
                       <div className='col-4'>
                         <div className='d-flex align-items-center gap-1 text-secondary-light text-xs mb-4'>
                           <Icon icon='heroicons:arrow-trending-up' style={{ fontSize: '12px' }} />
@@ -215,7 +194,7 @@ const CandidateDashboard = () => {
                         <p className='text-sm fw-medium text-gray-800 mb-0'>3</p>
                       </div>
                     </div>
-                   
+                    
                     <div className='d-flex flex-wrap gap-2 mb-16'>
                       {job.skills.map((skill, idx) => (
                         <span key={idx} className='badge bg-secondary-50 text-secondary-600 px-8 py-4 text-xs'>
@@ -223,12 +202,13 @@ const CandidateDashboard = () => {
                         </span>
                       ))}
                     </div>
-                   
+                    
                     <div className='d-flex align-items-center justify-content-between pt-12 border-top'>
-                      <button 
-                        onClick={handleApplyNow}
-                        className='btn btn-primary px-20 py-8 text-sm fw-medium'
-                      >
+                      <button className='btn btn-link text-sm text-secondary-light p-0 d-flex align-items-center gap-2'>
+                        <span className='w-8-px h-8-px bg-secondary-400 rounded-circle'></span>
+                        Did Not Apply
+                      </button>
+                      <button className='btn btn-primary px-20 py-8 text-sm fw-medium'>
                         Apply Now
                       </button>
                     </div>
@@ -242,5 +222,5 @@ const CandidateDashboard = () => {
     </div>
   );
 };
- 
+
 export default CandidateDashboard;

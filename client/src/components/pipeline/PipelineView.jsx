@@ -1,60 +1,12 @@
-import React, { useState } from 'react';
-import { Search, Plus, Eye, MoreVertical, Users, TrendingUp, Calendar, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Plus, Eye, MoreVertical, Users, TrendingUp, Calendar, ArrowRight, RefreshCw } from 'lucide-react';
+import { BASE_URL } from '../../config/api.config';
 
 const PipelineView = () => {
-  const [stages, setStages] = useState([
-    {
-      id: 'applied',
-      name: 'Applied',
-      color: 'bg-primary text-white',
-      bgColor: 'bg-primary-subtle',
-      candidates: [
-        { id: 1, name: 'Nagendra Uggirala', role: 'Frontend Developer', avatar: 'NU', appliedDate: '2024-01-15' },
-        { id: 2, name: 'Ravi Kumar', role: 'Backend Developer', avatar: 'RK', appliedDate: '2024-01-14' },
-        { id: 3, name: 'Anita Desai', role: 'Full Stack Developer', avatar: 'AD', appliedDate: '2024-01-13' },
-        { id: 4, name: 'Vikram Singh', role: 'DevOps Engineer', avatar: 'VS', appliedDate: '2024-01-12' }
-      ]
-    },
-    {
-      id: 'screening',
-      name: 'Screening',
-      color: 'bg-info text-white',
-      bgColor: 'bg-info-subtle',
-      candidates: [
-        { id: 5, name: 'Priya Sharma', role: 'UI/UX Designer', avatar: 'PS', appliedDate: '2024-01-10' },
-        { id: 6, name: 'Arun Patel', role: 'Frontend Developer', avatar: 'AP', appliedDate: '2024-01-09' },
-        { id: 7, name: 'Meera Reddy', role: 'Product Manager', avatar: 'MR', appliedDate: '2024-01-08' }
-      ]
-    },
-    {
-      id: 'interview',
-      name: 'Interview',
-      color: 'bg-warning text-dark',
-      bgColor: 'bg-warning-subtle',
-      candidates: [
-        { id: 8, name: 'Karthik Menon', role: 'Backend Developer', avatar: 'KM', appliedDate: '2024-01-05' },
-        { id: 9, name: 'Sneha Iyer', role: 'Data Scientist', avatar: 'SI', appliedDate: '2024-01-04' }
-      ]
-    },
-    {
-      id: 'offer',
-      name: 'Offer',
-      color: 'bg-success text-white',
-      bgColor: 'bg-success-subtle',
-      candidates: [
-        { id: 10, name: 'Rajesh Gupta', role: 'Senior Developer', avatar: 'RG', appliedDate: '2024-01-02' }
-      ]
-    },
-    {
-      id: 'hired',
-      name: 'Hired',
-      color: 'bg-danger text-white',
-      bgColor: 'bg-danger-subtle',
-      candidates: [
-        { id: 11, name: 'Divya Nair', role: 'Frontend Developer', avatar: 'DN', appliedDate: '2023-12-28' }
-      ]
-    }
-  ]);
+  const [stages, setStages] = useState([]);
+  const [applications, setApplications] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [draggedCard, setDraggedCard] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -65,6 +17,111 @@ const PipelineView = () => {
   const [editingStageId, setEditingStageId] = useState(null);
   const [editStageName, setEditStageName] = useState('');
   const [selectedCandidate, setSelectedCandidate] = useState(null);
+
+  // Stage configurations
+  const defaultStages = [
+    { id: 'applied', name: 'Applied', color: 'bg-primary text-white', bgColor: 'bg-primary-subtle' },
+    { id: 'screening', name: 'Screening', color: 'bg-info text-white', bgColor: 'bg-info-subtle' },
+    { id: 'interview', name: 'Interview', color: 'bg-warning text-dark', bgColor: 'bg-warning-subtle' },
+    { id: 'offer', name: 'Offer', color: 'bg-success text-white', bgColor: 'bg-success-subtle' },
+    { id: 'hired', name: 'Hired', color: 'bg-danger text-white', bgColor: 'bg-danger-subtle' }
+  ];
+
+  // Fetch data from backend
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [applicationsRes, jobsRes] = await Promise.all([
+        fetch(`${BASE_URL}/api/candidates/applications`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        }),
+        fetch(`${BASE_URL}/api/jobs/list`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+      ]);
+
+      const applicationsData = await applicationsRes.json();
+      const jobsData = await jobsRes.json();
+
+      setApplications(Array.isArray(applicationsData) ? applicationsData : []);
+      setJobs(Array.isArray(jobsData) ? jobsData : []);
+      
+      // Organize applications by stage
+      organizeDataByStage(applicationsData || []);
+    } catch (error) {
+      console.error('Error fetching pipeline data:', error);
+      setApplications([]);
+      setJobs([]);
+      organizeDataByStage([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Organize applications into stages
+  const organizeDataByStage = (applicationsData) => {
+    const stagesWithCandidates = defaultStages.map(stage => {
+      const candidates = applicationsData
+        .filter(app => {
+          const status = app.status?.toLowerCase() || '';
+          const candidateStage = app.candidate_stage?.toLowerCase() || '';
+          
+          // Map status/stage to our stage IDs
+          if (stage.id === 'applied') return status === 'applied' || candidateStage === 'applied';
+          if (stage.id === 'screening') return candidateStage === 'screening';
+          if (stage.id === 'interview') return candidateStage === 'interview' || candidateStage === 'interview stage';
+          if (stage.id === 'offer') return candidateStage === 'offer';
+          if (stage.id === 'hired') return status === 'hired';
+          return false;
+        })
+        .map(app => ({
+          id: app.id,
+          applicationId: app.id,
+          candidateId: app.candidate_id,
+          name: app.candidate_name || 'Unknown',
+          email: app.candidate_email || '',
+          role: app.role || 'Not specified',
+          avatar: getInitials(app.candidate_name || 'UN'),
+          appliedDate: app.applied_at ? new Date(app.applied_at).toLocaleDateString() : 'N/A',
+          jobId: app.job_id,
+          status: app.status,
+          skills: app.skills || '',
+          resumeUrl: app.resume_url || null
+        }));
+
+      return {
+        ...stage,
+        candidates
+      };
+    });
+
+    setStages(stagesWithCandidates);
+  };
+
+  // Get initials from name
+  const getInitials = (name) => {
+    if (!name) return 'UN';
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+  // Get job title by ID
+  const getJobTitle = (jobId) => {
+    const job = jobs.find(j => j.id === jobId);
+    return job?.title || 'Unknown Position';
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleViewProfile = (candidate) => {
     setSelectedCandidate(candidate);
@@ -146,7 +203,7 @@ const PipelineView = () => {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDrop = (e, targetStageId) => {
+  const handleDrop = async (e, targetStageId) => {
     e.preventDefault();
     
     if (!draggedCard || draggedCard.sourceStageId === targetStageId) {
@@ -154,24 +211,51 @@ const PipelineView = () => {
       return;
     }
 
+    const candidate = draggedCard.candidate;
+    
+    // Optimistically update UI
     setStages(prevStages => {
       const newStages = prevStages.map(stage => {
         if (stage.id === draggedCard.sourceStageId) {
           return {
             ...stage,
-            candidates: stage.candidates.filter(c => c.id !== draggedCard.candidate.id)
+            candidates: stage.candidates.filter(c => c.id !== candidate.id)
           };
         }
         if (stage.id === targetStageId) {
           return {
             ...stage,
-            candidates: [...stage.candidates, draggedCard.candidate]
+            candidates: [...stage.candidates, candidate]
           };
         }
         return stage;
       });
       return newStages;
     });
+
+    // Update backend
+    try {
+      const updateData = {
+        status: targetStageId === 'hired' ? 'hired' : (targetStageId === 'applied' ? 'applied' : 'pipeline')
+      };
+
+      await fetch(`${BASE_URL}/api/candidates/applications/${candidate.applicationId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(updateData)
+      });
+
+      // Refresh data to ensure consistency
+      fetchData();
+    } catch (error) {
+      console.error('Error updating candidate stage:', error);
+      alert('Failed to update candidate stage. Please try again.');
+      // Revert optimistic update
+      fetchData();
+    }
 
     setDraggedCard(null);
   };
@@ -211,20 +295,34 @@ const PipelineView = () => {
 
   return (
     <div className="container-fluid py-4">
+      {loading && stages.length === 0 ? (
+        <div className="d-flex justify-content-center align-items-center" style={{minHeight: '400px'}}>
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status" style={{width: '3rem', height: '3rem'}}>
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p className="text-muted mt-3">Loading pipeline data...</p>
+          </div>
+        </div>
+      ) : (
+        <>
       {/* Header */}
       <div className="mb-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>
-            <h5 className="mb-2">Recruitment Pipeline</h5>
+            <h2 className="mb-2">Recruitment Pipeline</h2>
             <p className="text-muted mb-0">Track and manage candidates through hiring stages</p>
           </div>
-          <button
-            onClick={() => setShowAddStage(true)}
-            className="btn btn-primary d-flex align-items-center gap-2"
-          >
-            <Plus size={20} />
-            Add Stage
-          </button>
+          <div className="d-flex gap-2">
+            <button
+              onClick={fetchData}
+              disabled={loading}
+              className="btn btn-outline-primary d-flex align-items-center gap-2"
+            >
+              <RefreshCw size={18} className={loading ? 'spinner' : ''} />
+              Refresh
+            </button>
+          </div>
         </div>
 
         {/* Stats Cards */}
@@ -236,9 +334,9 @@ const PipelineView = () => {
                   <div className="p-2 bg-primary-subtle rounded">
                     <Users size={20} className="text-primary" />
                   </div>
-                  <span className="fw-bold">Total Candidates</span>
+                  <span className="text-muted small">Total Candidates</span>
                 </div>
-                <h4 className="mb-0">{totalCandidates}</h4>
+                <h3 className="mb-0">{totalCandidates}</h3>
               </div>
             </div>
           
@@ -248,9 +346,9 @@ const PipelineView = () => {
                   <div className="p-2 bg-success-subtle rounded">
                     <TrendingUp size={20} className="text-success" />
                   </div>
-                  <span className="fw-bold">Hired This Month</span>
+                  <span className="text-muted small">Hired This Month</span>
                 </div>
-                <h4 className="mb-0">{stages.find(s => s.id === 'hired')?.candidates.length || 0}</h4>
+                <h3 className="mb-0">{stages.find(s => s.id === 'hired')?.candidates.length || 0}</h3>
               </div>
             </div>
 
@@ -260,9 +358,9 @@ const PipelineView = () => {
                   <div className="p-2 bg-warning-subtle rounded">
                     <Calendar size={20} className="text-warning" />
                   </div>
-                  <span className="fw-bold">Active Offers</span>
+                  <span className="text-muted small">Active Offers</span>
                 </div>
-                <h4 className="mb-0">{stages.find(s => s.id === 'offer')?.candidates.length || 0}</h4>
+                <h3 className="mb-0">{stages.find(s => s.id === 'offer')?.candidates.length || 0}</h3>
               </div>
             </div>
 
@@ -272,9 +370,9 @@ const PipelineView = () => {
                   <div className="p-2 bg-info-subtle rounded">
                     <ArrowRight size={20} className="text-info" />
                   </div>
-                  <span className="fw-bold">Pipeline Stages</span>
+                  <span className="text-muted small">Pipeline Stages</span>
                 </div>
-                <h4 className="mb-0">{stages.length}</h4>
+                <h3 className="mb-0">{stages.length}</h3>
               </div>
             </div>
           </div>
@@ -347,13 +445,13 @@ const PipelineView = () => {
                     <div className="position-absolute end-0 mt-2 bg-white rounded shadow border" style={{width: '200px', zIndex: 20}}>
                       <button 
                         onClick={() => handleEditStage(stage.id, stage.name)}
-                        className="w-100 px-3 py-2 btn  text-start text-dark border-0 rounded-top"
+                        className="w-100 px-3 py-2 btn btn-link text-start text-dark border-0 rounded-top"
                       >
                         Edit Stage
                       </button>
                       <button 
                         onClick={() => handleDeleteStage(stage.id)}
-                        className="w-100 px-3 py-2 btn text-start text-danger border-0 rounded-bottom"
+                        className="w-100 px-3 py-2 btn btn-link text-start text-danger border-0 rounded-bottom"
                       >
                         Delete Stage
                       </button>
@@ -449,11 +547,11 @@ const PipelineView = () => {
                     <div className="card-body">
                       <div className="row g-2">
                         <div className="col-4 text-muted">Email:</div>
-                        <div className="col-8 fw-medium">{selectedCandidate.name.toLowerCase().replace(' ', '.')}@email.com</div>
-                        <div className="col-4 text-muted">Phone:</div>
-                        <div className="col-8 fw-medium">+91 98765 43210</div>
-                        <div className="col-4 text-muted">Location:</div>
-                        <div className="col-8 fw-medium">Hyderabad, India</div>
+                        <div className="col-8 fw-medium">{selectedCandidate.email || 'N/A'}</div>
+                        <div className="col-4 text-muted">Status:</div>
+                        <div className="col-8">
+                          <span className="badge bg-primary text-capitalize">{selectedCandidate.status || 'Applied'}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -469,37 +567,44 @@ const PipelineView = () => {
                         <div className="col-8 fw-medium">{selectedCandidate.appliedDate}</div>
                         <div className="col-4 text-muted">Position:</div>
                         <div className="col-8 fw-medium">{selectedCandidate.role}</div>
-                        <div className="col-4 text-muted">Experience:</div>
-                        <div className="col-8 fw-medium">5+ years</div>
-                        <div className="col-4 text-muted">Expected Salary:</div>
-                        <div className="col-8 fw-medium">₹15-20 LPA</div>
+                        <div className="col-4 text-muted">Job:</div>
+                        <div className="col-8 fw-medium">{getJobTitle(selectedCandidate.jobId)}</div>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Skills */}
-                <div className="mb-4">
-                  <h6 className="fw-semibold mb-3">Skills</h6>
-                  <div className="d-flex flex-wrap gap-2">
-                    {['React', 'JavaScript', 'TypeScript', 'Node.js', 'CSS', 'Git', 'Agile'].map((skill) => (
-                      <span key={skill} className="badge bg-primary">
-                        {skill}
-                      </span>
-                    ))}
+                {selectedCandidate.skills && (
+                  <div className="mb-4">
+                    <h6 className="fw-semibold mb-3">Skills</h6>
+                    <div className="d-flex flex-wrap gap-2">
+                      {selectedCandidate.skills.split(',').map((skill, index) => (
+                        <span key={index} className="badge bg-primary">
+                          {skill.trim()}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Resume */}
-                <div className="mb-4">
-                  <h6 className="fw-semibold mb-3">Resume</h6>
-                  <button className="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Download Resume
-                  </button>
-                </div>
+                {selectedCandidate.resumeUrl && (
+                  <div className="mb-4">
+                    <h6 className="fw-semibold mb-3">Resume</h6>
+                    <a 
+                      href={selectedCandidate.resumeUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+                    >
+                      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Download Resume
+                    </a>
+                  </div>
+                )}
 
                 {/* Notes */}
                 <div className="mb-4">
@@ -629,6 +734,21 @@ const PipelineView = () => {
           </div>
         </div>
       )}
+        </>
+      )}
+      
+      <style jsx>{`
+        .spinner {
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .hover-bg-light:hover {
+          background-color: #f8f9fa;
+        }
+      `}</style>
     </div>
   );
 };

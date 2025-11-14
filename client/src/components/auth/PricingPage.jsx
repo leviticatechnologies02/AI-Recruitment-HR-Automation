@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { ChevronDown, Check, X } from 'lucide-react';
 import { getUserRole } from '../../utils/auth';
  
 const PricingPage = () => {
   const navigate = useNavigate();
-  const [isYearly, setIsYearly] = useState(false);
-  const [openFaq, setOpenFaq] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Super Admins should not see pricing page, redirect them directly to Super Admin Panel
@@ -16,562 +12,310 @@ const PricingPage = () => {
     if (userRole === 'superadmin') {
       navigate('/super-admin');
     }
-    // Trigger animations on mount
-    setIsLoaded(true);
   }, [navigate]);
 
-  const handleGetStarted = (plan) => {
-    navigate('/subscription', { state: { plan: plan, isYearly: isYearly } });
+  const handleGetStarted = () => {
+    navigate('/dashboard');
   };
 
-  const pricingPlans = [
-    {
-      name: 'FREE',
-      color: '#E8B4F8',
-      monthlyPrice: '₹0',
-      yearlyPrice: '₹0',
-      features: [
-        { text: '50 GB Bandwidth', included: true },
-        { text: 'Financial Analysis', included: true },
-        { text: '24 hour support', included: false },
-        { text: 'Customer Management', included: false },
-        { text: 'Advanced Analytics', included: false }
-      ]
-    },
-    {
-      name: 'BASIC',
-      color: '#FF69B4',
-      monthlyPrice: '₹799',
-      yearlyPrice: '₹7,990',
-      features: [
-        { text: '50 GB Bandwidth', included: true },
-        { text: 'Financial Analysis', included: true },
-        { text: '24 hour support', included: true },
-        { text: 'Customer Management', included: false },
-        { text: 'Advanced Analytics', included: false }
-      ]
-    },
-    {
-      name: 'STANDARD',
-      color: '#8B5CF6',
-      monthlyPrice: '₹1,199',
-      yearlyPrice: '₹11,990',
-      features: [
-        { text: '50 GB Bandwidth', included: true },
-        { text: 'Financial Analysis', included: true },
-        { text: '24 hour support', included: true },
-        { text: 'Customer Management', included: true },
-        { text: 'Advanced Analytics', included: false }
-      ]
-    }
-   
-  ];
-
-   const comparisonFeatures = [
-    { name: 'Projects', free: '5', pro: 'Unlimited', enterprise: 'Unlimited' },
-    { name: 'Storage', free: '10GB', pro: '100GB', enterprise: 'Unlimited' },
-    { name: 'Team Members', free: '1', pro: '10', enterprise: 'Unlimited' },
-    { name: 'Analytics', free: 'Basic', pro: 'Advanced', enterprise: 'Custom' },
-    { name: 'Support', free: 'Community', pro: 'Priority', enterprise: 'Dedicated' },
-    { name: 'API Access', free: false, pro: true, enterprise: true },
-    { name: 'Custom Branding', free: false, pro: true, enterprise: true },
-    { name: 'SSO/SAML', free: false, pro: false, enterprise: true },
-    { name: 'SLA', free: false, pro: false, enterprise: true },
-    { name: 'Custom Integrations', free: false, pro: false, enterprise: true }
-  ];
-
-
-  const faqs = [
-    {
-      q: 'Can I change plans at any time?',
-      a: 'Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and we will prorate any differences in cost.'
-    },
-    {
-      q: 'What payment methods do you accept?',
-      a: 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and wire transfers for Enterprise plans.'
-    },
-    {
-      q: 'Is there a long-term contract?',
-      a: 'No, all our plans are month-to-month with no long-term contracts required. You can cancel anytime without penalties.'
-    },
-    {
-      q: 'Do you offer refunds?',
-      a: 'Yes, we offer a 30-day money-back guarantee. If you are not satisfied within the first 30 days, we will provide a full refund.'
-    },
-    {
-      q: 'What happens to my data if I cancel?',
-      a: 'Your data remains accessible for 60 days after cancellation. You can export it at any time during this period.'
-    }
-  ];
-
-
   return (
-    <>
-      <style>
-        {`
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-          @keyframes slideInLeft {
-            from {
-              opacity: 0;
-              transform: translateX(-30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-          @keyframes slideInRight {
-            from {
-              opacity: 0;
-              transform: translateX(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-          @keyframes scaleIn {
-            from {
-              opacity: 0;
-              transform: scale(0.9);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1);
-            }
-          }
-          .fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
-          }
-          .fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-          }
-          .slide-in-left {
-            animation: slideInLeft 0.6s ease-out forwards;
-          }
-          .slide-in-right {
-            animation: slideInRight 0.6s ease-out forwards;
-          }
-          .scale-in {
-            animation: scaleIn 0.5s ease-out forwards;
-          }
-        `}
-      </style>
-      <div className='min-vh-100' style={{ 
-        background: 'linear-gradient(135deg, #28197bff 0%, #eff1f4ff 100%)' 
-      }}>
-      <div className='container py-5'>
-        {/* Header */}
-        <div 
-          className={`text-center text-white mb-5 ${isLoaded ? 'fade-in-up' : ''}`}
-          style={{ opacity: isLoaded ? 1 : 0 }}
-        >
-          <h1 className='display-4 fw-bold mb-3'>Our Pricing & Plans</h1>
-          <p className='lead mb-4'>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit dolor posuere vel venenatis eu sit massa volutpat.
-          </p>
-          
-          {/* Toggle Switch */}
-          <div className='d-flex justify-content-center mb-5'>
-            <div 
-              className='position-relative d-flex align-items-center'
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '25px',
-                padding: '4px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                transition: 'box-shadow 0.3s ease, transform 0.3s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
-                e.currentTarget.style.transform = 'scale(1.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              {/* Sliding Background */}
-              <div
-                className='position-absolute'
-                style={{
-                  backgroundColor: '#3B82F6',
-                  borderRadius: '20px',
-                  height: '36px',
-                  width: '50%',
-                  left: isYearly ? '50%' : '4px',
-                  top: '4px',
-                  transition: 'left 0.3s ease',
-                  zIndex: 1
-                }}
-              />
-              
-              {/* Monthly Option */}
-              <button
-                className={`position-relative border-0 bg-transparent px-4 py-2 fw-bold text-uppercase ${
-                  !isYearly ? 'text-white' : 'text-dark'
-                }`}
-                style={{
-                  borderRadius: '20px',
-                  fontSize: '14px',
-                  zIndex: 2,
-                  transition: 'color 0.3s ease'
-                }}
-                onClick={() => setIsYearly(false)}
-              >
-                MONTHLY
-              </button>
-              
-              {/* Yearly Option */}
-              <button
-                className={`position-relative border-0 bg-transparent px-4 py-2 fw-bold text-uppercase ${
-                  isYearly ? 'text-white' : 'text-dark'
-                }`}
-                style={{
-                  borderRadius: '20px',
-                  fontSize: '14px',
-                  zIndex: 2,
-                  transition: 'color 0.3s ease'
-                }}
-                onClick={() => setIsYearly(true)}
-              >
-                YEARLY
-              </button>
+    <div className='card h-100 p-0 radius-12 overflow-hidden mt-24'>
+      <div className='card-header border-bottom bg-base py-16 px-24'>
+        <h6 className='mb-0 text-lg'>Simple Pricing Plan</h6>
+      </div>
+      <div className='card-body p-40'>
+        <div className='row justify-content-center'>
+          <div className='col-xxl-10'>
+            <div className='text-center'>
+              <h4 className='mb-16'>Simple, Transparent Pricing</h4>
+              <p className='mb-0 text-lg text-secondary-light'>
+                Lorem ipsum dolor sit amet consectetur adipiscing elit dolor
+                posuere vel venenatis eu sit massa volutpat.
+              </p>
             </div>
-          </div>
-        </div>
-
-        {/* Pricing Cards */}
-        <div className='row g-4 justify-content-center px-3'>
-          {pricingPlans.map((plan, index) => (
-            <div 
-              key={index} 
-              className='col-12 col-sm-6 col-lg-3'
-              style={{
-                opacity: isLoaded ? 1 : 0,
-                animation: isLoaded ? `fadeInUp 0.6s ease-out ${index * 0.15}s forwards` : 'none'
-              }}
-            >
-              <div 
-                className='card h-100 border-0 shadow-lg position-relative' 
-                style={{ 
-                  borderRadius: '20px',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  transform: 'translateY(0)',
-                  overflow: 'hidden',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)';
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
-                }}
-              >
-                {/* Colored Tab */}
-                <div 
-                  className='position-absolute top-0 start-0 px-3 py-2 text-white fw-bold'
-                  style={{ 
-                    backgroundColor: plan.color,
-                    borderRadius: '20px 0 20px 0',
-                    fontSize: '14px',
-                    zIndex: 1
-                  }}
+            <div className='pricing-tab'>
+              <div className='form-switch switch-primary d-flex align-items-center gap-3 mt-40 justify-content-center'>
+                <label
+                  className='form-check-label line-height-1 fw-medium text-secondary-light'
+                  htmlFor='yes'
                 >
-                  {plan.name}
-                </div>
-                
-                <div className='card-body p-4 pt-5'>
-                  {/* Price */}
-                  <div className='text-center mb-4'>
-                    <h4 className='display-6 fw-semibold text-dark mb-0'>
-                      {isYearly ? plan.yearlyPrice : plan.monthlyPrice}
-                      <span className='fs-6 text-muted'>/{isYearly ? 'year' : 'mon'}</span>
-                    </h4>
+                  Monthly
+                </label>
+                <input
+                  className='form-check-input'
+                  type='checkbox'
+                  role='switch'
+                  id='yes'
+                />
+                <label
+                  className='form-check-label line-height-1 fw-medium text-secondary-light'
+                  htmlFor='yes'
+                >
+                  Annually
+                </label>
+              </div>
+            </div>
+            <div className='row gy-4'>
+              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
+                <div className='pricing-plan position-relative radius-24 overflow-hidden border bg-base h-100 d-flex flex-column'>
+                  <div className='d-flex align-items-center gap-16'>
+                    <span className='w-72-px h-72-px d-flex justify-content-center align-items-center radius-16 bg-primary-50'>
+                      <img
+                        src='assets/images/pricing/price-icon4.png'
+                        alt='WowDash React Vite'
+                      />
+                    </span>
+                    <div className=''>
+                      <span className='fw-medium text-md text-secondary-light'>
+                        For individuals
+                      </span>
+                      <h6 className='mb-0'>Basic</h6>
+                    </div>
                   </div>
-
-                  {/* Features */}
-                  <div className='mb-4'>
-                    {plan.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className='d-flex align-items-center mb-3'>
-                        <div className='me-3'>
-                          {feature.included ? (
-                            <i className='ri-check-line text-success fs-5'></i>
-                          ) : (
-                            <i className='ri-close-line text-danger fs-5'></i>
-                          )}
-                        </div>
-                        <span className='text-dark'>{feature.text}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  
-
-                  {/* Buy Now Button */}
+                  <p className='mt-16 mb-0 text-secondary-light mb-28'>
+                    Lorem ipsum dolor sit amet doloroli sitiol conse ctetur
+                    adipiscing elit.{" "}
+                  </p>
+                  <h3 className='mb-24'>
+                    $99{" "}
+                    <span className='fw-medium text-md text-secondary-light'>
+                      /monthly
+                    </span>{" "}
+                  </h3>
+                  <span className='mb-20 fw-medium'>What's included</span>
+                  <ul className='flex-grow-1'>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-white text-lg '
+                        />
+                      </span>
+                      <span className='text-secondary-light text-lg'>
+                        All analytics features
+                      </span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-white text-lg '
+                        />
+                      </span>
+                      <span className='text-secondary-light text-lg'>
+                        Up to 250,000 tracked visits
+                      </span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-white text-lg '
+                        />
+                      </span>
+                      <span className='text-secondary-light text-lg'>
+                        Normal support
+                      </span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-white text-lg '
+                        />
+                      </span>
+                      <span className='text-secondary-light text-lg'>
+                        Up to 3 team members
+                      </span>
+                    </li>
+                  </ul>
                   <div className='mt-auto'>
                     <button 
-                      onClick={() => handleGetStarted(plan)}
-                      className='btn w-100 py-3 text-white fw-bold'
-                      style={{ 
-                        backgroundColor: '#8B5CF6',
-                        borderRadius: '10px',
-                        border: 'none',
-                        transition: 'all 0.3s ease',
-                        transform: 'scale(1)'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#7C3AED';
-                        e.currentTarget.style.transform = 'scale(1.05)';
-                        e.currentTarget.style.boxShadow = '0 8px 16px rgba(139, 92, 246, 0.4)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#8B5CF6';
-                        e.currentTarget.style.transform = 'scale(1)';
-                        e.currentTarget.style.boxShadow = 'none';
-                      }}
+                      onClick={handleGetStarted}
+                      className='bg-primary-600 bg-hover-primary-700 text-white text-center border border-primary-600 text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
                     >
-                      BUY NOW
+                      Get started
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
+                <div className='pricing-plan featured-item position-relative radius-24 overflow-hidden border bg-primary-600 text-white z-1 h-100 d-flex flex-column'>
+                  <img
+                    src='assets/images/pricing/pricing-shape.png'
+                    alt='WowDash React Vite'
+                    className='position-absolute end-0 top-10 z-n1'
+                  />
+                  <span className='bg-white bg-opacity-25 text-white radius-24 py-8 px-24 text-sm position-absolute end-0 top-0 z-1 rounded-start-top-0 rounded-end-bottom-0'>
+                    Popular
+                  </span>
+                  <div className='d-flex align-items-center gap-16'>
+                    <span className='w-72-px h-72-px d-flex justify-content-center align-items-center radius-16 bg-base'>
+                      <img
+                        src='assets/images/pricing/price-icon2.png'
+                        alt='WowDash React Vite'
+                      />
+                    </span>
+                    <div className=''>
+                      <span className='fw-medium text-md text-white'>
+                        For startups
+                      </span>
+                      <h6 className='mb-0 text-white'>Pro</h6>
+                    </div>
+                  </div>
+                  <p className='mt-16 mb-0 text-white mb-28'>
+                    Lorem ipsum dolor sit amet doloroli sitiol conse ctetur
+                    adipiscing elit.{" "}
+                  </p>
+                  <h3 className='mb-24 text-white'>
+                    $199{" "}
+                    <span className='fw-medium text-md text-white'>
+                      /monthly
+                    </span>{" "}
+                  </h3>
+                  <span className='mb-20 fw-medium'>What's included</span>
+                  <ul className='flex-grow-1'>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-lg   '
+                        />
+                      </span>
+                      <span className='text-white text-lg'>
+                        All analytics features
+                      </span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-lg   '
+                        />
+                      </span>
+                      <span className='text-white text-lg'>
+                        Up to 250,000 tracked visits
+                      </span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-lg   '
+                        />
+                      </span>
+                      <span className='text-white text-lg'>Normal support</span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-white rounded-circle text-primary-600'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-lg   '
+                        />
+                      </span>
+                      <span className='text-white text-lg'>
+                        Up to 3 team members
+                      </span>
+                    </li>
+                  </ul>
+                  <div className='mt-auto'>
+                    <button 
+                      onClick={handleGetStarted}
+                      className='bg-white text-primary-600 text-center border border-white text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
+                    >
+                      Get started
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className='col-xxl-4 col-lg-4 col-md-6 col-sm-12'>
+                <div className='pricing-plan position-relative radius-24 overflow-hidden border bg-base h-100 d-flex flex-column'>
+                  <div className='d-flex align-items-center gap-16'>
+                    <span className='w-72-px h-72-px d-flex justify-content-center align-items-center radius-16 bg-primary-50'>
+                      <img
+                        src='assets/images/pricing/price-icon5.png'
+                        alt='WowDash React Vite'
+                      />
+                    </span>
+                    <div className=''>
+                      <span className='fw-medium text-md text-secondary-light'>
+                        For big companies
+                      </span>
+                      <h6 className='mb-0'>Enterprise</h6>
+                    </div>
+                  </div>
+                  <p className='mt-16 mb-0 text-secondary-light mb-28'>
+                    Lorem ipsum dolor sit amet doloroli sitiol conse ctetur
+                    adipiscing elit.{" "}
+                  </p>
+                  <h3 className='mb-24'>
+                    $399{" "}
+                    <span className='fw-medium text-md text-secondary-light'>
+                      /monthly
+                    </span>{" "}
+                  </h3>
+                  <span className='mb-20 fw-medium'>What's included</span>
+                  <ul className='flex-grow-1'>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-white text-lg '
+                        />
+                      </span>
+                      <span className='text-secondary-light text-lg'>
+                        All analytics features
+                      </span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-white text-lg '
+                        />
+                      </span>
+                      <span className='text-secondary-light text-lg'>
+                        Up to 250,000 tracked visits
+                      </span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16 mb-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-white text-lg '
+                        />
+                      </span>
+                      <span className='text-secondary-light text-lg'>
+                        Normal support
+                      </span>
+                    </li>
+                    <li className='d-flex align-items-center gap-16'>
+                      <span className='w-24-px h-24-px d-flex justify-content-center align-items-center bg-primary-600 rounded-circle'>
+                        <Icon
+                          icon='iconamoon:check-light'
+                          className='text-white text-lg '
+                        />
+                      </span>
+                      <span className='text-secondary-light text-lg'>
+                        Up to 3 team members
+                      </span>
+                    </li>
+                  </ul>
+                  <div className='mt-auto'>
+                    <button 
+                      onClick={handleGetStarted}
+                      className='bg-primary-600 bg-hover-primary-700 text-white text-center border border-primary-600 text-sm btn-sm px-12 py-10 w-100 radius-8 mt-28'
+                    >
+                      Get started
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-        {/* Comparison Table */}
-        <div 
-          className="container pb-5 px-3"
-          style={{
-            opacity: isLoaded ? 1 : 0,
-            animation: isLoaded ? 'fadeInUp 0.6s ease-out 0.5s forwards' : 'none'
-          }}
-        >
-          <h2 className="h2 fw-bold text-white text-center mb-5">
-            Compare Plans
-          </h2>
-          <div className="bg-white bg-opacity-5 rounded-3 border border-white-10" style={{ backdropFilter: 'blur(4px)' }}>
-            <div className="table-responsive">
-              <table className="table table-bordered align-middle mb-0">
-                <thead>
-                  <tr className="border-bottom border-white-10">
-                    <th className="text-start p-4 text-black fw-semibold">Features</th>
-                    <th className="text-center p-4 text-black fw-semibold">Free</th>
-                    <th className="text-center p-4 text-black fw-semibold  bg-opacity-10">Pro</th>
-                    <th className="text-center p-4 text-black fw-semibold">Enterprise</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparisonFeatures.map((feature, idx) => (
-                    <tr 
-                      key={idx} 
-                      className="border-bottom border-black-5"
-                      style={{
-                        transition: 'all 0.3s ease',
-                        cursor: 'pointer'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                        e.currentTarget.style.transform = 'scale(1.01)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.transform = 'scale(1)';
-                      }}
-                    >
-                      <td className="p-4 text-black-50">{feature.name}</td>
-                      <td className="p-4 text-center text-black-50">
-                        {typeof feature.free === 'boolean' ? (
-                          feature.free ? <Check size={20} color="#34D399" /> : <X size={20} color="#6B7280" />
-                        ) : (
-                          feature.free
-                        )}
-                      </td>
-                      <td className="p-4 text-center text-black-50  bg-opacity-5">
-                        {typeof feature.pro === 'boolean' ? (
-                          feature.pro ? <Check size={20} color="#34D399" /> : <X size={20} color="#6B7280" />
-                        ) : (
-                          feature.pro
-                        )}
-                      </td>
-                      <td className="p-4 text-center text-black-50">
-                        {typeof feature.enterprise === 'boolean' ? (
-                          feature.enterprise ? <Check size={20} color="#34D399" /> : <X size={20} color="#6B7280" />
-                        ) : (
-                          feature.enterprise
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      {/* FAQ Section */}
-      <div 
-        className="container pb-5 px-3"
-        style={{
-          opacity: isLoaded ? 1 : 0,
-          animation: isLoaded ? 'fadeInUp 0.6s ease-out 0.7s forwards' : 'none'
-        }}
-      >
-        <h2 className="h2 fw-bold text-white text-center mb-5">
-          Frequently Asked Questions
-        </h2>
-        <div className="d-flex flex-column gap-3">
-          {faqs.map((faq, idx) => (
-            <div
-              key={idx}
-              className="rounded-3 border"
-              style={{ 
-                backgroundColor: 'rgba(11, 9, 9, 0.08)',
-                backdropFilter: 'blur(10px)',
-                borderColor: 'rgba(255, 255, 255, 0.15)',
-                transition: 'all 0.3s ease',
-                transform: 'scale(1)',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(11, 9, 9, 0.15)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                e.currentTarget.style.transform = 'scale(1.02)';
-                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(11, 9, 9, 0.08)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-              }}
-            >
-              <button
-                onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                className="w-100 p-4 text-start d-flex justify-content-between align-items-center border-0 bg-transparent"
-                style={{ borderRadius: '12px' }}
-              >
-                <span className="fs-5 fw-semibold text-dark">{faq.q}</span>
-                <ChevronDown
-                  size={20}
-                  color="#ffffff"
-                  style={{ 
-                    transform: openFaq === idx ? 'rotate(180deg)' : 'rotate(0deg)',
-                    transition: 'transform 0.3s ease'
-                  }}
-                />
-              </button>
-              {openFaq === idx && (
-                <div 
-                  className="px-4 pb-4 text-white" 
-                  style={{ 
-                    fontSize: '18px', 
-                    lineHeight: '1.6',
-                    animation: 'fadeIn 0.3s ease-out'
-                  }}
-                >
-                  {faq.a}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Final CTA */}
-      <div 
-        className="container pb-5 text-center px-3"
-        style={{
-          opacity: isLoaded ? 1 : 0,
-          animation: isLoaded ? 'fadeInUp 0.6s ease-out 0.9s forwards' : 'none'
-        }}
-      >
-        <div 
-          className="bg-primary bg-opacity-20 rounded-3 border border-primary border-opacity-30 p-4 p-md-5" 
-          style={{ 
-            backdropFilter: 'blur(4px)',
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(147, 51, 234, 0.3)';
-            e.currentTarget.style.borderColor = 'rgba(147, 51, 234, 0.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(147, 51, 234, 0.2)';
-            e.currentTarget.style.borderColor = 'rgba(147, 51, 234, 0.3)';
-          }}
-        >
-          <h2 className="h3 fw-bold text-white mb-3">
-            Ready to get started?
-          </h2>
-          <p className="text-white-50 mb-4">
-            Join thousands of teams already using CloudFlow to streamline their workflow.
-          </p>
-          <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-            <button 
-              className="btn btn-primary px-4 py-3 rounded-3 fw-semibold" 
-              style={{ 
-                background: 'linear-gradient(90deg, #9333ea, #ec4899)',
-                border: 'none',
-                transition: 'all 0.3s ease',
-                transform: 'scale(1)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-                e.currentTarget.style.boxShadow = '0 8px 20px rgba(147, 51, 234, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              Start Free Trial
-            </button>
-            <button 
-              className="btn btn-outline-light px-4 py-3 rounded-3 fw-semibold"
-              style={{
-                transition: 'all 0.3s ease',
-                transform: 'scale(1)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.backgroundColor = 'transparent';
-              }}
-            >
-              Contact Sales
-            </button>
           </div>
         </div>
       </div>
     </div>
-    </>
   );
 };
  

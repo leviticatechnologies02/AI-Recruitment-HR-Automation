@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { X, Eye, Save, Send, ArrowLeft, MapPin, DollarSign, Building2, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { BASE_URL, API_ENDPOINTS } from '../config/api.config';
 
 const CreateJob = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Check if we're in edit mode
+  const isEditMode = location.state?.editMode || false;
+  const existingJobData = location.state?.jobData || null;
+  
   const [formData, setFormData] = useState({
     title: '',
     department: '',
@@ -21,6 +29,32 @@ const CreateJob = () => {
     referenceId: '',
     jdFile: null
   });
+
+  // Pre-fill form if in edit mode
+  useEffect(() => {
+    if (isEditMode && existingJobData) {
+      console.log('📝 Edit mode - Pre-filling form with:', existingJobData);
+      
+      setFormData({
+        title: existingJobData.title || '',
+        department: existingJobData.department || '',
+        employmentType: existingJobData.employment_type || '',
+        location: existingJobData.location || '',
+        isRemote: existingJobData.is_remote || false,
+        description: existingJobData.description || '',
+        responsibilities: existingJobData.responsibilities || '',
+        requirements: existingJobData.requirements || '',
+        salaryMin: existingJobData.salary_min || '',
+        salaryMax: existingJobData.salary_max || '',
+        currency: existingJobData.currency || 'USD',
+        benefits: existingJobData.benefits || [],
+        skills: existingJobData.skills || [],
+        expiryDate: existingJobData.expiry_date || '',
+        referenceId: existingJobData.reference_id || '',
+        jdFile: null // File can't be pre-filled
+      });
+    }
+  }, [isEditMode, existingJobData]);
 
   const [errors, setErrors] = useState({});
   const [showPreview, setShowPreview] = useState(false);
@@ -74,64 +108,251 @@ const CreateJob = () => {
     setServerError(null);
     if (!asDraft && !validateForm()) return;
 
-    // Prepare multipart/form-data because jdFile may be included
-    const url = 'http://127.0.0.1:8000/api/jobs/api/jobs/create';
+    // Get JWT token from localStorage
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setServerError('You must be logged in to create a job. Please login first.');
+      return;
+    }
 
     try {
       setIsSubmitting(true);
 
       console.log('=== FORM SUBMISSION DATA ===');
+      console.log('Mode:', isEditMode ? 'Update' : 'Create');
       console.log('Submission Type:', asDraft ? 'Draft' : 'Publish');
       console.log('Form Data:', formData);
       console.log('============================');
 
-      const payload = new FormData();
-      // Simple fields
-      payload.append('title', formData.title || '');
-      payload.append('department', formData.department || '');
-      payload.append('employment_type', formData.employmentType || '');
-      payload.append('location', formData.location || '');
-      payload.append('is_remote', formData.isRemote ? 'true' : 'false');
-      payload.append('description', formData.description || '');
-      payload.append('responsibilities', formData.responsibilities || '');
-      payload.append('requirements', formData.requirements || '');
-      payload.append('salary_min', formData.salaryMin || '');
-      payload.append('salary_max', formData.salaryMax || '');
-      payload.append('currency', formData.currency || 'USD');
-      payload.append('expiry_date', formData.expiryDate || '');
-      payload.append('reference_id', formData.referenceId || '');
-      payload.append('is_draft', asDraft ? 'true' : 'false');
+      if (isEditMode && existingJobData) {
+        // UPDATE MODE - Build query parameters
+        const params = new URLSearchParams();
+        
+        // Add all fields as query parameters
+        params.append('title', formData.title);
+        params.append('department', formData.department);
+        params.append('employment_type', formData.employmentType);
+        params.append('description', formData.description);
+        params.append('is_remote', String(formData.isRemote));
+        params.append('currency', formData.currency);
+        params.append('status', asDraft ? 'Draft' : 'Active');
+        
+        // Optional fields - only add if not empty
+        if (formData.location && formData.location.trim()) {
+          params.append('location', formData.location);
+        }
+        if (formData.responsibilities && formData.responsibilities.trim()) {
+          params.append('responsibilities', formData.responsibilities);
+        }
+        if (formData.requirements && formData.requirements.trim()) {
+          params.append('requirements', formData.requirements);
+        }
+        if (formData.salaryMin && formData.salaryMin !== '') {
+          params.append('salary_min', formData.salaryMin);
+        }
+        if (formData.salaryMax && formData.salaryMax !== '') {
+          params.append('salary_max', formData.salaryMax);
+        }
+        if (formData.expiryDate) {
+          params.append('expiry_date', formData.expiryDate);
+        }
+        if (formData.referenceId && formData.referenceId.trim()) {
+          params.append('reference_id', formData.referenceId);
+        }
+        
+        // Arrays - FastAPI accepts JSON arrays as query params
+        if (formData.benefits && formData.benefits.length > 0) {
+          formData.benefits.forEach(benefit => {
+            params.append('benefits', benefit);
+          });
+        }
+        if (formData.skills && formData.skills.length > 0) {
+          formData.skills.forEach(skill => {
+            params.append('skills', skill);
+          });
+        }
 
-      // Arrays: send as JSON strings (most backends accept this with multipart)
-      payload.append('benefits', JSON.stringify(formData.benefits || []));
-      payload.append('skills', JSON.stringify(formData.skills || []));
+        const baseUrl = `${BASE_URL}${API_ENDPOINTS.JOBS.UPDATE(existingJobData.id)}`;
+        const url = `${baseUrl}?${params.toString()}`;
+        
+        console.log('📤 Updating job at:', url);
+        console.log('📤 Query params:', params.toString());
 
-      // File
-      if (formData.jdFile) {
-        payload.append('jd_file', formData.jdFile);
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const resText = await res.text();
+        let resJson = null;
+        try { 
+          resJson = JSON.parse(resText); 
+        } catch (e) { 
+          console.log('Response is not JSON:', resText);
+        }
+
+        if (!res.ok) {
+          console.error('❌ Server error response:', res.status, resJson || resText);
+          
+          if (res.status === 401) {
+            setServerError('Session expired. Please login again.');
+            setTimeout(() => navigate('/login'), 2000);
+            return;
+          }
+          
+          if (res.status === 403) {
+            setServerError('You do not have permission to update this job.');
+            return;
+          }
+
+          if (res.status === 404) {
+            setServerError('Job not found or you are not authorized to update it.');
+            return;
+          }
+
+          const message = (resJson && (resJson.detail || resJson.message)) || res.statusText || resText || 'Server error';
+          throw new Error(message);
+        }
+
+        console.log('✅ Job updated successfully:', resJson || resText);
+        setIsDraft(asDraft);
+        setShowSuccessModal(true);
+        
+        // Redirect to jobs list after 2 seconds
+        setTimeout(() => {
+          navigate('/jobslist');
+        }, 2000);
+
+      } else {
+        // CREATE MODE - Use FormData
+        const payload = new FormData();
+        
+        // Required fields
+        payload.append('title', formData.title);
+        payload.append('department', formData.department);
+        payload.append('employmentType', formData.employmentType);
+        payload.append('description', formData.description);
+        
+        // Optional string fields (only add if not empty)
+        if (formData.location && formData.location.trim()) {
+          payload.append('location', formData.location);
+        }
+        if (formData.responsibilities && formData.responsibilities.trim()) {
+          payload.append('responsibilities', formData.responsibilities);
+        }
+        if (formData.requirements && formData.requirements.trim()) {
+          payload.append('requirements', formData.requirements);
+        }
+        if (formData.referenceId && formData.referenceId.trim()) {
+          payload.append('referenceId', formData.referenceId);
+        }
+        if (formData.expiryDate) {
+          payload.append('expiryDate', formData.expiryDate);
+        }
+        
+        // Boolean field - send as string 'true' or 'false'
+        payload.append('isRemote', String(formData.isRemote));
+        
+        // Number fields (only add if not empty)
+        if (formData.salaryMin && formData.salaryMin !== '') {
+          payload.append('salaryMin', formData.salaryMin);
+        }
+        if (formData.salaryMax && formData.salaryMax !== '') {
+          payload.append('salaryMax', formData.salaryMax);
+        }
+        
+        // Currency (always send, has default)
+        payload.append('currency', formData.currency);
+        
+        // Status
+        payload.append('status', asDraft ? 'Draft' : 'Active');
+
+        // Arrays: send as JSON strings
+        payload.append('benefits', JSON.stringify(formData.benefits));
+        payload.append('skills', JSON.stringify(formData.skills));
+
+        // File upload
+        if (formData.jdFile) {
+          payload.append('jdFile', formData.jdFile);
+        }
+
+        // Build URL using config
+        const url = `${BASE_URL}${API_ENDPOINTS.JOBS.CREATE}`;
+
+        // Debug: Log what we're sending
+        console.log('📤 Sending to:', url);
+        console.log('📤 FormData contents:');
+        for (let [key, value] of payload.entries()) {
+          console.log(`  ${key}:`, value);
+        }
+
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}` // Add JWT token
+            // Note: Don't set Content-Type for FormData - browser sets it automatically with boundary
+          },
+          body: payload,
+        });
+
+        const resText = await res.text();
+        let resJson = null;
+        try { 
+          resJson = JSON.parse(resText); 
+        } catch (e) { 
+          console.log('Response is not JSON:', resText);
+        }
+
+        if (!res.ok) {
+          console.error('❌ Server error response:', res.status, resJson || resText);
+          
+          // Handle different error cases
+          if (res.status === 401) {
+            setServerError('Session expired. Please login again.');
+            setTimeout(() => navigate('/login'), 2000);
+            return;
+          }
+          
+          if (res.status === 403) {
+            setServerError('You do not have permission to create jobs. Only recruiters can create jobs.');
+            return;
+          }
+
+          if (res.status === 422) {
+            // Validation error - show detailed message
+            let errorMsg = 'Validation failed: ';
+            if (resJson && resJson.detail) {
+              if (Array.isArray(resJson.detail)) {
+                errorMsg += resJson.detail.map(err => `${err.loc?.join('.')} - ${err.msg}`).join(', ');
+              } else {
+                errorMsg += resJson.detail;
+              }
+            } else {
+              errorMsg += 'Please check all fields are filled correctly.';
+            }
+            setServerError(errorMsg);
+            return;
+          }
+
+          const message = (resJson && (resJson.detail || resJson.message)) || res.statusText || resText || 'Server error';
+          throw new Error(message);
+        }
+
+        console.log('✅ Job created successfully:', resJson || resText);
+        setIsDraft(asDraft);
+        setShowSuccessModal(true);
+        
+        // Redirect to jobs list after 2 seconds
+        setTimeout(() => {
+          navigate('/jobslist');
+        }, 2000);
       }
 
-      const res = await fetch(url, {
-        method: 'POST',
-        // Do NOT set Content-Type; browser will set multipart boundary
-        body: payload,
-      });
-
-      const resText = await res.text();
-      let resJson = null;
-      try { resJson = JSON.parse(resText); } catch (e) { /* not json */ }
-
-      if (!res.ok) {
-        const message = (resJson && (resJson.detail || resJson.message)) || res.statusText || resText || 'Server error';
-        throw new Error(message);
-      }
-
-      console.log('Server response:', resJson || resText);
-      setIsDraft(asDraft);
-      setShowSuccessModal(true);
     } catch (err) {
-      console.error('Submit error:', err);
-      setServerError(err.message || 'Failed to submit job');
+      console.error('❌ Submit error:', err);
+      setServerError(err.message || `Failed to ${isEditMode ? 'update' : 'create'} job. Please try again.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -211,8 +432,12 @@ const CreateJob = () => {
   return (
     <div className='container-fluid py-4'>
       <div className='mb-12'>
-        <h5 className='mb-2'>Post a New Job</h5>
-        <p className='text-secondary-light mb-0'>Fill in the details below to publish your job listing.</p>
+        <h4 className='mb-2'>{isEditMode ? 'Edit Job' : 'Post a New Job'}</h4>
+        <p className='text-secondary-light mb-0'>
+          {isEditMode 
+            ? 'Update the job details below and save your changes.' 
+            : 'Fill in the details below to publish your job listing.'}
+        </p>
       </div>
 
       <div className='row g-3'>
@@ -381,17 +606,8 @@ const CreateJob = () => {
                     <div className='row g-2'>
                       {benefitOptions.map((benefit) => (
                         <div key={benefit} className='col-12 col-md-4'>
-                          <div className=' '>
-                            <input className='form-check-input' type='checkbox' checked={formData.benefits.includes(benefit)} onChange={() => handleBenefitToggle(benefit)} style={{
-                              width: "18px",
-                              height: "18px",
-                              cursor: "pointer",
-                              appearance: "auto",
-                              WebkitAppearance: "checkbox",
-                              MozAppearance: "checkbox",
-                              accentColor: "#2563eb",
-                              marginRight: "8px", // space between checkbox and label
-                            }} id={`benefit-${benefit}`} />
+                          <div className='form-check'>
+                            <input className='form-check-input' type='checkbox' checked={formData.benefits.includes(benefit)} onChange={() => handleBenefitToggle(benefit)} id={`benefit-${benefit}`} />
                             <label className='form-check-label' htmlFor={`benefit-${benefit}`}>{benefit}</label>
                           </div>
                         </div>
@@ -484,7 +700,7 @@ const CreateJob = () => {
                   className='btn btn-outline-secondary d-inline-flex align-items-center'
                   disabled={isSubmitting}
                 >
-                  <Save size={14} className='me-2' /> {isSubmitting ? 'Saving...' : 'Save as Draft'}
+                  <Save size={14} className='me-2' /> {isSubmitting ? 'Saving...' : (isEditMode ? 'Save as Draft' : 'Save as Draft')}
                 </button>
                 <button type='button' onClick={() => setShowPreview(true)} className='btn btn-outline-primary d-inline-flex align-items-center' disabled={isSubmitting}>
                   <Eye size={14} className='me-2' /> Preview
@@ -495,7 +711,7 @@ const CreateJob = () => {
                   className='btn btn-primary d-inline-flex align-items-center'
                   disabled={isSubmitting}
                 >
-                  <Send size={14} className='me-2' /> {isSubmitting ? 'Publishing...' : 'Publish Job'}
+                  <Send size={14} className='me-2' /> {isSubmitting ? (isEditMode ? 'Updating...' : 'Publishing...') : (isEditMode ? 'Update Job' : 'Publish Job')}
                 </button>
               </div>
               {serverError && (
@@ -536,11 +752,19 @@ const CreateJob = () => {
                   <div className='rounded-circle bg-success-subtle d-inline-flex align-items-center justify-content-center mb-16 w-64-px h-64-px'>
                     <CheckCircle size={28} className='text-success' />
                   </div>
-                  <h6 className='mb-4'>{isDraft ? 'Draft Saved!' : 'Job Posted Successfully!'}</h6>
+                  <h6 className='mb-4'>
+                    {isEditMode 
+                      ? (isDraft ? 'Draft Saved!' : 'Job Updated Successfully!') 
+                      : (isDraft ? 'Draft Saved!' : 'Job Posted Successfully!')}
+                  </h6>
                   <p className='text-secondary-light mb-16'>
-                    {isDraft
-                      ? 'Your job draft has been saved. You can continue editing it later.'
-                      : 'Your job listing is now live and candidates can apply.'}
+                    {isEditMode 
+                      ? (isDraft 
+                          ? 'Your job draft has been saved. You can continue editing it later.' 
+                          : 'Your job changes have been saved successfully.')
+                      : (isDraft
+                          ? 'Your job draft has been saved. You can continue editing it later.'
+                          : 'Your job listing is now live and candidates can apply.')}
                   </p>
                   <div className='d-flex justify-content-center gap-2'>
                     <button type='button' className='btn btn-link' onClick={() => setShowSuccessModal(false)}>

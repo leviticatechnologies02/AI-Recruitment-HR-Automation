@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
@@ -56,7 +57,7 @@ const RecruiterDashboardHome = () => {
   return (
     <div className='container-fluid py-4 bg-neutral-50'>
       <div className='mb-24'>
-        <h5 className='mb-8'>Recruiter Dashboard</h5>
+        <h4 className='mb-8'>Recruiter Dashboard</h4>
         <p className='text-secondary-light'>Track your hiring progress and manage jobs efficiently.</p>
       </div>
 
@@ -67,7 +68,7 @@ const RecruiterDashboardHome = () => {
             <div className='card-body p-20'>
               <div className='d-flex flex-wrap align-items-center justify-content-between gap-3'>
                 <div>
-                  <div className='fw-medium text-primary-light mb-1'>Active Jobs</div>
+                  <p className='fw-medium text-primary-light mb-1'>Active Jobs</p>
                   <h6 className='mb-0'><AnimatedNumber value={animatedStats.activeJobs} /></h6>
                 </div>
                 <div className='w-50-px h-50-px bg-cyan rounded-circle d-flex justify-content-center align-items-center'>
@@ -88,7 +89,7 @@ const RecruiterDashboardHome = () => {
             <div className='card-body p-20'>
               <div className='d-flex flex-wrap align-items-center justify-content-between gap-3'>
                 <div>
-                  <div className='fw-medium text-primary-light mb-1'>Applications Received</div>
+                  <p className='fw-medium text-primary-light mb-1'>Applications Received</p>
                   <h6 className='mb-0'><AnimatedNumber value={animatedStats.applications} /></h6>
                 </div>
                 <div className='w-50-px h-50-px bg-purple rounded-circle d-flex justify-content-center align-items-center'>
@@ -109,7 +110,7 @@ const RecruiterDashboardHome = () => {
             <div className='card-body p-20'>
               <div className='d-flex flex-wrap align-items-center justify-content-between gap-3'>
                 <div>
-                  <div className='fw-medium text-primary-light mb-1'>Candidates in Pipeline</div>
+                  <p className='fw-medium text-primary-light mb-1'>Candidates in Pipeline</p>
                   <h6 className='mb-0'><AnimatedNumber value={animatedStats.pipeline} /></h6>
                 </div>
                 <div className='w-50-px h-50-px bg-info rounded-circle d-flex justify-content-center align-items-center'>
@@ -118,7 +119,7 @@ const RecruiterDashboardHome = () => {
               </div>
               <p className='fw-medium text-sm text-primary-light mt-12 mb-0 d-flex align-items-center gap-2'>
                 <span className='d-inline-flex align-items-center gap-1 text-warning-main'>
-                  <Icon icon='bxs:up-arrow' className='text-xs' /> +15
+                  <Icon icon='bxs:up-arrow' className='text-xs' /> 15
                 </span>
                 In final round
               </p>
@@ -130,8 +131,8 @@ const RecruiterDashboardHome = () => {
       {/* Quick Actions */}
       <div className='card border shadow-none mb-24'>
         <div className='card-body'>
-          <div className='d-flex justify-content-between flex-wrap mb-12'>
-            <h6 className='mb-0'>Quick Actions</h6>
+          <div className='d-flex align-items-center justify-content-between flex-wrap gap-2 mb-12'>
+            <h5 className='mb-0'>Quick Actions</h5>
             <span className='text-secondary-light text-sm'>Need to move fast? Use these actions.</span>
           </div>
           <div className='d-flex flex-wrap justify-content-center gap-3'>
@@ -160,7 +161,7 @@ const RecruiterDashboardHome = () => {
       <div className='card border shadow-none'>
         <div className='card-header bg-base border-bottom'>
           <div className='d-flex align-items-center justify-content-between'>
-            <h6 className='mb-0'>Recent Applicants</h6>
+            <h5 className='mb-0'>Recent Applicants</h5>
             <div className='d-flex align-items-center gap-3'>
               <span className='text-secondary-light text-sm'>Showing latest 3</span>
               <button onClick={() => setShowCandidates(true)} className='text-primary-600 fw-semibold text-sm border-0 bg-transparent'>View All Applicants →</button>
@@ -185,7 +186,7 @@ const RecruiterDashboardHome = () => {
                     <td className='fw-semibold'>{a.name}</td>
                     <td className='text-secondary-light'>{a.position}</td>
                     <td>
-                      <span className={`badge bg-${a.stageColor} text-${a.stageColor}-main`}>{a.stage}</span>
+                      <span className={`badge bg-${a.stageColor}-subtle text-${a.stageColor}-main`}>{a.stage}</span>
                     </td>
                     <td className='text-secondary-light'>{a.applied}</td>
                     <td>
@@ -202,9 +203,9 @@ const RecruiterDashboardHome = () => {
       {/* Modals (candidates, profile, import, post) remain unchanged below */}
       {showCandidates && (
         <div className='position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3'>
-          <div className='card'>
+          <div className='card w-100' style={{maxWidth: '960px'}}>
             <div className='card-header d-flex align-items-center justify-content-between'>
-              <h6 className='mb-0 fw-bold'>All Candidates</h6>
+              <h6 className='mb-0'>All Candidates</h6>
               <button className='btn btn-sm btn-outline-secondary' onClick={() => setShowCandidates(false)}>Close</button>
             </div>
             <div className='card-body p-0'>
@@ -228,9 +229,9 @@ const RecruiterDashboardHome = () => {
                         <td>{a.position}</td>
                         <td>{a.email}</td>
                         <td>{a.experience}</td>
-                        <td><span className={`badge bg-${a.stageColor} text-${a.stageColor}-main`}>{a.stage}</span></td>
+                        <td><span className={`badge bg-${a.stageColor}-subtle text-${a.stageColor}-main`}>{a.stage}</span></td>
                         <td className='text-secondary-light'>{a.applied}</td>
-                        <td><button className='btn text-primary-600 p-0' onClick={() => handleViewCandidate(a.id)}>View Profile</button></td>
+                        <td><button className='btn btn-link text-primary-600 p-0' onClick={() => handleViewCandidate(a.id)}>View Profile</button></td>
                       </tr>
                     ))}
                   </tbody>
@@ -250,7 +251,7 @@ const RecruiterDashboardHome = () => {
                   {selectedCandidate.name.split(' ').map(n => n[0]).join('')}
                 </span>
                 <div>
-                  <h6 className='mb-0'>{selectedCandidate.name}</h6>
+                  <h6 className='mb-4'>{selectedCandidate.name}</h6>
                   <span className='text-primary-600 fw-medium text-sm'>{selectedCandidate.position}</span>
                 </div>
               </div>
@@ -260,20 +261,20 @@ const RecruiterDashboardHome = () => {
               <div className='row g-3'>
                 <div className='col-md-6'>
                   <div className='border rounded p-3 mb-3'>
-                    <p className='mb-12 fs-5 fw-bold'>Contact Information</p>
+                    <h6 className='mb-12'>Contact Information</h6>
                     <div className='text-secondary-light text-sm'>{selectedCandidate.email}</div>
                     <div className='text-secondary-light text-sm'>{selectedCandidate.phone}</div>
                     <div className='text-secondary-light text-sm'>{selectedCandidate.location}</div>
                   </div>
                   <div className='border rounded p-3 mb-3'>
-                    <h6 className='mb-12 fs-5 fw-bold'>Professional Details</h6>
-                    <div className='text-secondary-light text-sm'><b>Experience:</b> {selectedCandidate.experience}</div>
-                    <div className='text-secondary-light text-sm'><b>Previous Company:</b> {selectedCandidate.previousCompany}</div>
-                    <div className='text-secondary-light text-sm'><b>Expected Salary:</b> {selectedCandidate.salary}</div>
-                    <div className='text-secondary-light text-sm'><b>Education:</b> {selectedCandidate.education}</div>
+                    <h6 className='mb-12'>Professional Details</h6>
+                    <div className='text-secondary-light text-sm'>Experience: {selectedCandidate.experience}</div>
+                    <div className='text-secondary-light text-sm'>Previous Company: {selectedCandidate.previousCompany}</div>
+                    <div className='text-secondary-light text-sm'>Expected Salary: {selectedCandidate.salary}</div>
+                    <div className='text-secondary-light text-sm'>Education: {selectedCandidate.education}</div>
                   </div>
                   <div className='border rounded p-3'>
-                    <h6 className='mb-12 fs-5 fw-bold'>Skills</h6>
+                    <h6 className='mb-12'>Skills</h6>
                     <div className='d-flex flex-wrap gap-2'>
                       {selectedCandidate.skills.map((s, i) => (
                         <span key={i} className='badge bg-primary-50 text-primary-600 border'>{s}</span>
@@ -283,15 +284,15 @@ const RecruiterDashboardHome = () => {
                 </div>
                 <div className='col-md-6'>
                   <div className='border rounded p-3 mb-3'>
-                    <h6 className='mb-12 fs-5 fw-bold'>Interview Schedule</h6>
+                    <h6 className='mb-12'>Interview Schedule</h6>
                     <div className='text-secondary-light text-sm'>Next Interview: {selectedCandidate.interviewDate}</div>
                   </div>
                   <div className='border rounded p-3 mb-3'>
-                    <h6 className='mb-12 fs-5 fw-bold'>Recruiter Notes</h6>
+                    <h6 className='mb-12'>Recruiter Notes</h6>
                     <div className='text-secondary-light text-sm'>{selectedCandidate.notes}</div>
                   </div>
                   <div className='border rounded p-3'>
-                    <h6 className='mb-12 fs-5 fw-bold'>Documents</h6>
+                    <h6 className='mb-12'>Documents</h6>
                     <a href='#' className='text-primary-600 text-sm'>{selectedCandidate.resume}</a>
                   </div>
                 </div>

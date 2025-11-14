@@ -118,14 +118,14 @@ export default function Profile() {
       )}
 
       {/* Header */}
-      <div className='border-bottom shadow-sm mb-24'>
+      <div className='bg-white border-bottom shadow-sm mb-24'>
         <div className='container-fluid px-24 py-20'>
           <div className='row align-items-center justify-content-between'>
             <div className='col-12 col-md-7'>
-              <h5 className='fw-bold text-gray-900 d-flex align-items-center gap-3 mb-8'>
-                <Icon icon='heroicons:user'  style={{ fontSize: '32px' }} />
+              <h1 className='text-3xl fw-bold text-gray-900 d-flex align-items-center gap-3 mb-8'>
+                <Icon icon='heroicons:user' className='text-primary-600' style={{ fontSize: '32px' }} />
                 My Profile
-              </h5>
+              </h1>
               <p className='text-secondary-light mb-0'>Update your details, skills, and resume to get matched with suitable jobs.</p>
             </div>
             <div className='col-12 col-md-5 text-md-end mt-3 mt-md-0'>
@@ -134,7 +134,7 @@ export default function Profile() {
                 <div className='progress' style={{ width: '128px', height: '8px' }}>
                   <div 
                     className='progress-bar bg-gradient-primary'
-                    style={{ width: `${completeness}% `}}
+                    style={{ width: `${completeness}%` }}
                   />
                 </div>
                 <span className='text-lg fw-bold text-primary-600'>{completeness}%</span>
@@ -415,27 +415,26 @@ export default function Profile() {
             {/* Save Button */}
             <button
               onClick={handleSaveProfile}
-              className='btn btn-primary py-12 fw-semibold'
+              className='btn btn-primary w-100 py-12 fw-semibold'
             >
-             Save Profile
+              💾 Save Profile
             </button>
           </div>
 
           {/* Right Column - Live Preview */}
           <div className='col-12 col-lg-4'>
-            <div className='card border-0 shadow-lg position-sticky' style={{ top: '20px' }}>
+            <div className='card border-0 shadow-lg sticky-top' style={{ top: '20px' }}>
               <div className='card-body p-24'>
                 <h3 className='text-lg fw-bold text-gray-900 mb-16'>Live Preview</h3>
                 
                 <div className='text-center mb-20'>
-                  <div className='w-50-px h-96-px bg-gradient-primary rounded-circle mx-auto mb-12 d-flex align-items-center justify-content-center text-dark text-3xl fw-bold'>
+                  <div className='w-96-px h-96-px bg-gradient-primary rounded-circle mx-auto mb-12 d-flex align-items-center justify-content-center text-white text-3xl fw-bold'>
                     {profile.name.split(' ').map(n => n[0]).join('')}
                   </div>
-
                   <h4 className='text-xl fw-bold text-gray-900 mb-4'>{profile.name}</h4>
                   <p className='text-primary-600 fw-medium mb-0'>{profile.workHistory.role}</p>
                 </div>
-                 
+
                 <div className='d-flex flex-column gap-3 text-sm'>
                   <div className='d-flex align-items-start gap-2'>
                     <Icon icon='heroicons:map-pin' className='text-secondary-light flex-shrink-0' style={{ fontSize: '16px', marginTop: '2px' }} />
@@ -490,3 +489,5 @@ export default function Profile() {
     </div>
   );
 }
+
+

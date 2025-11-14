@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { Search, Filter, Download, Printer, Plus, Edit, Eye, Calendar, Trash2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Filter, Download, Printer, Plus, Edit, Eye, Calendar, Trash2, RefreshCw, AlertCircle } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BASE_URL, API_ENDPOINTS } from '../config/api.config';
 
 const JobsListPage = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
@@ -28,127 +31,154 @@ const JobsListPage = () => {
     skills: []
   });
 
+  // Backend integration state
+  const [jobsData, setJobsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Fetch jobs from backend
+  const fetchJobs = async () => {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      setError('Please login to view jobs');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setRefreshing(true);
+      const url = `${BASE_URL}${API_ENDPOINTS.JOBS.LIST}`;
+      
+      console.log('📥 Fetching jobs from:', url);
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Jobs fetched:', data);
+        
+        // Transform backend data to match display format
+        const transformedJobs = data.map(job => ({
+          id: job.id,
+          title: job.title,
+          department: job.department,
+          recruiter: job.recruiter?.name || 'System',
+          postedOn: new Date(job.created_at).toLocaleDateString('en-GB', { 
+            day: '2-digit', 
+            month: 'short', 
+            year: 'numeric' 
+          }),
+          status: job.status || 'Draft',
+          applicants: job.applications?.length || 0,
+          // Store full job data for details view
+          fullData: job
+        }));
+        
+        setJobsData(transformedJobs);
+        setError(null);
+      } else if (response.status === 401) {
+        setError('Session expired. Please login again.');
+        setTimeout(() => navigate('/login'), 2000);
+      } else if (response.status === 403) {
+        setError('You do not have permission to view jobs.');
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        setError(errorData.detail || 'Failed to fetch jobs');
+      }
+    } catch (err) {
+      console.error('❌ Error fetching jobs:', err);
+      setError('Network error. Please check if backend is running.');
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  // Fetch jobs when component mounts
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
   // Debug: Log form data changes
   React.useEffect(() => {
     console.log('Edit form data updated:', editFormData);
   }, [editFormData]);
 
-  // Sample jobs data - converted to state so we can modify it
-  const [jobsData, setJobsData] = useState([
-    {
-      id: 1,
-      title: 'Frontend Developer',
-      department: 'Engineering',
-      recruiter: 'AI',
-      postedOn: '12-Sep-2025',
-      status: 'Open',
-      applicants: 22
-    },
-    {
-      id: 2,
-      title: 'Backend Developer',
-      department: 'Engineering',
-      recruiter: 'AI',
-      postedOn: '10-Sep-2025',
-      status: 'Closed',
-      applicants: 35
-    },
-    {
-      id: 3,
-      title: 'UI/UX Designer',
-      department: 'Design',
-      recruiter: 'AI',
-      postedOn: '08-Sep-2025',
-      status: 'On Hold',
-      applicants: 12
-    },
-    {
-      id: 4,
-      title: 'QA Engineer',
-      department: 'Testing',
-      recruiter: 'AI',
-      postedOn: '05-Sep-2025',
-      status: 'Open',
-      applicants: 18
-    },
-    {
-      id: 5,
-      title: 'Sales Manager',
-      department: 'Sales',
-      recruiter: 'AI',
-      postedOn: '03-Sep-2025',
-      status: 'Open',
-      applicants: 15
-    },
-    {
-      id: 6,
-      title: 'Marketing Specialist',
-      department: 'Marketing',
-      recruiter: 'AI',
-      postedOn: '01-Sep-2025',
-      status: 'Draft',
-      applicants: 0
-    },
-    {
-      id: 7,
-      title: 'HR Coordinator',
-      department: 'HR',
-      recruiter: 'AI',
-      postedOn: '28-Aug-2025',
-      status: 'Open',
-      applicants: 9
-    },
-    {
-      id: 8,
-      title: 'DevOps Engineer',
-      department: 'Engineering',
-      recruiter: 'AI',
-      postedOn: '25-Aug-2025',
-      status: 'Closed',
-      applicants: 28
-    }
-  ]);
-
   // KPI data - calculated dynamically from jobsData
   const kpis = {
     totalJobs: jobsData.length,
-    openJobs: jobsData.filter(j => j.status === 'Open').length,
+    openJobs: jobsData.filter(j => j.status === 'Open' || j.status === 'Active').length,
     closedJobs: jobsData.filter(j => j.status === 'Closed').length,
-    onHold: jobsData.filter(j => j.status === 'On Hold').length
+    onHold: jobsData.filter(j => j.status === 'On Hold').length,
+    draftJobs: jobsData.filter(j => j.status === 'Draft').length
   };
 
-  // Analytics data for job detail modal
-  const analyticsData = {
-    metrics: {
-      totalApplicants: 32,
-      inProgress: 10,
-      hired: 3,
-      rejected: 12
-    },
-    applicationsOverTime: [
-      { date: 'Sep 25', applications: 2 },
-      { date: 'Sep 26', applications: 4 },
-      { date: 'Sep 27', applications: 3 },
-      { date: 'Sep 28', applications: 5 },
-      { date: 'Sep 29', applications: 2 },
-      { date: 'Sep 30', applications: 6 },
-      { date: 'Oct 1', applications: 4 },
-      { date: 'Oct 2', applications: 6 }
-    ],
-    candidatesByStage: [
-      { stage: 'Applied', count: 8 },
-      { stage: 'Screening', count: 7 },
-      { stage: 'Interview', count: 10 },
-      { stage: 'Offer', count: 4 },
-      { stage: 'Hired', count: 3 }
-    ],
-    candidatesBySource: [
-      { source: 'LinkedIn', value: 12, color: '#0A66C2' },
-      { source: 'Referrals', value: 8, color: '#10B981' },
-      { source: 'Naukri', value: 7, color: '#F59E0B' },
-      { source: 'Direct', value: 5, color: '#8B5CF6' }
-    ]
+  // Get analytics data for selected job from backend
+  const getAnalyticsDataForJob = (job) => {
+    if (!job || !job.fullData) {
+      return {
+        metrics: { totalApplicants: 0, inProgress: 0, hired: 0, rejected: 0 },
+        applicationsOverTime: [],
+        candidatesByStage: [],
+        candidatesBySource: []
+      };
+    }
+    
+    const jobData = job.fullData;
+    const applicants = jobData.applications || [];
+    
+    // Calculate metrics from real data
+    const metrics = {
+      totalApplicants: applicants.length,
+      inProgress: applicants.filter(app => app.stage === 'Interview' || app.stage === 'Screening').length,
+      hired: applicants.filter(app => app.stage === 'Hired').length,
+      rejected: applicants.filter(app => app.status === 'Rejected').length
+    };
+    
+    // Generate timeline data (simplified - in production would come from backend)
+    const applicationsOverTime = [];
+    const today = new Date();
+    for (let i = 7; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      applicationsOverTime.push({
+        date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        applications: Math.floor(Math.random() * (applicants.length / 3)) // Simplified distribution
+      });
+    }
+    
+    // Count by stage
+    const stageCount = {};
+    applicants.forEach(app => {
+      const stage = app.stage || 'Applied';
+      stageCount[stage] = (stageCount[stage] || 0) + 1;
+    });
+    
+    const candidatesByStage = Object.keys(stageCount).map(stage => ({
+      stage,
+      count: stageCount[stage]
+    }));
+    
+    // Source distribution (if available in backend data)
+    const candidatesBySource = [
+      { source: 'Direct Apply', value: Math.ceil(applicants.length * 0.4), color: '#3b82f6' },
+      { source: 'LinkedIn', value: Math.ceil(applicants.length * 0.3), color: '#0A66C2' },
+      { source: 'Referrals', value: Math.ceil(applicants.length * 0.2), color: '#10B981' },
+      { source: 'Other', value: Math.floor(applicants.length * 0.1), color: '#8B5CF6' }
+    ];
+    
+    return { metrics, applicationsOverTime, candidatesByStage, candidatesBySource };
   };
+  
+  const analyticsData = selectedJob ? getAnalyticsDataForJob(selectedJob) : null;
 
 
   const filteredJobs = jobsData.filter(job => {
@@ -257,7 +287,16 @@ const JobsListPage = () => {
   };
 
   const handleEdit = (jobId) => {
-    alert(`Editing job ID: ${jobId}`);
+    const job = jobsData.find(j => j.id === jobId);
+    if (job && job.fullData) {
+      // Navigate to CreateJob page with job data for editing
+      navigate('/jobs/new', { 
+        state: { 
+          editMode: true, 
+          jobData: job.fullData 
+        } 
+      });
+    }
   };
 
   const handleViewCandidate = (candidateId) => {
@@ -295,7 +334,7 @@ const JobsListPage = () => {
 
   const handleCloseJob = (jobId) => {
     if (window.confirm('Are you sure you want to close this job?')) {
-      alert(`closing job: ${jobId}`);
+      alert(`Closing job: ${jobId}`);
     }
   };
 
@@ -348,14 +387,58 @@ const JobsListPage = () => {
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = () => {
-    if (jobToDelete) {
-      // Remove the job from the jobsData array
-      setJobsData(prevJobs => prevJobs.filter(job => job.id !== jobToDelete));
-      // Also remove from selected jobs if it was selected
-      setSelectedJobs(prevSelected => prevSelected.filter(id => id !== jobToDelete));
+  const confirmDelete = async () => {
+    if (!jobToDelete) return;
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setError('Please login to delete jobs');
       setShowDeleteModal(false);
-      setJobToDelete(null);
+      return;
+    }
+
+    try {
+      const url = `${BASE_URL}${API_ENDPOINTS.JOBS.DELETE(jobToDelete)}`;
+      console.log('🗑️ Deleting job:', url);
+
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        console.log('✅ Job deleted successfully');
+        
+        // Remove the job from the jobsData array
+        setJobsData(prevJobs => prevJobs.filter(job => job.id !== jobToDelete));
+        // Also remove from selected jobs if it was selected
+        setSelectedJobs(prevSelected => prevSelected.filter(id => id !== jobToDelete));
+        setShowDeleteModal(false);
+        setJobToDelete(null);
+        
+        // Show success feedback
+        setError(null);
+        alert('Job deleted successfully!');
+      } else if (response.status === 401) {
+        setError('Session expired. Please login again.');
+        setTimeout(() => navigate('/login'), 2000);
+      } else if (response.status === 403) {
+        setError('You do not have permission to delete this job.');
+        setShowDeleteModal(false);
+      } else if (response.status === 404) {
+        setError('Job not found or you are not authorized to delete it.');
+        setShowDeleteModal(false);
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        setError(errorData.detail || 'Failed to delete job');
+        setShowDeleteModal(false);
+      }
+    } catch (err) {
+      console.error('❌ Error deleting job:', err);
+      setError('Network error. Please check if backend is running.');
+      setShowDeleteModal(false);
     }
   };
 
@@ -385,29 +468,79 @@ const JobsListPage = () => {
   return (
     <div className="container-fluid py-4">
       {/* Page Header */}
-      <div className="mb-4">
-        <h6 className="mb-2">Jobs List</h6>
-        <p className="text-secondary-light mb-0">View, edit, and manage all active and archived job postings.</p>
+      <div className="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+          <h4 className="mb-2">Jobs List</h4>
+          <p className="text-secondary-light mb-0">View, edit, and manage all active and archived job postings.</p>
+        </div>
+        <button 
+          className="btn btn-outline-primary d-flex align-items-center gap-2"
+          onClick={fetchJobs}
+          disabled={refreshing}
+        >
+          <RefreshCw size={16} className={refreshing ? 'spin' : ''} />
+          {refreshing ? 'Refreshing...' : 'Refresh'}
+        </button>
       </div>
 
+      {/* Error Alert */}
+      {error && (
+        <div className="alert alert-danger d-flex align-items-center mb-4" role="alert">
+          <AlertCircle size={20} className="me-2" />
+          <div>{error}</div>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {loading ? (
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary mb-3" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="text-secondary-light">Loading jobs...</p>
+        </div>
+      ) : jobsData.length === 0 && !error ? (
+        <div className="card border shadow-none">
+          <div className="card-body text-center py-5">
+            <div className="mb-3">
+              <Calendar size={48} className="text-secondary-light" />
+            </div>
+            <h5 className="mb-2">No Jobs Found</h5>
+            <p className="text-secondary-light mb-3">You haven't created any jobs yet. Start by posting your first job!</p>
+            <button 
+              className="btn btn-primary d-inline-flex align-items-center gap-2"
+              onClick={() => navigate('/jobs/new')}
+            >
+              <Plus size={16} />
+              Create New Job
+            </button>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {/* Jobs Content - Only show if not loading and has jobs */}
+      {!loading && jobsData.length > 0 && (
+        <>
       {/* KPI Summary */}
       <div className="card border shadow-none mb-4">
         <div className="card-body d-flex">
           <div className="text-center w-25">
-            <div className="fw-bold text-secondary-light small">Total Jobs Posted</div>
-            <div className="h4 mb-0 text-primary">{kpis.totalJobs}</div>
+            <div className="text-secondary-light small">Total Jobs Posted</div>
+            <div className="h4 mb-0">{kpis.totalJobs}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="fw-bold text-secondary-light small">Open Jobs</div>
+            <div className="text-secondary-light small">Active Jobs</div>
             <div className="h4 mb-0 text-success">{kpis.openJobs}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="fw-bold text-secondary-light small">Closed Jobs</div>
-            <div className="h4 mb-0 text-danger">{kpis.closedJobs}</div>
+            <div className="text-secondary-light small">Draft Jobs</div>
+            <div className="h4 mb-0 text-warning">{kpis.draftJobs}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="fw-bold text-secondary-light small">On Hold</div>
-            <div className="h4 mb-0 text-warning">{kpis.onHold}</div>
+            <div className="text-secondary-light small">Closed Jobs</div>
+            <div className="h4 mb-0 text-danger">{kpis.closedJobs}</div>
           </div>
         </div>
       </div>
@@ -434,9 +567,10 @@ const JobsListPage = () => {
 
           <select className="form-select w-auto" value={statusFilter} onChange={e=>setStatusFilter(e.target.value)}>
             <option>All</option>
+            <option>Active</option>
             <option>Open</option>
-            <option>Closed</option>
             <option>Draft</option>
+            <option>Closed</option>
             <option>On Hold</option>
           </select>
 
@@ -505,7 +639,7 @@ const JobsListPage = () => {
                 </th>
                 <th className="text-start">JOB TITLE</th>
                 <th className="text-start">DEPARTMENT</th>
-                
+                <th className="text-start">RECRUITER</th>
                 <th className="text-start">POSTED ON</th>
                 <th className="text-center">STATUS</th>
                 <th className="text-center">APPLICANTS</th>
@@ -525,15 +659,21 @@ const JobsListPage = () => {
                   </td>
                   <td className="fw-medium">{job.title}</td>
                   <td className="text-muted">{job.department}</td>
-                  
+                  <td className="text-muted">{job.recruiter}</td>
                   <td className="text-muted">{job.postedOn}</td>
                   <td className="text-center">
-                    <span className={`badge ${job.status === 'Open' ? 'bg-success-subtle text-success' : job.status === 'Closed' ? 'bg-danger-subtle text-danger' : job.status === 'On Hold' ? 'bg-warning-subtle text-warning' : 'bg-secondary-subtle text-secondary'}`}>
+                    <span className={`badge ${
+                      (job.status === 'Open' || job.status === 'Active') ? 'bg-success-subtle text-success' : 
+                      job.status === 'Closed' ? 'bg-danger-subtle text-danger' : 
+                      job.status === 'On Hold' ? 'bg-warning-subtle text-warning' : 
+                      job.status === 'Draft' ? 'bg-info-subtle text-info' :
+                      'bg-secondary-subtle text-secondary'
+                    }`}>
                       {job.status}
                     </span>
                   </td>
                   <td className="text-center">
-                    <a href="#" className="nav-link text-primary">{job.applicants}</a>
+                    <a href="#" className="text-primary">{job.applicants}</a>
                   </td>
                   <td className="text-center">
                     <div className="d-flex gap-2 justify-content-center">
@@ -645,16 +785,28 @@ const JobsListPage = () => {
               <div className="modal-body" style={{maxHeight: '70vh', overflowY: 'auto'}}>
                 {/* Job Header */}
                 <div className="text-center mb-3 pb-3 border-bottom">
-                  <h5 className="mb-2">{selectedJob.title}</h5>
+                  <h5 className="mb-2">{selectedJob.fullData?.title || selectedJob.title}</h5>
                   <div className="d-flex justify-content-center gap-2 mb-2">
-                    <span className={`badge ${selectedJob.status === 'Open' ? 'bg-success' : selectedJob.status === 'Closed' ? 'bg-danger' : selectedJob.status === 'On Hold' ? 'bg-warning' : 'bg-secondary'}`}>
+                    <span className={`badge ${
+                      (selectedJob.status === 'Open' || selectedJob.status === 'Active') ? 'bg-success' : 
+                      selectedJob.status === 'Closed' ? 'bg-danger' : 
+                      selectedJob.status === 'On Hold' ? 'bg-warning' : 
+                      selectedJob.status === 'Draft' ? 'bg-info' :
+                      'bg-secondary'
+                    }`}>
                       {selectedJob.status}
                     </span>
-                    <span className="badge bg-primary">{selectedJob.department}</span>
+                    <span className="badge bg-primary">{selectedJob.fullData?.department || selectedJob.department}</span>
+                    {selectedJob.fullData?.employment_type && (
+                      <span className="badge bg-secondary">{selectedJob.fullData.employment_type}</span>
+                    )}
                   </div>
                   <div className="d-flex justify-content-center gap-3 text-muted small">
-                    <span><i className="bi bi-geo-alt me-1"></i>Hyderabad</span>
+                    <span><i className="bi bi-geo-alt me-1"></i>{selectedJob.fullData?.location || 'Location not specified'}</span>
                     <span><i className="bi bi-calendar me-1"></i>Posted {selectedJob.postedOn}</span>
+                    {selectedJob.fullData?.experience_level && (
+                      <span><i className="bi bi-briefcase me-1"></i>{selectedJob.fullData.experience_level}</span>
+                    )}
                   </div>
                   <div className="d-flex justify-content-center gap-2 mt-3">
                     <button className="btn btn-primary btn-sm" onClick={() => handleEditJob(selectedJob.id)}>
@@ -697,23 +849,23 @@ const JobsListPage = () => {
                             <h6 className="card-title text-primary mb-3">Job Information</h6>
                             <div className="mb-2">
                               <label className="form-label text-muted small fw-semibold">Job Title</label>
-                              <p className="mb-0 fw-medium">{selectedJob.title}</p>
+                              <p className="mb-0 fw-medium">{selectedJob.fullData?.title || selectedJob.title || 'N/A'}</p>
                             </div>
                             <div className="mb-2">
                               <label className="form-label text-muted small fw-semibold">Department</label>
-                              <p className="mb-0 fw-medium">{selectedJob.department}</p>
+                              <p className="mb-0 fw-medium">{selectedJob.fullData?.department || selectedJob.department || 'N/A'}</p>
                             </div>
                             <div className="mb-2">
                               <label className="form-label text-muted small fw-semibold">Location</label>
-                              <p className="mb-0 fw-medium">Hyderabad</p>
+                              <p className="mb-0 fw-medium">{selectedJob.fullData?.location || 'Not specified'}</p>
                             </div>
                             <div className="mb-2">
                               <label className="form-label text-muted small fw-semibold">Experience Level</label>
-                              <p className="mb-0 fw-medium">Fresher</p>
+                              <p className="mb-0 fw-medium">{selectedJob.fullData?.experience_level || 'Not specified'}</p>
                             </div>
                             <div className="mb-0">
                               <label className="form-label text-muted small fw-semibold">Employment Type</label>
-                              <p className="mb-0 fw-medium">Full-Time</p>
+                              <p className="mb-0 fw-medium">{selectedJob.fullData?.employment_type || 'Not specified'}</p>
                             </div>
                           </div>
                         </div>
@@ -724,19 +876,27 @@ const JobsListPage = () => {
                             <h6 className="card-title text-primary mb-3">Additional Details</h6>
                             <div className="mb-2">
                               <label className="form-label text-muted small fw-semibold">Posted On</label>
-                              <p className="mb-0 fw-medium">{selectedJob.postedOn}</p>
+                              <p className="mb-0 fw-medium">{selectedJob.postedOn || 'N/A'}</p>
                             </div>
                             <div className="mb-2">
                               <label className="form-label text-muted small fw-semibold">Recruiter</label>
-                              <p className="mb-0 fw-medium">AI</p>
+                              <p className="mb-0 fw-medium">{selectedJob.recruiter || selectedJob.fullData?.recruiter?.name || 'System'}</p>
                             </div>
                             <div className="mb-2">
                               <label className="form-label text-muted small fw-semibold">Total Applicants</label>
-                              <p className="mb-0 fw-medium">{selectedJob.applicants}</p>
+                              <p className="mb-0 fw-medium">{selectedJob.applicants || selectedJob.fullData?.applications?.length || 0}</p>
+                            </div>
+                            <div className="mb-2">
+                              <label className="form-label text-muted small fw-semibold">Salary Range</label>
+                              <p className="mb-0 fw-medium">
+                                {selectedJob.fullData?.salary_min && selectedJob.fullData?.salary_max 
+                                  ? `₹${selectedJob.fullData.salary_min} - ₹${selectedJob.fullData.salary_max}`
+                                  : 'Not specified'}
+                              </p>
                             </div>
                             <div className="mb-0">
                               <label className="form-label text-muted small fw-semibold">Job Status</label>
-                              <p className="mb-0 fw-medium">{selectedJob.status}</p>
+                              <p className="mb-0 fw-medium">{selectedJob.status || selectedJob.fullData?.status || 'N/A'}</p>
                             </div>
                           </div>
                         </div>
@@ -750,15 +910,24 @@ const JobsListPage = () => {
                       <div className="card border-0 bg-light">
                         <div className="card-body">
                           <h6 className="card-title text-primary mb-3">Job Description</h6>
-                          <p className="mb-3">Build dynamic UIs using React.js, integrate with REST APIs, and ensure responsiveness. Work closely with designers and backend teams to deliver high-quality user experiences.</p>
+                          <p className="mb-3" style={{whiteSpace: 'pre-wrap'}}>
+                            {selectedJob.fullData?.description || selectedJob.fullData?.job_description || 'No description available'}
+                          </p>
                           <div>
                             <label className="form-label text-muted small fw-semibold mb-2">Required Skills</label>
                             <div className="d-flex flex-wrap gap-2">
-                              <span className="badge bg-primary">React.js</span>
-                              <span className="badge bg-primary">JavaScript</span>
-                              <span className="badge bg-primary">HTML</span>
-                              <span className="badge bg-primary">CSS</span>
-                              <span className="badge bg-primary">Tailwind</span>
+                              {selectedJob.fullData?.skills && selectedJob.fullData.skills.length > 0 ? (
+                                selectedJob.fullData.skills.map((skill, index) => (
+                                  <span key={index} className="badge bg-primary">{skill}</span>
+                                ))
+                              ) : selectedJob.fullData?.required_skills ? (
+                                // Handle if skills are stored as comma-separated string
+                                selectedJob.fullData.required_skills.split(',').map((skill, index) => (
+                                  <span key={index} className="badge bg-primary">{skill.trim()}</span>
+                                ))
+                              ) : (
+                                <span className="text-muted">No skills specified</span>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -770,7 +939,9 @@ const JobsListPage = () => {
                   {activeTab === 'candidates' && (
                     <div className="card border-0 bg-light">
                       <div className="card-body">
-                        <h6 className="card-title text-primary mb-3">Candidates</h6>
+                        <h6 className="card-title text-primary mb-3">
+                          Candidates ({selectedJob.fullData?.applications?.length || 0})
+                        </h6>
                         
                         <div className="table-responsive">
                           <table className="table table-sm table-hover align-middle">
@@ -784,96 +955,71 @@ const JobsListPage = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td className="text-start">
-                                  <div className="d-flex align-items-center">
-                                    <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style={{width: '30px', height: '30px', fontSize: '12px'}}>
-                                      P
+                              {selectedJob.fullData?.applications && selectedJob.fullData.applications.length > 0 ? (
+                                selectedJob.fullData.applications.map((application, index) => {
+                                  const candidateName = application.candidate_name || application.name || `Candidate ${index + 1}`;
+                                  const initials = candidateName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                                  const appliedDate = application.applied_date || application.created_at 
+                                    ? new Date(application.applied_date || application.created_at).toLocaleDateString('en-GB', {
+                                        day: '2-digit',
+                                        month: 'short',
+                                        year: 'numeric'
+                                      })
+                                    : 'N/A';
+                                  
+                                  const stage = application.stage || 'Applied';
+                                  const status = application.status || (
+                                    stage === 'Hired' ? 'Completed' :
+                                    stage === 'Interview' || stage === 'Screening' ? 'In Progress' :
+                                    stage === 'Offer' ? 'Awaiting Decision' :
+                                    'Pending'
+                                  );
+                                  
+                                  const statusBadgeClass = 
+                                    status === 'Completed' ? 'bg-success' :
+                                    status === 'In Progress' ? 'bg-info' :
+                                    status === 'Awaiting Decision' ? 'bg-warning' :
+                                    status === 'Rejected' ? 'bg-danger' :
+                                    'bg-secondary';
+
+                                  return (
+                                    <tr key={application.id || index}>
+                                      <td className="text-start">
+                                        <div className="d-flex align-items-center">
+                                          <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style={{width: '30px', height: '30px', fontSize: '12px'}}>
+                                            {initials}
+                                          </div>
+                                          <span className="fw-medium small">{candidateName}</span>
+                                        </div>
+                                      </td>
+                                      <td className="text-center small">{stage}</td>
+                                      <td className="text-center">
+                                        <span className={`badge ${statusBadgeClass} small`}>{status}</span>
+                                      </td>
+                                      <td className="text-center text-muted small">{appliedDate}</td>
+                                      <td className="text-center">
+                                        <button 
+                                          className="btn btn-sm btn-outline-primary" 
+                                          title="View Profile" 
+                                          onClick={() => handleViewCandidate(application.candidate_id || application.id)} 
+                                          style={{padding: '2px 6px', fontSize: '12px'}}
+                                        >
+                                          <Eye size={12} />
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  );
+                                })
+                              ) : (
+                                <tr>
+                                  <td colSpan="5" className="text-center text-muted py-4">
+                                    <div className="d-flex flex-column align-items-center">
+                                      <Calendar size={32} className="mb-2 text-secondary" />
+                                      <span>No candidates have applied to this job yet</span>
                                     </div>
-                                    <span className="fw-medium small">Priya Sharma</span>
-                                  </div>
-                                </td>
-                                <td className="text-center small">Interview</td>
-                                <td className="text-center"><span className="badge bg-info small">In Progress</span></td>
-                                <td className="text-center text-muted small">02-Oct-2025</td>
-                                <td className="text-center">
-                                  <button className="btn btn-sm btn-outline-primary" title="View Profile" onClick={() => handleViewCandidate(1)} style={{padding: '2px 6px', fontSize: '12px'}}>
-                                    <Eye size={12} />
-                                  </button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="text-start">
-                                  <div className="d-flex align-items-center">
-                                    <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style={{width: '30px', height: '30px', fontSize: '12px'}}>
-                                      R
-                                    </div>
-                                    <span className="fw-medium small">Rohit Verma</span>
-                                  </div>
-                                </td>
-                                <td className="text-center small">Applied</td>
-                                <td className="text-center"><span className="badge bg-warning small">Pending</span></td>
-                                <td className="text-center text-muted small">01-Oct-2025</td>
-                                <td className="text-center">
-                                  <button className="btn btn-sm btn-outline-primary" title="View Profile" onClick={() => handleViewCandidate(2)} style={{padding: '2px 6px', fontSize: '12px'}}>
-                                    <Eye size={12} />
-                                  </button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="text-start">
-                                  <div className="d-flex align-items-center">
-                                    <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style={{width: '30px', height: '30px', fontSize: '12px'}}>
-                                      S
-                                    </div>
-                                    <span className="fw-medium small">Sneha Reddy</span>
-                                  </div>
-                                </td>
-                                <td className="text-center small">Hired</td>
-                                <td className="text-center"><span className="badge bg-success small">Completed</span></td>
-                                <td className="text-center text-muted small">27-Sep-2025</td>
-                                <td className="text-center">
-                                  <button className="btn btn-sm btn-outline-primary" title="View Profile" onClick={() => handleViewCandidate(3)} style={{padding: '2px 6px', fontSize: '12px'}}>
-                                    <Eye size={12} />
-                                  </button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="text-start">
-                                  <div className="d-flex align-items-center">
-                                    <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style={{width: '30px', height: '30px', fontSize: '12px'}}>
-                                      A
-                                    </div>
-                                    <span className="fw-medium small">Amit Patel</span>
-                                  </div>
-                                </td>
-                                <td className="text-center small">Screening</td>
-                                <td className="text-center"><span className="badge bg-info small">In Progress</span></td>
-                                <td className="text-center text-muted small">30-Sep-2025</td>
-                                <td className="text-center">
-                                  <button className="btn btn-sm btn-outline-primary" title="View Profile" onClick={() => handleViewCandidate(4)} style={{padding: '2px 6px', fontSize: '12px'}}>
-                                    <Eye size={12} />
-                                  </button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="text-start">
-                                  <div className="d-flex align-items-center">
-                                    <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style={{width: '30px', height: '30px', fontSize: '12px'}}>
-                                      K
-                                    </div>
-                                    <span className="fw-medium small">Kavya Iyer</span>
-                                  </div>
-                                </td>
-                                <td className="text-center small">Offer</td>
-                                <td className="text-center"><span className="badge bg-warning small">Pending</span></td>
-                                <td className="text-center text-muted small">28-Sep-2025</td>
-                                <td className="text-center">
-                                  <button className="btn btn-sm btn-outline-primary" title="View Profile" onClick={() => handleViewCandidate(5)} style={{padding: '2px 6px', fontSize: '12px'}}>
-                                    <Eye size={12} />
-                                  </button>
-                                </td>
-                              </tr>
+                                  </td>
+                                </tr>
+                              )}
                             </tbody>
                           </table>
                         </div>
@@ -882,15 +1028,30 @@ const JobsListPage = () => {
                   )}
 
                   {/* Analytics Tab */}
-                  {activeTab === 'analytics' && (
+                  {activeTab === 'analytics' && analyticsData && (
                     <div>
+                      {/* Show message if no applicants */}
+                      {analyticsData.metrics.totalApplicants === 0 ? (
+                        <div className="card border-0 bg-light">
+                          <div className="card-body text-center py-5">
+                            <div className="mb-3">
+                              <i className="bi bi-bar-chart-line" style={{fontSize: '48px', color: '#6c757d'}}></i>
+                            </div>
+                            <h6 className="mb-2">No Analytics Data Available</h6>
+                            <p className="text-muted mb-0">
+                              Analytics will appear here once candidates start applying to this job.
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
                       {/* Metrics Cards */}
                       <div className="row mb-4">
                         <div className="col-md-3">
                           <div className="card border-0">
                             <div className="card-body text-center">
                               <div className="text-muted small mb-1">Total Applicants</div>
-                              <div className="h4 mb-0">{analyticsData.metrics.totalApplicants}</div>
+                              <div className="h3 mb-0">{analyticsData.metrics.totalApplicants}</div>
                             </div>
                           </div>
                         </div>
@@ -898,7 +1059,7 @@ const JobsListPage = () => {
                           <div className="card border-0">
                             <div className="card-body text-center">
                               <div className="text-muted small mb-1">In Progress</div>
-                              <div className="h4 mb-0 text-primary">{analyticsData.metrics.inProgress}</div>
+                              <div className="h3 mb-0 text-primary">{analyticsData.metrics.inProgress}</div>
                             </div>
                           </div>
                         </div>
@@ -906,7 +1067,7 @@ const JobsListPage = () => {
                           <div className="card border-0">
                             <div className="card-body text-center">
                               <div className="text-muted small mb-1">Hired</div>
-                              <div className="h4 mb-0 text-success">{analyticsData.metrics.hired}</div>
+                              <div className="h3 mb-0 text-success">{analyticsData.metrics.hired}</div>
                             </div>
                           </div>
                         </div>
@@ -914,7 +1075,7 @@ const JobsListPage = () => {
                           <div className="card border-0">
                             <div className="card-body text-center">
                               <div className="text-muted small mb-1">Rejected</div>
-                              <div className="h4 mb-0 text-danger">{analyticsData.metrics.rejected}</div>
+                              <div className="h3 mb-0 text-danger">{analyticsData.metrics.rejected}</div>
                             </div>
                           </div>
                         </div>
@@ -993,6 +1154,8 @@ const JobsListPage = () => {
                           </div>
                         </div>
                       </div>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1164,6 +1327,8 @@ const JobsListPage = () => {
             </div>
           </div>
         </div>
+      )}
+      </>
       )}
     </div>
   );

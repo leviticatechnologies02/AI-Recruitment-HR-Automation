@@ -6,23 +6,26 @@ import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import ForgotPassword from './components/auth/ForgotPassword';
 import PricingPage from './components/auth/PricingPage';
-import Subscription from './components/auth/Subscription';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminPanel from './components/recruiterDashboard/AdminPanel';
 import Candidates from './components/recruiterDashboard/Candidates';
+import DashboardOverview from './components/recruiterDashboard/DashboardOverview';
+import PipelineOverview from './components/recruiterDashboard/PipelineOverview';
+import JobAnalytics from './components/recruiterDashboard/JobAnalytics';
 import RecruiterDashboardLayout from './components/recruiterDashboard/RecruiterDashboardLayout';
+import ResumeScreening from './components/recruiterDashboard/ResumeScreening';
+import QualifiedCandidates from './components/recruiterDashboard/QualifiedCandidates';
 import CreateJob from './components/CreateJob';
 import JobList from './components/JobList';
 import PipelineView from './components/pipeline/PipelineView';
+import Stages from './components/pipeline/Stages';
+import DragDrop from './components/pipeline/DragDrop';
+import CollaborationTools from './components/pipeline/CollaborationTools';
 import RecruiterPerformance from './components/analytics/RecruiterPerformance';
 import TimeToHire from './components/analytics/TimeToHire';
 import CandidateSourcing from './components/analytics/CandidateSourcing';
 import JobPerformance from './components/analytics/JobPerformance';
 import Settings from './components/Settings';
-import OrgInfo from './components/Settings/OrgInfo';
-import UsersRoles from './components/Settings/UsersRoles';
-import Integrations from './components/Settings/Integrations';
-import Billing from './components/Settings/Billing';
 import CandidateLogin from './components/candidateDashboard/CandidateLogin';
 import CandidateDashboard from './components/candidateDashboard/CandidateDashboard';
 import CandidateDashboardLayout from './components/candidateDashboard/CandidateDashboardLayout';
@@ -30,27 +33,20 @@ import JobSearch from './components/candidateDashboard/JobSearch';
 import Applications from './components/candidateDashboard/Applications';
 import Profile from './components/candidateDashboard/Profile';
 import CandidateSettings from './components/candidateDashboard/CandidateSettings';
-import AssessmentsLibrary from './components/recruiterDashboard/Assessment/AssessmentsLibrary';
-import AssignAssessment from './components/recruiterDashboard/Assessment/AssignAssessment';
-import Results from './components/recruiterDashboard/Assessment/Results';
-import AIPreScreening from './components/recruiterDashboard/Assessment/AIPreScreening';
-import ConfigureAIInterview from './components/recruiterDashboard/Assessment/ConfigureAIInterview';
-import ReviewAIInterview from './components/recruiterDashboard/Assessment/ReviewAIInterview';
-import OfferTemplates from './components/recruiterDashboard/Assessment/OfferTemplates';
-import OfferTracking from './components/recruiterDashboard/Assessment/OfferTracking'; 
-
-// HR Suite Components
-import HRDashboard from './components/HRsuite/HRDashboard';
-import OnboardingDocuments from './components/HRsuite/OnboardingDocuments';
-import OnboardingTasks from './components/HRsuite/OnboardingTasks';
-import EmployeeDirectory from './components/HRsuite/EmployeeDirectory';
-import Attendance from './components/HRsuite/Attendance';
-import Payroll from './components/HRsuite/Payroll';
-import CandidateSignup from './components/candidateDashboard/CandidateSignup';
-import CandidateForgot from './components/candidateDashboard/CandidateForgot';
-
-
-
+import AssessmentManagement from './components/assessments/AssessmentManagement';
+import AssessmentLibrary from './components/assessments/AssessmentLibrary';
+import AssignAssessments from './components/assessments/AssignAssessments';
+import AssessmentResults from './components/assessments/AssessmentResults';
+import TestResultsViewer from './components/assessments/TestResultsViewer';
+import AptitudeTest from './components/assessments/AptitudeTest';
+import CodingTest from './components/assessments/CodingTest';
+import CommunicationTest from './components/assessments/CommunicationTest';
+import AIPrescreening from './components/recruiterDashboard/AIPrescreening';
+import ConfigureAIInterview from './components/recruiterDashboard/ConfigureAIInterview';
+import ReviewAIInterview from './components/recruiterDashboard/ReviewAIInterview';
+import AIInterviewPortal from './components/AIInterviewPortal';
+import OfferTemplates from './components/recruiterDashboard/OfferTemplates';
+import OfferTracking from './components/recruiterDashboard/OfferTracking';
 
 
 const App = () => {
@@ -61,13 +57,14 @@ const App = () => {
       <Route path='/login' element={<Login />} />
       <Route path='/ForgotPassword' element={<ForgotPassword />} />
       <Route path='/pricing' element={<PricingPage />} />
-      <Route path='/subscription' element={<Subscription />} />
 
       <Route
         path='/dashboard'
         element={
           <ProtectedRoute>
-            <AdminPanel />
+            <RecruiterDashboardLayout>
+              <DashboardOverview />
+            </RecruiterDashboardLayout>
           </ProtectedRoute>
         }
       />
@@ -78,6 +75,28 @@ const App = () => {
           <ProtectedRoute>
             <RecruiterDashboardLayout>
               <Candidates />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/resume-screening'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <ResumeScreening />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/qualified-candidates'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <QualifiedCandidates />
             </RecruiterDashboardLayout>
           </ProtectedRoute>
         }
@@ -110,15 +129,55 @@ const App = () => {
         element={
           <ProtectedRoute>
             <RecruiterDashboardLayout>
-              <PipelineView />
+              <PipelineOverview />
             </RecruiterDashboardLayout>
           </ProtectedRoute>
         }
       />
 
-      
+      <Route
+        path='/pipeline/stages'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <Stages />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
 
-      
+      <Route
+        path='/pipeline/drag-drop'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <DragDrop />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/pipeline/collaboration'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <CollaborationTools />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/analytics/jobs'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <JobAnalytics />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path='/analytics/recruiter-performance'
@@ -168,184 +227,6 @@ const App = () => {
             <RecruiterDashboardLayout>
               <Settings />
             </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-
-      {/* Assessment Routes */}
-      <Route
-        path='/recruiter/assessments-library'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <AssessmentsLibrary />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/recruiter/assign-assessment'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <AssignAssessment />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/recruiter/results'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <Results />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/recruiter/prescreening'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <AIPreScreening />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/recruiter/ai-interview-configure'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <ConfigureAIInterview />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/recruiter/ai-interview-review'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <ReviewAIInterview />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/recruiter/offer-templates'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <OfferTemplates />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/recruiter/offer-tracking'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <OfferTracking />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-
-      {/* HR Suite Routes */}
-      <Route
-        path='/hr/dashboard'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <HRDashboard />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/hr/onboarding-documents'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <OnboardingDocuments />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/hr/onboarding-tasks'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <OnboardingTasks />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/hr/employee-directory'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <EmployeeDirectory />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/hr/attendance'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <Attendance />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/hr/payroll'
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboardLayout>
-              <Payroll />
-            </RecruiterDashboardLayout>
-          </ProtectedRoute>
-        }
-      />
-
-      {/* Settings Routes */}
-      <Route
-        path='/settings/org-info'
-        element={
-          <ProtectedRoute>
-            <OrgInfo />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/settings/users-roles'
-        element={
-          <ProtectedRoute>
-            <UsersRoles />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/settings/integrations'
-        element={
-          <ProtectedRoute>
-            <Integrations />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/settings/billing'
-        element={
-          <ProtectedRoute>
-            <Billing />
           </ProtectedRoute>
         }
       />
@@ -402,8 +283,125 @@ const App = () => {
           </ProtectedRoute>
         }
       />
-      <Route path='/candidate/Signup' element={<CandidateSignup />} />
-      <Route path='/candidate/forgot-password' element={<CandidateForgot />} />
+
+      {/* Assessment Management Routes - Recruiter */}
+      <Route
+        path='/assessments'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <AssessmentManagement />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/assessments-library'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <AssessmentLibrary />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/assign-assessment'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <AssignAssessments />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/results'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <AssessmentResults />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/test-results'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <TestResultsViewer />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/prescreening'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <AIPrescreening />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/ai-interview-configure'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <ConfigureAIInterview />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/ai-interview-review'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <ReviewAIInterview />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/offer-templates'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <OfferTemplates />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path='/recruiter/offer-tracking'
+        element={
+          <ProtectedRoute>
+            <RecruiterDashboardLayout>
+              <OfferTracking />
+            </RecruiterDashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Assessment Test Routes - Public/Candidate */}
+      <Route path='/assessment/aptitude' element={<AptitudeTest />} />
+      <Route path='/assessment/coding' element={<CodingTest />} />
+      <Route path='/assessment/communication' element={<CommunicationTest />} />
+
+      {/* AI Interview Portal - Public Route */}
+      <Route path='/ai-interview' element={<AIInterviewPortal />} />
 
       
 

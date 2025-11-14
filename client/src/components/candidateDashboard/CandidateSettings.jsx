@@ -20,7 +20,7 @@ const CandidateSettings = () => {
               </div>
 
               {/* Title */}
-              <h2 className='mb-16 text-primary-600 fw-bold'>Settings</h2>
+              <h2 className='mb-16 text-primary-600 fw-bold'>Candidate Settings</h2>
               
               {/* Coming Soon Badge */}
               <div className='mb-24'>
@@ -31,8 +31,8 @@ const CandidateSettings = () => {
 
               {/* Description */}
               <p className='text-secondary-light text-lg mb-32'>
-                We're working hard to bring you an amazing settings experience. 
-                This feature will be available soon with comprehensive configuration options.
+                We're building an amazing settings experience just for you. 
+                Customize your job search preferences and manage your account with ease.
               </p>
 
               {/* Features List */}
@@ -46,19 +46,31 @@ const CandidateSettings = () => {
                 <div className='col-12 col-md-6'>
                   <div className='d-flex align-items-center gap-2 justify-content-center justify-content-md-start'>
                     <Icon icon='heroicons:check-circle' className='text-success-600' style={{ fontSize: '24px' }} />
-                    <span className='text-secondary-light'>Notification Preferences</span>
+                    <span className='text-secondary-light'>Job Preferences</span>
                   </div>
                 </div>
                 <div className='col-12 col-md-6'>
                   <div className='d-flex align-items-center gap-2 justify-content-center justify-content-md-start'>
                     <Icon icon='heroicons:check-circle' className='text-success-600' style={{ fontSize: '24px' }} />
-                    <span className='text-secondary-light'>Security Options</span>
+                    <span className='text-secondary-light'>Notification Settings</span>
                   </div>
                 </div>
                 <div className='col-12 col-md-6'>
                   <div className='d-flex align-items-center gap-2 justify-content-center justify-content-md-start'>
                     <Icon icon='heroicons:check-circle' className='text-success-600' style={{ fontSize: '24px' }} />
-                    <span className='text-secondary-light'>Integration Settings</span>
+                    <span className='text-secondary-light'>Privacy & Security</span>
+                  </div>
+                </div>
+                <div className='col-12 col-md-6'>
+                  <div className='d-flex align-items-center gap-2 justify-content-center justify-content-md-start'>
+                    <Icon icon='heroicons:check-circle' className='text-success-600' style={{ fontSize: '24px' }} />
+                    <span className='text-secondary-light'>Email Alerts</span>
+                  </div>
+                </div>
+                <div className='col-12 col-md-6'>
+                  <div className='d-flex align-items-center gap-2 justify-content-center justify-content-md-start'>
+                    <Icon icon='heroicons:check-circle' className='text-success-600' style={{ fontSize: '24px' }} />
+                    <span className='text-secondary-light'>Resume Management</span>
                   </div>
                 </div>
               </div>
@@ -77,3 +89,4 @@ const CandidateSettings = () => {
 };
 
 export default CandidateSettings;
+

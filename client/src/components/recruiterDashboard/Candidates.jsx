@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { Search, Filter, Download, X, ChevronLeft, ChevronRight, UserPlus, ArrowRight, Eye, Copy, Trash2, Printer } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Filter, Download, X, ChevronLeft, ChevronRight, UserPlus, ArrowRight, Eye, Copy, Trash2, Printer, RefreshCw, AlertCircle, Upload, CheckCircle, XCircle, FileText } from 'lucide-react';
 import CandidateProfilePage from './CandidateProfilePage';
+import { BASE_URL } from '../../config/api.config';
 
 const CandidatesPage = () => {
+  const navigate = useNavigate();
   const [selectedCandidates, setSelectedCandidates] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -16,23 +19,117 @@ const CandidatesPage = () => {
   const [showCandidateModal, setShowCandidateModal] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
 
-  // Sample data
-  const candidates = [
-    { id: 1, name: 'Priya Sharma', role: 'Frontend Developer', skills: ['React', 'JS', 'CSS'], stage: 'Interview', status: 'In Progress' },
-    { id: 2, name: 'Rohit Verma', role: 'Backend Engineer', skills: ['Python', 'SQL'], stage: 'Applied', status: 'Pending' },
-    { id: 3, name: 'Sneha Reddy', role: 'UI Designer', skills: ['Figma', 'HTML'], stage: 'Hired', status: 'Completed' },
-    { id: 4, name: 'Vikas Rao', role: 'QA Engineer', skills: ['Selenium', 'JS'], stage: 'Offer', status: 'Awaiting Decision' },
-    { id: 5, name: 'Ananya Patel', role: 'Frontend Developer', skills: ['React', 'TypeScript'], stage: 'Interview', status: 'In Progress' },
-    { id: 6, name: 'Karthik Kumar', role: 'Backend Engineer', skills: ['Node.js', 'MongoDB'], stage: 'Screening', status: 'In Progress' },
-    { id: 7, name: 'Meera Joshi', role: 'Data Analyst', skills: ['Python', 'Tableau'], stage: 'Applied', status: 'Pending' },
-    { id: 8, name: 'Arjun Singh', role: 'DevOps Engineer', skills: ['AWS', 'Docker'], stage: 'Interview', status: 'In Progress' },
-  ];
+  // Backend integration
+  const [candidates, setCandidates] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  // AI Screening state
+  const [aiScreening, setAiScreening] = useState({
+    isProcessing: false,
+    currentIndex: 0,
+    total: 0,
+    results: [],
+    showModal: false
+  });
+
+  // Track which candidates have been AI screened
+  const [aiScreenedEmails, setAiScreenedEmails] = useState(new Set());
+
+  // Fetch candidates from backend
+  const fetchCandidates = async () => {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      setError('Please login to view candidates');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setRefreshing(true);
+      const url = `${BASE_URL}/api/recruiter_dashboard/candidates`;
+      
+      console.log('📥 Fetching candidates from:', url);
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Candidates fetched:', data);
+        
+        // Transform backend data to match display format
+        const transformedCandidates = data.map(candidate => ({
+          id: candidate.id,
+          name: candidate.name,
+          email: candidate.email,
+          role: candidate.role,
+          skills: candidate.skills ? candidate.skills.split(',').map(s => s.trim()) : [],
+          stage: candidate.stage || 'Applied',
+          status: candidate.stage === 'Hired' ? 'Completed' : 
+                  candidate.stage === 'Interview' ? 'In Progress' : 
+                  candidate.stage === 'Offer' ? 'Awaiting Decision' : 'Pending',
+          resume_url: candidate.resume_url,
+          notes: candidate.notes,
+          recruiter_comments: candidate.recruiter_comments,
+          fullData: candidate
+        }));
+        
+        setCandidates(transformedCandidates);
+        setError(null);
+      } else if (response.status === 401) {
+        setError('Session expired. Please login again.');
+        setTimeout(() => navigate('/login'), 2000);
+      } else if (response.status === 403) {
+        setError('You do not have permission to view candidates.');
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        setError(errorData.detail || 'Failed to fetch candidates');
+      }
+    } catch (err) {
+      console.error('❌ Error fetching candidates:', err);
+      setError('Network error. Please check if backend is running.');
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  // Fetch AI-screened candidates to track which ones are already screened
+  const fetchAIScreenedCandidates = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/resume/candidates`);
+      if (response.ok) {
+        const aiScreenedCandidates = await response.json();
+        const screenedEmails = new Set(
+          aiScreenedCandidates.map(c => c.candidate_email?.toLowerCase().trim())
+        );
+        console.log('🔍 AI-Screened emails loaded:', Array.from(screenedEmails));
+        setAiScreenedEmails(screenedEmails);
+      }
+    } catch (error) {
+      console.error('Error fetching AI-screened candidates:', error);
+    }
+  };
+
+  // Fetch candidates when component mounts
+  useEffect(() => {
+    fetchCandidates();
+    fetchAIScreenedCandidates();
+  }, []);
 
   const insights = {
-    total: 480,
-    inInterview: 120,
-    offersSent: 30,
-    hired: 12
+    total: candidates.length,
+    inInterview: candidates.filter(c => c.stage === 'Interview').length,
+    offersSent: candidates.filter(c => c.stage === 'Offer').length,
+    hired: candidates.filter(c => c.stage === 'Hired').length
   };
 
   const handleSelectAll = (e) => {
@@ -139,39 +236,274 @@ const CandidatesPage = () => {
     setSelectedCandidate(null);
   };
 
+  // AI Resume Screening for bulk candidates
+  const handleAIScreening = async () => {
+    const selectedCandidateData = candidates.filter(c => selectedCandidates.includes(c.id));
+    
+    console.log('📋 Selected Candidates:', selectedCandidateData);
+    console.log('📋 Resume URLs:', selectedCandidateData.map(c => ({ name: c.name, resume_url: c.resume_url })));
+    
+    // Filter candidates that have resume URLs (check for truthy and non-empty strings)
+    const candidatesWithResumes = selectedCandidateData.filter(c => 
+      c.resume_url && c.resume_url.trim() !== '' && c.resume_url !== 'null' && c.resume_url !== 'undefined'
+    );
+    
+    console.log('📋 Candidates with resumes:', candidatesWithResumes.length);
+    
+    if (candidatesWithResumes.length === 0) {
+      const candidateNames = selectedCandidateData.map(c => c.name).join(', ');
+      alert(`⚠️ No resumes found for selected candidates.\n\nSelected: ${candidateNames}\n\nPlease ensure candidates have uploaded resumes. Check the 'resume_url' field in the database.`);
+      return;
+    }
+
+    // Check which candidates have already been screened
+    try {
+      const aiScreenedResponse = await fetch(`${BASE_URL}/api/resume/candidates`);
+      const aiScreenedCandidates = aiScreenedResponse.ok ? await aiScreenedResponse.json() : [];
+      
+      // Create a set of already screened emails for quick lookup
+      const screenedEmails = new Set(aiScreenedCandidates.map(c => c.candidate_email?.toLowerCase()));
+      
+      // Filter out already screened candidates (trim and lowercase for robust matching)
+      const notYetScreened = candidatesWithResumes.filter(c => 
+        !screenedEmails.has(c.email?.toLowerCase().trim())
+      );
+      
+      const alreadyScreened = candidatesWithResumes.filter(c => 
+        screenedEmails.has(c.email?.toLowerCase().trim())
+      );
+      
+      console.log('📋 Already screened:', alreadyScreened.length);
+      console.log('📋 Not yet screened:', notYetScreened.length);
+      
+      if (alreadyScreened.length > 0 && notYetScreened.length === 0) {
+        alert(`⚠️ All selected candidates have already been screened with AI.\n\nAlready screened:\n${alreadyScreened.map(c => '• ' + c.name).join('\n')}\n\nThey cannot be screened again. Please select different candidates.`);
+        return;
+      }
+      
+      if (alreadyScreened.length > 0) {
+        const proceed = window.confirm(
+          `⚠️ ${alreadyScreened.length} candidate(s) have already been screened and will be skipped:\n${alreadyScreened.map(c => '• ' + c.name).join('\n')}\n\n✅ ${notYetScreened.length} new candidate(s) will be screened:\n${notYetScreened.map(c => '• ' + c.name).join('\n')}\n\nDo you want to proceed with screening the new candidates only?`
+        );
+        if (!proceed) return;
+      }
+      
+      // Update candidatesWithResumes to only include not yet screened
+      if (notYetScreened.length === 0) {
+        alert('⚠️ No new candidates to screen. All selected candidates have already been screened.');
+        return;
+      }
+      
+      // Continue with notYetScreened candidates
+      candidatesWithResumes.length = 0;
+      candidatesWithResumes.push(...notYetScreened);
+      
+    } catch (error) {
+      console.error('Error checking already screened candidates:', error);
+      // Continue anyway if check fails
+    }
+
+    if (candidatesWithResumes.length < selectedCandidateData.length) {
+      const withoutResumes = selectedCandidateData.filter(c => !c.resume_url || c.resume_url.trim() === '');
+      if (withoutResumes.length > 0) {
+        const proceed = window.confirm(
+          `Only ${candidatesWithResumes.length} of ${selectedCandidateData.length} selected candidates can be screened.\n\nCandidates without resumes:\n${withoutResumes.map(c => '• ' + c.name).join('\n')}\n\nDo you want to proceed with AI screening for those with resumes?`
+        );
+        if (!proceed) return;
+      }
+    }
+
+    // Initialize AI screening state
+    setAiScreening({
+      isProcessing: true,
+      currentIndex: 0,
+      total: candidatesWithResumes.length,
+      results: [],
+      showModal: true
+    });
+
+    // Process each resume one by one
+    const results = [];
+    for (let i = 0; i < candidatesWithResumes.length; i++) {
+      const candidate = candidatesWithResumes[i];
+      
+      setAiScreening(prev => ({
+        ...prev,
+        currentIndex: i + 1
+      }));
+
+      try {
+        // Fetch the resume file from the server
+        const resumeResponse = await fetch(`${BASE_URL}/${candidate.resume_url}`);
+        
+        if (!resumeResponse.ok) {
+          results.push({
+            candidate: candidate.name,
+            status: 'error',
+            message: 'Resume file not found'
+          });
+          continue;
+        }
+
+        const resumeBlob = await resumeResponse.blob();
+        const fileName = candidate.resume_url.split('/').pop();
+        
+        // Create FormData for AI screening
+        const formData = new FormData();
+        formData.append('file', resumeBlob, fileName);
+        formData.append('role', candidate.role);
+        formData.append('experience_level', 'mid'); // Default, can be enhanced
+
+        // Send to AI screening endpoint
+        const screeningResponse = await fetch(`${BASE_URL}/api/resume/process`, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (screeningResponse.ok) {
+          const result = await screeningResponse.json();
+          results.push({
+            candidate: candidate.name,
+            status: result.status,
+            score: result.score,
+            email_status: result.email_status,
+            message: `Score: ${result.score.toFixed(1)}% - ${result.status}`
+          });
+        } else {
+          const errorData = await screeningResponse.json();
+          results.push({
+            candidate: candidate.name,
+            status: 'error',
+            message: errorData.detail || 'Processing failed'
+          });
+        }
+      } catch (error) {
+        console.error(`Error processing ${candidate.name}:`, error);
+        results.push({
+          candidate: candidate.name,
+          status: 'error',
+          message: 'Network error'
+        });
+      }
+
+      // Small delay between requests to avoid overwhelming the server
+      if (i < candidatesWithResumes.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
+
+    // Update final state
+    setAiScreening(prev => ({
+      ...prev,
+      isProcessing: false,
+      results: results
+    }));
+
+    // Clear selection after processing
+    setSelectedCandidates([]);
+    
+    // Refresh the AI screened candidates list
+    fetchAIScreenedCandidates();
+  };
+
+  const closeAIScreeningModal = () => {
+    setAiScreening({
+      isProcessing: false,
+      currentIndex: 0,
+      total: 0,
+      results: [],
+      showModal: false
+    });
+  };
+
+  const viewAIScreeningResults = () => {
+    closeAIScreeningModal();
+    navigate('/resume-screening', { state: { tab: 'candidates' } });
+  };
+
   return (
     <div className="container-fluid py-4">
       {/* Page Header */}
-      <div className="mb-4">
-        <h5 className="mb-2"><i className='ri-group-line m-2'></i>Candidates</h5>
-        <p className="text-secondary-light mb-0">View, filter, and manage all job applicants.</p>
+      <div className="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+          <h4 className="mb-2">👥 Candidates</h4>
+          <p className="text-secondary-light mb-0">View, filter, and manage all job applicants.</p>
+        </div>
+        <button 
+          className="btn btn-outline-primary d-flex align-items-center gap-2"
+          onClick={fetchCandidates}
+          disabled={refreshing}
+        >
+          <RefreshCw size={16} className={refreshing ? 'spin' : ''} />
+          {refreshing ? 'Refreshing...' : 'Refresh'}
+        </button>
       </div>
+
+      {/* Error Alert */}
+      {error && (
+        <div className="alert alert-danger d-flex align-items-center mb-4" role="alert">
+          <AlertCircle size={20} className="me-2" />
+          <div>{error}</div>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {loading ? (
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary mb-3" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="text-secondary-light">Loading candidates...</p>
+        </div>
+      ) : candidates.length === 0 && !error ? (
+        <div className="card border shadow-none">
+          <div className="card-body text-center py-5">
+            <div className="mb-3">
+              <UserPlus size={48} className="text-secondary-light" />
+            </div>
+            <h5 className="mb-2">No Candidates Yet</h5>
+            <p className="text-secondary-light mb-3">
+              No candidates have applied to your jobs yet. Make sure your jobs are published!
+            </p>
+            <button 
+              className="btn btn-primary d-inline-flex align-items-center gap-2"
+              onClick={() => navigate('/jobslist')}
+            >
+              View Jobs
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Candidates Content - Only show if not loading and has candidates */}
+      {!loading && candidates.length > 0 && (
+        <>
 
       {/* KPI Summary */}
       <div className="card border shadow-none mb-4">
         <div className="card-body d-flex">
           <div className="text-center w-25">
-            <div className="fw-bold text-secondary-light small">Total Candidates</div>
-            <div className="h6 mb-0 text-warning">{insights.total}</div>
+            <div className="text-secondary-light small">Total Candidates</div>
+            <div className="h4 mb-0">{insights.total}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="fw-bold text-secondary-light small">In Interview</div>
-            <div className="h6 mb-0 text-primary">{insights.inInterview}</div>
+            <div className="text-secondary-light small">In Interview</div>
+            <div className="h4 mb-0 text-primary">{insights.inInterview}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="fw-bold text-secondary-light small">Offers Sent</div>
-            <div className="h6 mb-0 text-success">{insights.offersSent}</div>
+            <div className="text-secondary-light small">Offers Sent</div>
+            <div className="h4 mb-0 text-success">{insights.offersSent}</div>
           </div>
           <div className="text-center w-25 border-start ps-4">
-            <div className="fw-bold text-secondary-light small">Hired</div>
-            <div className="h6 mb-0 text-danger">{insights.hired}</div>
+            <div className="text-secondary-light small">Hired</div>
+            <div className="h4 mb-0 text-danger">{insights.hired}</div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
       <div className="card border shadow-none mb-4">
-        <div className="card-body d-flex gap-2 align-items-center">
+        <div className="card-body d-flex gap-3 align-items-center">
           <div className="flex-grow-1">
             <div className="input-group" style={{maxWidth: '400px'}}>
               <span className="input-group-text bg-white border-end-0" style={{
@@ -183,7 +515,7 @@ const CandidatesPage = () => {
               </span>
               <input 
                 className="form-control border-start-0" 
-                placeholder="Search candidate" 
+                placeholder="Search candid" 
                 value={searchTerm} 
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{
@@ -246,7 +578,14 @@ const CandidatesPage = () => {
             <option value="hired">Hired</option>
           </select>
 
-         
+          <select 
+            className="form-select w-auto"
+            value={filters.recruiter}
+            onChange={(e) => setFilters(prev => ({ ...prev, recruiter: e.target.value }))}
+          >
+            <option value="">All Recruiters</option>
+            <option value="AI">AI</option>
+          </select>
 
           <div className="d-flex gap-2">
             <button className="btn btn-dark" onClick={handleExport}><Download size={14} className="me-2"/>Export</button>
@@ -263,6 +602,14 @@ const CandidatesPage = () => {
               {selectedCandidates.length} candidate{selectedCandidates.length > 1 ? 's' : ''} selected
             </span>
             <div className="vr"></div>
+            <button 
+              className="btn btn-primary btn-sm"
+              onClick={handleAIScreening}
+              title="Process selected candidates with AI Resume Screening"
+            >
+              <Upload size={14} className="me-1" />
+              AI Resume Screening
+            </button>
             <button className="btn btn-danger btn-sm">
               <Trash2 size={14} className="me-1" />
               Delete
@@ -302,6 +649,8 @@ const CandidatesPage = () => {
                 <th className="text-start">CANDIDATE NAME</th>
                 <th className="text-start">JOB ROLE</th>
                 <th className="text-start">SKILLS</th>
+                <th className="text-center">RESUME</th>
+                <th className="text-center">AI SCREENED</th>
                 <th className="text-center">STAGE</th>
                 <th className="text-center">STATUS</th>
                 <th className="text-center">ACTIONS</th>
@@ -335,6 +684,32 @@ const CandidatesPage = () => {
                         </span>
                       ))}
                     </div>
+                  </td>
+                  <td className="text-center">
+                    {candidate.resume_url && candidate.resume_url.trim() !== '' ? (
+                      <span className="badge bg-success-subtle text-success" title={candidate.resume_url}>
+                        <FileText size={12} className="me-1" />
+                        Available
+                      </span>
+                    ) : (
+                      <span className="badge bg-danger-subtle text-danger">
+                        <XCircle size={12} className="me-1" />
+                        Missing
+                      </span>
+                    )}
+                  </td>
+                  <td className="text-center">
+                    {aiScreenedEmails.has(candidate.email?.toLowerCase().trim()) ? (
+                      <span className="badge bg-primary-subtle text-primary" title="Already screened with AI">
+                        <CheckCircle size={12} className="me-1" />
+                        Yes
+                      </span>
+                    ) : (
+                      <span className="badge bg-secondary-subtle text-secondary" title={`Email: ${candidate.email}`}>
+                        <XCircle size={12} className="me-1" />
+                        No
+                      </span>
+                    )}
                   </td>
                   <td className="text-center">
                     <span className={`badge ${getStageColor(candidate.stage)}`}>
@@ -411,6 +786,207 @@ const CandidatesPage = () => {
           candidate={selectedCandidate} 
           onClose={handleCloseCandidateModal} 
         />
+      )}
+
+      {/* AI Screening Progress Modal */}
+      {aiScreening.showModal && (
+        <div 
+          className="modal show d-block" 
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          tabIndex="-1"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div className="modal-content">
+              <div className="modal-header border-0">
+                <h5 className="modal-title">
+                  <Upload className="me-2" size={20} />
+                  AI Resume Screening Progress
+                </h5>
+                {!aiScreening.isProcessing && (
+                  <button 
+                    type="button" 
+                    className="btn-close" 
+                    onClick={closeAIScreeningModal}
+                  ></button>
+                )}
+              </div>
+              <div className="modal-body">
+                {aiScreening.isProcessing ? (
+                  <>
+                    {/* Processing State */}
+                    <div className="text-center mb-4">
+                      <div className="spinner-border text-primary mb-3" role="status">
+                        <span className="visually-hidden">Processing...</span>
+                      </div>
+                      <h6 className="mb-2">
+                        Processing {aiScreening.currentIndex} of {aiScreening.total} resumes...
+                      </h6>
+                      <p className="text-secondary-light mb-3">
+                        Please wait while we analyze resumes with AI. This may take a few minutes.
+                      </p>
+                      {/* Progress Bar */}
+                      <div className="progress" style={{ height: '8px' }}>
+                        <div 
+                          className="progress-bar progress-bar-striped progress-bar-animated"
+                          role="progressbar"
+                          style={{ 
+                            width: `${(aiScreening.currentIndex / aiScreening.total) * 100}%` 
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    {/* Already Processed Results */}
+                    {aiScreening.results.length > 0 && (
+                      <div className="mt-4">
+                        <h6 className="mb-3">Processed Candidates:</h6>
+                        <div className="list-group">
+                          {aiScreening.results.map((result, idx) => (
+                            <div 
+                              key={idx} 
+                              className="list-group-item d-flex justify-content-between align-items-center"
+                            >
+                              <div className="d-flex align-items-center">
+                                {result.status === 'shortlisted' ? (
+                                  <CheckCircle size={16} className="text-success me-2" />
+                                ) : result.status === 'rejected' ? (
+                                  <XCircle size={16} className="text-warning me-2" />
+                                ) : (
+                                  <XCircle size={16} className="text-danger me-2" />
+                                )}
+                                <div>
+                                  <strong>{result.candidate}</strong>
+                                  <br />
+                                  <small className="text-secondary-light">{result.message}</small>
+                                </div>
+                              </div>
+                              {result.status === 'shortlisted' && (
+                                <span className="badge bg-success">Shortlisted</span>
+                              )}
+                              {result.status === 'rejected' && (
+                                <span className="badge bg-warning">Rejected</span>
+                              )}
+                              {result.status === 'error' && (
+                                <span className="badge bg-danger">Error</span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {/* Completed State */}
+                    <div className="text-center mb-4">
+                      <CheckCircle size={48} className="text-success mb-3" />
+                      <h5 className="mb-2">Screening Complete!</h5>
+                      <p className="text-secondary-light">
+                        Processed {aiScreening.total} candidate{aiScreening.total > 1 ? 's' : ''}
+                      </p>
+                    </div>
+
+                    {/* Results Summary */}
+                    <div className="row mb-4">
+                      <div className="col-4 text-center">
+                        <div className="card border shadow-none">
+                          <div className="card-body">
+                            <div className="h3 mb-0 text-success">
+                              {aiScreening.results.filter(r => r.status === 'shortlisted').length}
+                            </div>
+                            <small className="text-secondary-light">Shortlisted</small>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-4 text-center">
+                        <div className="card border shadow-none">
+                          <div className="card-body">
+                            <div className="h3 mb-0 text-warning">
+                              {aiScreening.results.filter(r => r.status === 'rejected').length}
+                            </div>
+                            <small className="text-secondary-light">Rejected</small>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-4 text-center">
+                        <div className="card border shadow-none">
+                          <div className="card-body">
+                            <div className="h3 mb-0 text-danger">
+                              {aiScreening.results.filter(r => r.status === 'error').length}
+                            </div>
+                            <small className="text-secondary-light">Errors</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Detailed Results */}
+                    <div>
+                      <h6 className="mb-3">Detailed Results:</h6>
+                      <div className="list-group">
+                        {aiScreening.results.map((result, idx) => (
+                          <div 
+                            key={idx} 
+                            className="list-group-item d-flex justify-content-between align-items-center"
+                          >
+                            <div className="d-flex align-items-center">
+                              {result.status === 'shortlisted' ? (
+                                <CheckCircle size={16} className="text-success me-2" />
+                              ) : result.status === 'rejected' ? (
+                                <XCircle size={16} className="text-warning me-2" />
+                              ) : (
+                                <XCircle size={16} className="text-danger me-2" />
+                              )}
+                              <div>
+                                <strong>{result.candidate}</strong>
+                                <br />
+                                <small className="text-secondary-light">{result.message}</small>
+                                {result.email_status && result.email_status === 'yes' && (
+                                  <span className="ms-2">
+                                    <span className="badge bg-success-subtle text-success">✉ Email Sent</span>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            {result.status === 'shortlisted' && (
+                              <span className="badge bg-success">Shortlisted</span>
+                            )}
+                            {result.status === 'rejected' && (
+                              <span className="badge bg-warning">Rejected</span>
+                            )}
+                            {result.status === 'error' && (
+                              <span className="badge bg-danger">Error</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+              {!aiScreening.isProcessing && (
+                <div className="modal-footer border-0">
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary" 
+                    onClick={closeAIScreeningModal}
+                  >
+                    Close
+                  </button>
+                  <button 
+                    type="button" 
+                    className="btn btn-primary" 
+                    onClick={viewAIScreeningResults}
+                  >
+                    View All Results
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+      </>
       )}
     </div>
   );

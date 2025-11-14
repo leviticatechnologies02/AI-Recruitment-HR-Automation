@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, useNavigate } from "react-router-dom";
+import { BASE_URL, API_ENDPOINTS } from '../../config/api.config';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,6 +10,8 @@ const Login = () => {
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -16,27 +19,70 @@ const Login = () => {
       ...prev,
       [name]: value
     }));
+    if (error) setError('');
   };
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
     
     if (isSuperAdmin) {
-      // Super Admin authentication logic
+      // Super Admin authentication logic (hardcoded)
       if (formData.email === 'superadmin@company.com' && formData.password === 'superadmin123') {
-        // Store role in localStorage for authorization
         localStorage.setItem('userRole', 'superadmin');
         localStorage.setItem('userEmail', formData.email);
+        localStorage.setItem('token', 'superadmin-token'); // Dummy token for super admin
+        setLoading(false);
         navigate('/super-admin');
       } else {
-        alert('Invalid Super Admin credentials');
+        setError('Invalid Super Admin credentials');
+        setLoading(false);
         return;
       }
     } else {
-      // Regular user authentication logic
-      localStorage.setItem('userRole', 'user');
-      localStorage.setItem('userEmail', formData.email);
-      navigate('/pricing');
+      // Backend API authentication
+      try {
+        const response = await fetch(`${BASE_URL}${API_ENDPOINTS.AUTH.LOGIN}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Store authentication data
+          localStorage.setItem('token', data.access_token);
+          localStorage.setItem('refreshToken', data.refresh_token);
+          localStorage.setItem('userRole', data.role);
+          localStorage.setItem('userEmail', data.email);
+          
+          console.log('Login successful:', data);
+          
+          // Navigate based on role
+          if (data.role === 'recruiter' || data.role === 'company') {
+            navigate('/dashboard');
+          } else if (data.role === 'admin') {
+            navigate('/dashboard');
+          } else {
+            navigate('/candidate/dashboard');
+          }
+        } else {
+          // Handle error response
+          setError(data.detail || 'Invalid email or password');
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        setError('Network error. Please check if backend is running.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
   return (
@@ -117,6 +163,13 @@ const Login = () => {
               )}
             </div>
 
+            {error && (
+              <div className='alert alert-danger mb-16' role='alert'>
+                <Icon icon='heroicons:exclamation-circle' className='me-2' />
+                {error}
+              </div>
+            )}
+            
             <div className=''>
               <div className='d-flex justify-content-between gap-2'>
                 <div className='form-check style-check d-flex align-items-center'>
@@ -139,9 +192,16 @@ const Login = () => {
               type='submit'
               className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
               onClick={handleSignIn}
+              disabled={loading}
             >
-              {" "}
-              Sign In
+              {loading ? (
+                <>
+                  <span className='spinner-border spinner-border-sm me-2' role='status' aria-hidden='true'></span>
+                  Signing in...
+                </>
+              ) : (
+                'Sign In'
+              )}
             </button>
             <div className='mt-32 center-border-horizontal text-center'>
               <span className='bg-base z-1 px-4'>Or sign in with</span>
@@ -162,7 +222,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
-
-
