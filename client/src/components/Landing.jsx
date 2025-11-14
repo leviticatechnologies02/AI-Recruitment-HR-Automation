@@ -707,7 +707,7 @@ const Landing = () => {
       <header className='py-16 px-24 bg-base border-bottom bg-light sticky-top top-0'>
         <div className='d-flex align-items-center justify-content-between'>
           <div className='d-flex align-items-center gap-2'>
-            <img src='assets/images/logo-icon.png.svg' alt='logo' className='w-32-px h-32-px' />
+            <img src='assets/images/asset/dcmlogo3.jpg' alt='logo' className='w-32-px h-32-px' />
             <span className='fw-semibold'>AI Recruitment</span>
           </div>
           <nav className='d-none d-md-flex align-items-center gap-3'>
